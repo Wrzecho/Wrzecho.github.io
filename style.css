@@ -1,0 +1,156 @@
+body {
+	color: #fff;
+	font-family: sans-serif;
+	font-size:13px;
+	text-align:center;
+	font-weight: regular;
+	background-color: #fff;
+	margin: 0px;
+	overflow: hidden;
+}
+#info {
+	color: white;
+	position: absolute;
+	top: 0px; width: 100%;
+	padding: 0px;
+}
+
+.dateinfo {
+	display: block;
+	width: 100%;
+	text-align: center;
+	padding-top: 5px;
+	font-size: 1.4em;
+}
+
+#play {
+	display: none;
+}
+
+a {
+	color: #FFF;
+	font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+	padding-top: 6px;
+	border-radius: 3px;
+}
+ul {
+	padding: 0;
+	width: 100%;
+	margin: 5px auto;
+	font-size: 1em;
+	letter-spacing: 0;
+	/* margin: 0 10px; */
+}
+
+li {
+	display: inline-block;
+	box-sizing: border-box;
+	width: 13%;
+	margin: 0 auto;
+	list-style: none;
+	border-radius: 5px;
+}
+
+.settings {
+	position: absolute;
+	top: 0%;
+	left: 0%;
+	background-color: #00008;
+	opacity: 0.90;
+	padding: 10px;
+	min-height: 185px;
+	min-width: 300px;
+	box-sizing: border-box;
+	border: 1px solid #DDD;
+	border-radius: 3px;
+	z-index: 10000;
+	background: #000;
+}
+
+.settings_button {
+	border: none;
+	display: block;
+	background-color: #3399ff;
+	width: 100%;
+	height: 25px;
+	border-radius: 3px;
+	box-sizing: border-box;
+	margin: 5px auto;
+	/* margin: 2px; */
+}
+.sd {
+	width: 100%;
+	margin: 10px auto;
+	margin-top: 15px;
+	padding: 5px;
+	text-align: center;
+}
+
+.settings_button:hover {
+	background-color: #DDD;
+	color: #000;
+}
+
+.dateinfo {
+	color: #FFF;
+	position: absolute;
+	top: 5px;
+	left: 5px;
+}
+.sett {
+	position: absolute;
+	top: 25px;
+	left: 0;
+	width: 100%;
+}
+
+.datepickerfield {
+	height: 30px;
+	width: 72%;
+	display: inline-block;
+	border: none;
+	margin-left: 7px;
+	background: #90c8ff;
+	color: #FFF;
+	font-size: 1em;
+	font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+	text-align: center;
+	content: "Wybierz date";
+	border-radius: 3px;
+}
+
+.row {
+	position: relative;
+	width: 90%;
+	left: 0px;
+	text-align: center;
+	margin: 0 auto;
+	/* border: 1px solid white; */
+}
+
+#tstat {
+	color: #FFF;
+}
+
+#cameraresetbtn {
+	position: absolute;
+	bottom: 20px;
+	left: 20px;
+	/* transform: translatex(-50%); */
+	width: 100px;
+	height: 20px;
+	background: #ff9933;
+	text-align: center;
+	display: none;
+	cursor: pointer;
+}
+
+#cameraresetbtn:hover {
+	background: #DDD;
+	color: #000;
+}
+
+.podajdate {
+	display: inline-block;
+	width: 25%;
+}

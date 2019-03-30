@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset=utf-8>
+		<title>Solar System v5 - inz</title>
+		<style>
+			body {
+				color: #000;
+				font-family:Monospace;
+				font-size:13px;
+				text-align:center;
+				font-weight: bold;
+				background-color: #fff;
+				margin: 0px;
+				overflow: hidden;
+			}
+			#info {
+				color: white;
+				position: absolute;
+				top: 0px; width: 100%;
+				padding: 5px;
+			}
+			a {
+				color: red;
+			}
+		</style>
+		<script src="math.js" type="text/javascript"></script>
+	</head>
+	<body>
+		<div id="info">
+			Symulator eksploracji układu słonecznego - v1
+		</div>
+		<script src="three.min.js"></script>
+		<script src="Orbitcontrols.js"></script>
+		<script src="Projector.js"></script>
+		<script>
+
+
+				var del=0;
+				var scene = new THREE.Scene();
+				scene.fog = new THREE.FogExp2( 0x000022, 0.001 );
+				var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 1, 1000 );
+
+				controls = new THREE.OrbitControls( camera );
+				controls.rotateSpeed = 1.0;
+				controls.zoomSpeed = 1.2;
+				controls.panSpeed = 0.8;
+				controls.noZoom = false;
+				controls.noPan = false;
+				controls.staticMoving = true;
+				controls.dynamicDampingFactor = 0.3;
+				controls.keys = [ 65, 83, 68 ];
+				controls.addEventListener( 'change', render );
+
+				var mouse = { x: 0, y: 0 }, INTERSECTED;
+
+				function onMouseMove( event ) 
+				{
+
+					mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+					mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+
+				}
+
+				var renderer = new THREE.WebGLRenderer();
+				renderer.setSize( window.innerWidth, window.innerHeight );
+				document.body.appendChild( renderer.domElement );
+				renderer.shadowMap.enabled = true;
+				renderer.setClearColor( 0x000022, 1 );
+
+				//gwiazdy
+				var stargeo = new THREE.SphereGeometry( 1, 9, 9);
+				var starmat =  new THREE.MeshPhongMaterial( { color:0xFFFFFF, shading: THREE.FlatShading } );
+				for ( var i = 0; i < 100; i ++ ) {
+					var mesh = new THREE.Mesh( stargeo, starmat );
+					mesh.position.x = ( Math.random() - 0.5 ) * 900;
+					mesh.position.y = ( Math.random() - 0.5 ) * 900;
+					mesh.position.z = ( Math.random() - 0.5 ) * 900;
+					mesh.updateMatrix();
+					mesh.matrixAutoUpdate = false;
+					scene.add( mesh );
+				}
+
+				//slonce
+				var sungeo = new THREE.SphereGeometry( 20, 50, 50 );
+				var sun = new THREE.PointLight( 0xffFFFF, 1.5, 0,2 );
+				var sunmaterial = new THREE.MeshBasicMaterial( { color: 0xCCCCCC} );
+				sun.add( new THREE.Mesh( sungeo, sunmaterial ) );
+				sunmaterial.map = THREE.ImageUtils.loadTexture('textures/sunmap.jpg');
+				sun.castShadow = true;
+				sun.receiveShadow = false;
+				scene.add( sun );
+				
+				// //merkury
+				// var mercgeo = new THREE.SphereGeometry(5,15,15);
+				// var mercurymat = new THREE.MeshPhongMaterial( { color: 0xFFFFFF } );
+				// var mercury = new THREE.Mesh(mercgeo,mercurymat);
+				// mercurymat.map = THREE.ImageUtils.loadTexture('textures/mercurymap.jpg');
+				// mercury.receiveShadow = true;
+				// mercury.castShadow = true;
+				// // scene.add(mercury);
+
+				// //venus
+				// var veng = new THREE.SphereGeometry(6,15,15);
+				// var venusmat = new THREE.MeshPhongMaterial( { color: 0xFFFFFF } );
+				// var venus = new THREE.Mesh(veng,venusmat);
+				// venusmat.map = THREE.ImageUtils.loadTexture('textures/venusmap.jpg');
+				// venus.receiveShadow = true;
+				// venus.castShadow = true;
+				// scene.add(venus);
+
+				//ziemia + ksiezyc
+				var earthg = new THREE.SphereGeometry(7,15,15);
+				var earthm = new THREE.MeshPhongMaterial( { color: 0xFFFFFF } );
+				var moongeo = new THREE.SphereGeometry(1.5,5,5);
+				var moonmat = new THREE.MeshPhongMaterial( { color: 0xFFFFFF } );
+				var earth = new THREE.Mesh(earthg,earthm);
+				earthm.map = THREE.ImageUtils.loadTexture('textures/earthmap1k.jpg');
+				//moonmat.map = THREE.ImageUtils.loadTexture('textures/moonmap.jpg');
+				earth.receiveShadow = true;
+				earth.castShadow = true;
+				scene.add(earth);
+				var earthPivot = new THREE.Object3D();
+				earth.add( earthPivot );
+				var moon = new THREE.Mesh( moongeo, moonmat );
+				moon.position.x = 7;
+				moon.receiveShadow = true;
+				earthPivot.add( moon );
+
+				//mars
+				// var marsg = new THREE.SphereGeometry(6,15,15);
+				// var marsmat = new THREE.MeshPhongMaterial( { color: 0xFFFFFF } );
+				// var mars = new THREE.Mesh(marsg,marsmat);
+				// marsmat.map = THREE.ImageUtils.loadTexture('textures/marsmap.jpg');
+				// mars.receiveShadow = true;
+				// mars.castShadow = true;
+				// // scene.add(mars);
+
+				// //jowisz + ksiezyce
+				// var jupiterg = new THREE.SphereGeometry(12,25,25);
+				// var jupitermat = new THREE.MeshPhongMaterial( { color: 0xFFFFFF } );
+				// var jupiter = new THREE.Mesh(jupiterg,jupitermat);
+				// jupitermat.map = THREE.ImageUtils.loadTexture('textures/jupitermap.jpg');
+				// jupiter.receiveShadow = true;
+				// jupiter.castShadow = true;
+				// // scene.add(jupiter);
+				// var jupiPivot = new THREE.Object3D();
+				// // jupiter.add(jupiPivot);
+				// var jupimoongeo = new THREE.SphereGeometry( 0.9, 9, 9);
+				// var jupimoonmat =  new THREE.MeshPhongMaterial( { color:0xFFFFFF, shading: THREE.FlatShading } );
+				// var jupimoon1 = new THREE.Mesh( jupimoongeo, jupimoonmat );
+				// 	jupimoon1.position.x = 7.5;
+				// 	jupimoon1.position.y = 7.5;
+				// 	jupimoon1.position.z = 7.5;
+				// var jupimoon2 = new THREE.Mesh( jupimoongeo, jupimoonmat );
+				// 	jupimoon2.position.x = 7.5;
+				// 	jupimoon2.position.y = 7.5;
+				// 	jupimoon2.position.z = -7.5;
+				// var jupimoon3 = new THREE.Mesh( jupimoongeo, jupimoonmat );
+				// 	jupimoon3.position.x = 7.5;
+				// 	jupimoon3.position.y = -7.5;
+				// 	jupimoon3.position.z = 7.5;
+				// var jupimoon4 = new THREE.Mesh( jupimoongeo, jupimoonmat );
+				// 	jupimoon4.position.x = 7.5;
+				// 	jupimoon4.position.y = -7.5;
+				// 	jupimoon4.position.z = -7.5;
+				// var jupimoon5 = new THREE.Mesh( jupimoongeo, jupimoonmat );
+				// 	jupimoon5.position.x = -7.5;
+				// 	jupimoon5.position.y = 7.5;
+				// 	jupimoon5.position.z = 7.5;
+				// var jupimoon6 = new THREE.Mesh( jupimoongeo, jupimoonmat );
+				// 	jupimoon6.position.x = 7.5;
+				// 	jupimoon6.position.y = -7.5;
+				// 	jupimoon6.position.z = 7.5;
+				// var jupimoon7 = new THREE.Mesh( jupimoongeo, jupimoonmat );
+				// 	jupimoon7.position.x = -7.5;
+				// 	jupimoon7.position.y = -7.5;
+				// 	jupimoon7.position.z = 7.5;
+				// var jupimoon8 = new THREE.Mesh( jupimoongeo, jupimoonmat );
+				// 	jupimoon8.position.x = -7.5;
+				// 	jupimoon8.position.y = -7.5;
+				// 	jupimoon8.position.z = -7.5;
+				// jupimoon1.receiveShadow = true;
+				// jupimoon2.receiveShadow = true;
+				// jupimoon3.receiveShadow = true;
+				// jupimoon4.receiveShadow = true;
+				// jupimoon5.receiveShadow = true;
+				// jupimoon6.receiveShadow = true;
+				// jupimoon7.receiveShadow = true;
+				// jupimoon8.receiveShadow = true;
+				// // jupiPivot.add( jupimoon1, jupimoon2, jupimoon3, jupimoon4, jupimoon5, jupimoon6, jupimoon7, jupimoon8 );
+
+				// //saturn + pierscien
+				// var saturng = new THREE.SphereGeometry(8,15,15);
+				// var saturnm = new THREE.MeshPhongMaterial( { color: 0xFFFFFF } );
+				// var saturn = new THREE.Mesh(saturng,saturnm);
+				// saturnm.map = THREE.ImageUtils.loadTexture('textures/saturnmap.jpg');
+				// saturn.receiveShadow = true;
+				// saturn.castShadow = true;
+				// // scene.add(saturn);
+				// var saturnringgeo = new THREE.RingGeometry( 10, 13, 15, 15, 0, Math.PI * 2 );
+				// var saturnringmat = new THREE.MeshPhongMaterial( { color: 0xFFFFFF, side : THREE.DoubleSide } );
+				// var saturnPivot = new THREE.Object3D();
+				// saturnringmat.map = THREE.ImageUtils.loadTexture('textures/saturnringcolor.jpg');
+				// // saturn.add( saturnPivot );
+				// var saturnring = new THREE.Mesh( saturnringgeo, saturnringmat );
+				// saturnring.position.x = 0;
+				// saturnring.receiveShadow = true;
+				// saturnring.castShadow = true;
+				// saturnPivot.rotation.x = Math.PI/2;
+				// saturnPivot.rotation.y = Math.PI/10;
+				// // saturnPivot.add( saturnring );
+
+				// //uran
+				// var urang = new THREE.SphereGeometry(5,15,15);
+				// var uranm = new THREE.MeshPhongMaterial( { color: 0xFFFFFF } );
+				// var uran = new THREE.Mesh(urang,uranm);
+				// uranm.map = THREE.ImageUtils.loadTexture('textures/uranusmap.jpg');
+				// uran.receiveShadow = true;
+				// uran.castShadow = true;
+				// // scene.add(uran);
+				// var uranringgeo = new THREE.RingGeometry( 7, 9, 15, 15, 0, Math.PI * 2 );
+				// var uranringmat = new THREE.MeshPhongMaterial( { color: 0xFFFFFF, side : THREE.DoubleSide } );
+				// var uranPivot = new THREE.Object3D();
+				// uranringmat.map = THREE.ImageUtils.loadTexture('textures/uranusringcolour.jpg');
+				// // uran.add( uranPivot );
+				// var uranring = new THREE.Mesh( uranringgeo, uranringmat );
+				// uranring.position.x = 0;
+				// uranring.receiveShadow = true;
+				// uranring.castShadow = true;
+				// uranPivot.rotation.x = Math.PI/2;
+				// uranPivot.rotation.y = Math.PI/5;
+				// // uranPivot.add( uranring );
+
+				// //neptun
+				// var neptuneg = new THREE.SphereGeometry(4.8,15,15);
+				// var neptunem = new THREE.MeshPhongMaterial( { color: 0xFFFFFF } );
+				// var neptune = new THREE.Mesh(neptuneg,neptunem);
+				// neptunem.map = THREE.ImageUtils.loadTexture('textures/neptunemap.jpg');
+				// neptune.receiveShadow = true;
+				// neptune.castShadow = true;
+				// scene.add(neptune);
+
+
+				//orbity
+				// var geometrym = new THREE.TorusGeometry( 50, 0.5, 16, 100 );
+				// var material = new THREE.MeshBasicMaterial( { color: 0x222222 } );
+				// var torusm = new THREE.Mesh( geometrym, material );
+				// torusm.rotation.x = Math.PI/2;
+				// scene.add( torusm );
+
+				// var geometryv = new THREE.TorusGeometry( 80, 0.5, 16, 100 );
+				// var material = new THREE.MeshBasicMaterial( { color: 0x222222 } );
+				// var torusv = new THREE.Mesh( geometryv, material );
+				// torusv.rotation.x = Math.PI/2;
+				// scene.add( torusv );
+
+				// var geometrye = new THREE.TorusGeometry( 110, 0.5, 16, 100 );
+				// var material = new THREE.MeshBasicMaterial( { color: 0x335500 } );
+				// var toruse = new THREE.Mesh( geometrye, material );
+				// toruse.rotation.x = Math.PI/2;
+				// scene.add( toruse );
+
+				// var geometryma = new THREE.TorusGeometry( 140, 0.5, 16, 100 );
+				// var material = new THREE.MeshBasicMaterial( { color: 0x222222 } );
+				// var torusma = new THREE.Mesh( geometryma, material );
+				// torusma.rotation.x = Math.PI/2;
+				// scene.add( torusma );
+
+				// var geometryj = new THREE.TorusGeometry( 185, 0.5, 16, 100 );
+				// var material = new THREE.MeshBasicMaterial( { color: 0x222222 } );
+				// var torusj = new THREE.Mesh( geometryj, material );
+				// torusj.rotation.x = Math.PI/2;
+				// scene.add( torusj );
+
+				// var geometrysa = new THREE.TorusGeometry( 225, 0.5, 16, 100 );
+				// var material = new THREE.MeshBasicMaterial( { color: 0x222222 } );
+				// var torussa = new THREE.Mesh( geometrysa, material );
+				// torussa.rotation.x = Math.PI/2;
+				// scene.add( torussa );
+
+				// var geometryur = new THREE.TorusGeometry( 260, 0.5, 16, 100 );
+				// var material = new THREE.MeshBasicMaterial( { color: 0x222222 } );
+				// var torusur = new THREE.Mesh( geometryur, material );
+				// torusur.rotation.x = Math.PI/2;
+				// scene.add( torusur );
+
+				// var geometrynep = new THREE.TorusGeometry( 290, 0.5, 16, 100 );
+				// var material = new THREE.MeshBasicMaterial( { color: 0x222222 } );
+				// var torusne = new THREE.Mesh( geometrynep, material );
+				// torusne.rotation.x = Math.PI/2;
+				// scene.add( torusne );
+
+
+				var projector = new THREE.Projector();
+				addEventListener( 'mousemove', onMouseMove, false );
+
+				camera.position.x = 300*Math.cos( del );
+				camera.position.z = 300*Math.sin( del );
+				camera.position.y = 100;
+				scene.rotation.x = 0.05;
+
+				// console.log("Pi: "+cos(pi()));
+
+
+			window.addEventListener( 'resize', onWindowResize, false );
+
+			function onWindowResize()
+			{
+				camera.aspect = window.innerWidth / window.innerHeight;
+				camera.updateProjectionMatrix();
+				controls.handleResize();
+
+			    renderer.setSize( window.innerWidth, window.innerHeight );
+			}
+
+			var render = function () 
+			{
+				requestAnimationFrame(render);
+
+				var time = Date.now() * 0.0002;
+
+				var vector = new THREE.Vector3( mouse.x, mouse.y, 1 );
+				// projector.unprojectVector( vector, camera );
+				vector.unproject(camera);
+				var ray = new THREE.Raycaster( camera.position, vector.sub( camera.position ).normalize() );
+
+				var intersects = ray.intersectObjects( scene.children );
+				if ( intersects.length > 0 )
+				{
+					// if the closest object intersected is not the currently stored intersection object
+					if ( intersects[ 0 ].object != INTERSECTED ) 
+					{
+					    // restore previous intersection object (if it exists) to its original color
+						if ( INTERSECTED ) 
+							INTERSECTED.material.color.setHex( INTERSECTED.currentHex );
+						// store reference to closest object as current intersection object
+						INTERSECTED = intersects[ 0 ].object;
+						// store color of closest object (for later restoration)
+						INTERSECTED.currentHex = INTERSECTED.material.color.getHex();
+						// set a new color for closest object
+						if(INTERSECTED != mesh)
+						{
+						INTERSECTED.material.color.setHex( 0x222222 );
+						}
+					}
+				} 
+				else // there are no intersections
+				{
+					// restore previous intersection object (if it exists) to its original color
+					if ( INTERSECTED ) 
+						INTERSECTED.material.color.setHex( INTERSECTED.currentHex );
+					// remove previous intersection object reference
+					//     by setting current intersection object to "nothing"
+					
+					
+					INTERSECTED = null;
+				}
+
+				sun.rotation.x += 0.003;
+				sun.rotation.y += 0.001;
+				sun.position.set(0,0,0);
+
+				// mercury.position.x = Math.cos(time*0.2)*50;
+				// mercury.position.z = Math.sin(time*0.2)*50;
+				// mercury.rotation.y -= 0.002;	
+
+				// venus.position.x = Math.cos(time*0.3)*80;
+				// venus.position.z = Math.sin(time*0.3)*80;	
+				// venus.rotation.y -= 0.002;	
+
+				earth.position.x = Math.cos(time*0.4)*110;
+				earth.position.z = Math.sin(time*0.4)*110;
+				earth.rotation.y -= 0.002;	
+				earthPivot.rotation.y = Math.sin(time);
+				earthPivot.rotation.x = Math.cos(time);
+
+				// mars.position.x = Math.cos(time*0.5)*140;
+				// mars.position.z = Math.sin(time*0.5)*140;
+				// mars.rotation.y -= 0.002;	
+
+				// jupiter.position.x = Math.cos(time*0.6)*185;
+				// jupiter.position.z = Math.sin(time*0.6)*185;
+				// jupiter.rotation.y -= 0.002;	
+				// jupiPivot.rotation.y = Math.sin(time);
+				// jupiPivot.rotation.x = Math.cos(time);
+
+				// saturn.position.x = Math.cos(time*0.65)*225;
+				// saturn.position.z = Math.sin(time*0.65)*225;
+				// saturn.rotation.y -= 0.002;	
+				// saturnPivot.rotation.y = Math.sin(time);
+				// saturnPivot.rotation.x = Math.cos(time);
+
+				// uran.position.x = Math.cos(time*0.7)*260;
+				// uran.position.z = Math.sin(time*0.7)*260;
+				// uran.rotation.y -= 0.002;	
+				// uranPivot.rotation.y = Math.sin(time);
+				// uranPivot.rotation.x = Math.cos(time);
+
+				// neptune.position.x = Math.cos(time*0.75)*290;
+				// neptune.position.z = Math.sin(time*0.75)*290;
+				// neptune.rotation.y -= 0.002;
+
+				//light.position.set(sun.position.x , sun.position.y , sun.position.z);
+				
+				//ustawienia kamery
+				camera.lookAt (new THREE.Vector3(sun.position.x, sun.position.y-40, sun.position.z));
+
+				renderer.render(scene, camera);
+			};
+			render();
+		</script>
+	</body>
+</html>
