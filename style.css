@@ -165,14 +165,15 @@ li {
 	bottom: 0px;
 	box-sizing: border-box;
 	position: absolute;
-	background-attachment: #000;
-	border: 1px solid #aaa;
-	border-radius: 5px;
+	/* background: #000; */
+	opacity: 0.9;
+	/* border: 1px solid #aaa; */
+	/* border-radius: 5px; */
 	color: #FFF;
 	font-size: .8em;
 	text-align: left;
 	display: flex;
-	justify-content: space-between;
+	justify-content: space-around;
 	align-items: center;
 	padding: 0;
 }
@@ -183,14 +184,51 @@ li {
 	bottom: 100px;
 	left: 5px;
 	position: absolute;
+	z-index: 100;
 }
 
 .planet {
-	height: 80px;
-	width: 80px;
+	height: 100px;
+	width: 100px;
 	background: #3399ff;
-	border-radius: 40px;
+	border-radius: 50%;
 	display: inline-block;
 	margin: 10px auto;
 	text-align: center;
+}
+
+.planetsizecontainer {
+	position: relative;
+	text-align: center;
+}
+
+.planet:hover {
+	background: #DDD;
+}
+
+.plabel {
+	position: absolute;
+	top: 0px;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+#sun {
+	position: absolute;
+	left: -980px;
+	transform: translate(-50%, -50%);
+	height: 2000px;
+	width: 2000px;
+	margin: 0px;
+}
+
+.planetinfobar {
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	width: 320px;
+	height: 180px;
+	border: 1px solid #DDD;
+	opacity: 0;
+	transition: all .2s ease-in;
 }
