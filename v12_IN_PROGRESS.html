@@ -1,27 +1,12 @@
 <!-- TODO
+Pas asteroid +++
 Reakcja na najazd mysza
 Reakcja na klikniecie mysza
 Dodanie pozostalych planet
 Ksiezyce (ruch mozliwie najdokladniej fizycznie)
 Skalowanie rozmiarow i odleglosci (na podstawie fizycznych realiów)
 Reset pozycji kamery +-+
-
-Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czasem
 -->
-
-<!-- Changelog:
--	zamiana kulek z pasem asteroid na rysowane linie
--	aktualizacja wyswietlania/gaszenia orbit (narazie dla jednej planety)
-- 	aktualizacja sposobu resetowania narysowanej do tej pory orbity
-- 	dodano przycisk ze wstepnym systemem skalowania rozmiaru sfer
-- 	dodano checkbox umozliwiający pokazanie/ukrycie orbit
-- 	pozycje planet aktualizowane są już od samego początku trwania animacji
-- 	przeniesiono deklarację funkcji aktualizującej pozycje planet poza obręb "ANIMATE"
-- 	zaimplementowano malutkie opóźnienie po potwierdzeniu daty z datepickera aby zaktualizował pozycję planet 
-	a dopiero po tym zatrzymał animację
-- 	zmieniono zachowanie animacji po nacisnięciu przycisków sterujących czasem (opóźnienie jak dla datepickera) -->
-
-
 
 <!DOCTYPE html>
 <html>
@@ -51,14 +36,8 @@ Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czasem
                 </div>
                 <div class="row">
                     <p class="podajdate">Podaj datę:</p><input type="date" id="data" class="datepickerfield" placeholder="Wybierz Datę">
-					<a class="settings_button sd" onclick="ustawczas()">Potwierdź datę</a>
-					<span>Ustawienia: <br></span>
-					<a class="settings_button sd" onclick="escale()">Skala Ziemii</a>
-					Widok orbit: <input type="checkbox" id="orbitview" checked onclick="orbitview()">
-				</div>
-				<div class="row">
-					
-				</div>
+                    <a class="settings_button sd" onclick="ustawczas()">Potwierdź datę</a><br>   
+                </div>
                 <div class="timestatus">
                     <div class="tstat"></div>
                     <input type="checkbox" id="play" checked>
@@ -125,20 +104,6 @@ Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czasem
 		<script src="Tween.js"></script>
 		<script src="timecontrol.js"></script>
 		<script>
-
-			const escale = () => {
-				if(earth.scale.x == 1) {
-					earth.scale.x = 2;
-					earth.scale.y = 2;
-					earth.scale.z = 2;
-				}
-				else {
-					earth.scale.x = 1;
-					earth.scale.y = 1;
-					earth.scale.z = 1;
-				}
-			}
-
 			let camreset = document.getElementById("cameraresetbtn");
 			const togglecambtn = () => {
 				if (camreset.style.display == "block") 
@@ -203,14 +168,14 @@ Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czasem
 			}
 
 			// zmienne do wyliczania pozycji planet
-			let mercurydata = {ows: 365*0.25, ink: 7.00507,an: 48.3339,ph: 77.454,md: 0.3870978,dm: 4.092353,eksorb: 0.2056324,ml: 314.42369};
-			let venusdata = {ows: 365*0.7, ink: 3.39472,an: 76.6889,ph: 131.761,md: 0.7233238,dm: 1.602158,eksorb: 0.0067933,ml: 236.94045};
-			let earthdata = {ows: 365, ink: 0,an: 349.2,ph: 102.8517,md: 1,dm: 0.9855796,eksorb: 0.0166967,ml: 328.40353};
-			let marsdata = {ows: 365*2, ink: 1.84992,an: 49.5664,ph: 336.0882,md: 1.5236365,dm: 0.5240613,eksorb: 0.0934231,ml: 262.42784};
-			let jupiterdata = {ows: 365*12, ink: 1.30463,an: 100.4713,ph: 15.6978,md: 5.202597,dm: 0.08309618,eksorb: 0.0484646,ml: 322.55983};
-			let saturndata = {ows: 365*30, ink: 2.48524,an: 113.6358,ph: 88.863,md: 9.5719,dm: 0.03328656,eksorb: 0.0531651,ml: 20.95759};
-			let urandata = {ows: 365*165, ink: 0.77343,an: 74.0954,ph: 175.6807,md: 19.30181,dm: 0.01162295,eksorb: 0.0428959,ml: 303.18967};
-			let neptunedata = {ows: 365*249, ink: 1.7681,an: 131.7925,ph: 7.206,md: 30.26664,dm: 0.005919282,eksorb: 0.0102981,ml: 299.8641};
+			let mercurydata = {ink: 7.00507,an: 48.3339,ph: 77.454,md: 0.3870978,dm: 4.092353,eksorb: 0.2056324,ml: 314.42369};
+			let venusdata = {ink: 3.39472,an: 76.6889,ph: 131.761,md: 0.7233238,dm: 1.602158,eksorb: 0.0067933,ml: 236.94045};
+			let earthdata = {ink: 0,an: 349.2,ph: 102.8517,md: 1,dm: 0.9855796,eksorb: 0.0166967,ml: 328.40353};
+			let marsdata = {ink: 1.84992,an: 49.5664,ph: 336.0882,md: 1.5236365,dm: 0.5240613,eksorb: 0.0934231,ml: 262.42784};
+			let jupiterdata = {ink: 1.30463,an: 100.4713,ph: 15.6978,md: 5.202597,dm: 0.08309618,eksorb: 0.0484646,ml: 322.55983};
+			let saturndata = {ink: 2.48524,an: 113.6358,ph: 88.863,md: 9.5719,dm: 0.03328656,eksorb: 0.0531651,ml: 20.95759};
+			let urandata = {ink: 0.77343,an: 74.0954,ph: 175.6807,md: 19.30181,dm: 0.01162295,eksorb: 0.0428959,ml: 303.18967};
+			let neptunedata = {ink: 1.7681,an: 131.7925,ph: 7.206,md: 30.26664,dm: 0.005919282,eksorb: 0.0102981,ml: 299.8641};
 			let planetsizes = [];
 			planetsizes[0] = 4878 / 12756;
 			planetsizes[1] = 12104 / 12756;
@@ -355,7 +320,7 @@ Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czasem
 			scene.add(venus);
 
 			//ziemia + ksiezyc
-			let earthg = new THREE.SphereGeometry(sizemultiplier*planetsizes[2],25,25);
+			let earthg = new THREE.SphereGeometry(sizemultiplier*planetsizes[2],15,15);
 			let earthtexture = new THREE.TextureLoader().load('textures/earthmap1k.jpg');
 			let earthm = new THREE.MeshPhongMaterial( { color: 0xFFFFFF, map: earthtexture } );
 			// var moongeo = new THREE.SphereGeometry(1.5,5,5);
@@ -412,8 +377,8 @@ Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czasem
 				asteroidbelt.add(mesh);
 			}
 			
-			let tracegeometry = new THREE.Geometry();
-			let tracematerial = new THREE.LineBasicMaterial({color: 0xcccccc});
+			let tracegeometry = new THREE.SphereGeometry(0.3, 10, 10);
+			let tracematerial = new THREE.MeshBasicMaterial({color: 0xcccccc});
 			// var trace = new THREE.Mesh(tracegeometry,tracematerial);
 
 			let projector = new THREE.Projector();
@@ -453,45 +418,33 @@ Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czasem
 			}, delay);
 			const minusyear = () => {
 				date.setFullYear(date.getFullYear()-1);
+				pausetime();
 				removealltrails();
-				setTimeout(() => {
-					animationstate = false;
-				}, 10);
 			}
 			const minusmonth = () => {
 				date.setMonth(date.getMonth()-1);
+				pausetime();
 				removealltrails();
-				setTimeout(() => {
-					animationstate = false;
-				}, 10);
 			}
 			const minusday = () => {
 				date.setDate(date.getDate()-1);
+				pausetime();
 				removealltrails();
-				setTimeout(() => {
-					animationstate = false;
-				}, 10);
 			}
 			const plusday = () => {
 				date.setDate(date.getDate()+1);
+				pausetime();
 				removealltrails();
-				setTimeout(() => {
-					animationstate = false;
-				}, 10);
 			}
 			const plusmonth = () => {
 				date.setMonth(date.getMonth()+1);
+				pausetime();
 				removealltrails();
-				setTimeout(() => {
-					animationstate = false;
-				}, 10);
 			}
 			const plusyear = () => {
 				date.setFullYear(date.getFullYear()+1);
+				pausetime();
 				removealltrails();
-				setTimeout(() => {
-					animationstate = false;
-				}, 10);
 			}
 			const ustawczas = () => {
 				let chdate = document.getElementById("data").value;
@@ -500,58 +453,43 @@ Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czasem
 				date.setMonth(slicedate[1]-1);
 				date.setDate(slicedate[2]);
 				console.log(slicedate[0]+"/"+slicedate[1]+"/"+slicedate[2]);
+				pausetime();
 				removealltrails();
-				setTimeout(() => {
-					animationstate = false;
-				}, 10);
-				
-				// requestAnimationFrame(animate);
-				// pausetime();
-				// removealltrails();
 			}
 
 			// rysowanie orbit za planetami (dla 1 planety)
-			const addtrail = (planet,x,y,z,planettrace) => {
-				// shift the array
-				planettrace.geometry.vertices.push(planettrace.geometry.vertices.shift());
-				// add the point to the end of the array
-				planettrace.geometry.vertices[parseInt(planet.ows)-1] = new THREE.Vector3(x,y,z);
-				planettrace.geometry.verticesNeedUpdate = true;
+			const addtrail = (x,y,z,i,planettrace) => {
+				// if ($("#play").prop('checked', true)) {
+				// 	planettrace[i] = new THREE.Mesh(tracegeometry,tracematerial);
+				// planettrace[i].position.set(x,y,z);
+				// scene.add(planettrace[i]);
+				// }
+				planettrace[i] = new THREE.Mesh(tracegeometry,tracematerial);
+				planettrace[i].position.set(x,y,z);
+				scene.add(planettrace[i]);
 			}
 
 			// usuwanie rysowanych orbit
-			const removetrail = (trail, planet, mesh) => {
-				for (let i=0; i < parseInt(planet.ows); i++) {
-				trail.vertices[i] = (new THREE.Vector3(mesh.position));
+			const removetrail = (trailarray) => {
+				let max = trailarray.length;
+				for (let i = 0; i <= max; i++) {
+					scene.remove(trailarray[i]);
+				}
+				for (let i = 0; i <= max; i++) {
+					trailarray.shift();
 				}
 			}
 			const removealltrails = () => {
-				removetrail(mtg, mercurydata, mercury);
-				// removetrail(vtg, venusdata, venus);
-				removetrail(etg, earthdata, earth);
-				// removetrail(matg, marsdata, mars);
-				// removetrail(jtg, jupiterdata, jupiter);
-				// removetrail(stg, saturndata, saturn);
-				// removetrail(utg, urandata, uran);
-				// removetrail(ntg, neptunedata, neptune)
-			;}
-
-			const showtrail = (planet_trail) => {planet_trail.visible = true;}
-			const hidetrail = (planet_trail) => {planet_trail.visible = false;}
-
-			const toggletrail = (planet_trail) => {
-				if(planet_trail.visible == true) hidetrail(planet_trail);
-				else showtrail(planet_trail);
+				removetrail(mtr);
+				removetrail(vtr);
+				removetrail(etr);
+				removetrail(matr);
+				removetrail(jtr);
+				removetrail(str);
+				removetrail(utr);
+				removetrail(ntr);
 			}
-			const togglealltrails = () => {toggletrail(mtr);toggletrail(vtr);toggletrail(etr);toggletrail(matr);toggletrail(jtr);toggletrail(str);toggletrail(utr);toggletrail(ntr);}
-			const showalltrails = () => {showtrail(mtr);showtrail(vtr);showtrail(etr);showtrail(matr);showtrail(jtr);showtrail(str);showtrail(utr);showtrail(ntr);}
-			const hidealltrails = () => {hidetrail(mtr);hidetrail(vtr);hidetrail(etr);hidetrail(matr);hidetrail(jtr);hidetrail(str);hidetrail(utr);hidetrail(ntr);}
 
-			let allorbitsview = document.getElementById("orbitview");
-			const orbitview = () => {
-				if (allorbitsview.checked == true) showalltrails();
-				else hidealltrails();
-			}
 			// funkcja obliczajaca pozycje planet w czasie
 			const calcplanetpos = (b2, b3, b4, b5, b6, f5, f6, f7, f8, f9, f10, f11) => {
 					let f2 = 2450680.5; //cej
@@ -582,101 +520,38 @@ Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czasem
 					return [x , z , y]; 
 				}
 
-				// aktualizacja pozycji planet, dodanie im sladow itd
-				const updateplanetspositions = (b2,b3,b4,b5,b6) => {
-					// merkury
-					let mpos = calcplanetpos(b2, b3, b4, b5, b6, mercurydata.ink, mercurydata.an, mercurydata.ph, mercurydata.md, mercurydata.dm, mercurydata.eksorb, mercurydata.ml)
-						// addtrail(mercury.position.x, mercury.position.y, mercury.position.z, loops[0], mtr);
-						// if(mtr.length >= trailsize*0.7) {
-						// 	scene.remove(mtr[0]);
-						// 	mtr.shift();
-						// 	loops[0] = trailsize*0.7;
-						// }
-						// else loops[0]++;
-
-						mercury.position.x = mpos[0] * globaldistanceaspect;
-						mercury.position.z = mpos[1] * globaldistanceaspect;
-						mercury.position.y = mpos[2] * globaldistanceaspect;
-						
-					// venus
-					let vpos = calcplanetpos(b2, b3, b4, b5, b6, venusdata.ink, venusdata.an, venusdata.ph, venusdata.md, venusdata.dm, venusdata.eksorb, venusdata.ml)
-						// addtrail(venus.position.x, venus.position.y, venus.position.z, loops[1], vtr);
-						// if(vtr.length >= trailsize*2) {
-						// 	scene.remove(vtr[0]);
-						// 	vtr.shift();
-						// 	loops[1] = trailsize*2;
-						// }
-						// else loops[1]++;
-
-						venus.position.x = vpos[0] * globaldistanceaspect;
-						venus.position.z = vpos[1] * globaldistanceaspect;
-						venus.position.y = vpos[2] * globaldistanceaspect;
-						
-					// ziemia
-					let epos = calcplanetpos(b2, b3, b4, b5, b6, earthdata.ink, earthdata.an, earthdata.ph, earthdata.md, earthdata.dm, earthdata.eksorb, earthdata.ml);
-						earth.position.x = epos[0] * globaldistanceaspect;
-						earth.position.z = epos[1] * globaldistanceaspect;
-						earth.position.y = epos[2] * globaldistanceaspect;
-						
-
-					var marspos = calcplanetpos(b2, b3, b4, b5, b6, marsdata.ink, marsdata.an, marsdata.ph, marsdata.md, marsdata.dm, marsdata.eksorb, marsdata.ml);
-					// addtrail(mars.position.x, mars.position.y, mars.position.z);
-					// addtrail(mars.position.x, mars.position.y, mars.position.z, loops[3], etr);
-					// 	if(matr.length >= trailsize*4) {
-					// 		scene.remove(matr[0]);
-					// 		matr.shift();
-					// 		loops[3] = trailsize*4;
-					// 	}
-					// 	else loops[3]++;
-						mars.position.x = marspos[0] * globaldistanceaspect;
-						mars.position.z = marspos[1] * globaldistanceaspect;
-						mars.position.y = marspos[2] * globaldistanceaspect;
-						
-					
-					var jupiterpos = calcplanetpos(b2, b3, b4, b5, b6, jupiterdata.ink, jupiterdata.an, jupiterdata.ph, 
-					jupiterdata.md, jupiterdata.dm, jupiterdata.eksorb, jupiterdata.ml);
-					// addtrail(jupiter.position.x, jupiter.position.y, jupiter.position.z, loops[3], jtr);
-					// 	if(jtr.length >= trailsize*5) {
-					// 		scene.remove(jtr[0]);
-					// 		jtr.shift();
-					// 		loops[4] = trailsize*5;
-					// 	}
-					// 	else loops[4]++;
-						jupiter.position.x = jupiterpos[0] * globaldistanceaspect / 2;
-						jupiter.position.z = jupiterpos[1] * globaldistanceaspect / 2;
-						jupiter.position.y = jupiterpos[2] * globaldistanceaspect;
-
-				}
-
-			// dane wyjsciowe dla rysunków orbit
-			updateplanetspositions();
-			let mtg = new THREE.Geometry();
-			for (let i=0; i < parseInt(mercurydata.ows); i++){
-				mtg.vertices.push(new THREE.Vector3(mercury.position));
-			}
-			let mtr = new THREE.Line(mtg, tracematerial);
-			mtr.geometry.dynamic = true;
-			scene.add(mtr);
-
-			let etg = new THREE.Geometry();
-			for (let i=0; i < earthdata.ows; i++){
-				etg.vertices.push(new THREE.Vector3(earth.position));
-			}
-			let etr = new THREE.Line(etg, tracematerial);
-			etr.geometry.dynamic = true;
-			scene.add(etr);
+			// tablice dla sladow
+			let loops = [0,0,0,0,0,0,0,0];
+			let mtr = [];
+			let vtr = [];
+			let etr = [];
+			let matr = [];
+			let jtr = [];
+			let str = [];
+			let utr = [];
+			let ntr = [];
+			var trailsize = 100;
 
 			let i = 0;
-			// var init = function () {
-			// 	requestAnimationFrame ( animate);
-			// 	updateplanetspositions();
-			// }
+
 			var animate = function () {
 				
 				// czestotliwosc odswiezania symulacji
 				setTimeout( function() {
 			        requestAnimationFrame( animate );
 			    }, 1);
+
+				
+
+			    //kontrola resizingu okna
+				// window.addEventListener( 'resize', onWindowResize, false );
+				// function onWindowResize()
+				// {
+				// 	camera.aspect = window.innerWidth / window.innerHeight;
+				// 	camera.updateProjectionMatrix();
+				// 	controls.handleResize();
+				// 	renderer.setSize( window.innerWidth, window.innerHeight );
+				// }
 
 				//wciągnięcie szczegółów daty
 				let b2 = date.getFullYear(); //year
@@ -689,25 +564,98 @@ Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czasem
 				// // projector.unprojectVector( vector, camera );
 				// vector.unproject(camera);
 				// var ray = new THREE.Raycaster( camera.position, vector.sub( camera.position ).normalize() );
+
+				//rotacja słońca
+				// sun.rotation.x += 0.0001;
+				sun.rotation.y += 0.0005;
 				
-				//ustawienie planet po przeliczeniu ich pozycji (co 5 klatek)
+
+				//ustawienie planet po przeliczeniu ich pozycji (co 60 klatek)
 				if((++i % 5 == 0) && (animationstate == true)) {
                     console.log("TIK");
+                    // checktimestatus();
 
 					// pojawienie sie przycisku jesli ruszymy kamera
 					if ((camera.position.x != 150)) {
 						camreset.style.display = "block";
 						// console.log("Ruszono kamera");
 					} else camreset.style.display = "none";
-					updateplanetspositions(b2,b3,b4,b5,b6);	
-					addtrail(mercurydata, mercury.position.x, mercury.position.y, mercury.position.z, mtr);
-					addtrail(earthdata, earth.position.x, earth.position.y, earth.position.z, etr);
 
+					// merkury
+					let mpos = calcplanetpos(b2, b3, b4, b5, b6, mercurydata.ink, mercurydata.an, mercurydata.ph, mercurydata.md, mercurydata.dm, mercurydata.eksorb, mercurydata.ml)
+						addtrail(mercury.position.x, mercury.position.y, mercury.position.z, loops[0], mtr);
+						if(mtr.length >= trailsize*0.7) {
+							scene.remove(mtr[0]);
+							mtr.shift();
+							loops[0] = trailsize*0.7;
+						}
+						else loops[0]++;
+
+						mercury.position.x = mpos[0] * globaldistanceaspect;
+						mercury.position.z = mpos[1] * globaldistanceaspect;
+						mercury.position.y = mpos[2] * globaldistanceaspect;
+						
+					// venus
+					let vpos = calcplanetpos(b2, b3, b4, b5, b6, venusdata.ink, venusdata.an, venusdata.ph, venusdata.md, venusdata.dm, venusdata.eksorb, venusdata.ml)
+						addtrail(venus.position.x, venus.position.y, venus.position.z, loops[1], vtr);
+						if(vtr.length >= trailsize*2) {
+							scene.remove(vtr[0]);
+							vtr.shift();
+							loops[1] = trailsize*2;
+						}
+						else loops[1]++;
+
+						venus.position.x = vpos[0] * globaldistanceaspect;
+						venus.position.z = vpos[1] * globaldistanceaspect;
+						venus.position.y = vpos[2] * globaldistanceaspect;
+						
+					// ziemia
+					let epos = calcplanetpos(b2, b3, b4, b5, b6, earthdata.ink, earthdata.an, earthdata.ph, earthdata.md, earthdata.dm, earthdata.eksorb, earthdata.ml);
+						addtrail(earth.position.x, earth.position.y, earth.position.z, loops[2], etr);
+						if(etr.length >= trailsize*3) {
+							scene.remove(etr[0]);
+							etr.shift();
+							loops[2] = trailsize*3;
+						}
+						else loops[2]++;
+						// addtrail(earth.position.x, earth.position.y, earth.position.z);
+						earth.position.x = epos[0] * globaldistanceaspect;
+						earth.position.z = epos[1] * globaldistanceaspect;
+						earth.position.y = epos[2] * globaldistanceaspect;
+						
+
+					var marspos = calcplanetpos(b2, b3, b4, b5, b6, marsdata.ink, marsdata.an, marsdata.ph, marsdata.md, marsdata.dm, marsdata.eksorb, marsdata.ml);
+					// addtrail(mars.position.x, mars.position.y, mars.position.z);
+					addtrail(mars.position.x, mars.position.y, mars.position.z, loops[3], etr);
+						if(matr.length >= trailsize*4) {
+							scene.remove(matr[0]);
+							matr.shift();
+							loops[3] = trailsize*4;
+						}
+						else loops[3]++;
+						mars.position.x = marspos[0] * globaldistanceaspect;
+						mars.position.z = marspos[1] * globaldistanceaspect;
+						mars.position.y = marspos[2] * globaldistanceaspect;
+						
+					
+					var jupiterpos = calcplanetpos(b2, b3, b4, b5, b6, jupiterdata.ink, jupiterdata.an, jupiterdata.ph, 
+					jupiterdata.md, jupiterdata.dm, jupiterdata.eksorb, jupiterdata.ml);
+					addtrail(jupiter.position.x, jupiter.position.y, jupiter.position.z, loops[3], jtr);
+						if(jtr.length >= trailsize*5) {
+							scene.remove(jtr[0]);
+							jtr.shift();
+							loops[4] = trailsize*5;
+						}
+						else loops[4]++;
+						jupiter.position.x = jupiterpos[0] * globaldistanceaspect / 2;
+						jupiter.position.z = jupiterpos[1] * globaldistanceaspect / 2;
+						jupiter.position.y = jupiterpos[2] * globaldistanceaspect;
+
+				
 				}	
 				if(i > 1200) { i = 0 };
 
 				// obroty wokol osi
-				sun.rotation.y += 0.0003;
 				mercury.rotation.y -= 0.002;	
 				venus.rotation.y -= 0.002;
 				earth.rotation.y -= 360/1000/16/2;	
@@ -715,18 +663,17 @@ Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czasem
 
 				// earthPivot.rotation.y = Math.sin(time);
 				// earthPivot.rotation.x = Math.cos(time);
+				
 
-				// update danych nt aktualnej daty w aplikacji
 				var strdate = b4+" " +miesiace[b3-1]+" "+b2+" r";
-				document.getElementById("infodate").innerHTML = "Data: "+strdate;
 
                 renderer.render(scene, camera);
 				renderer2.render(scene, camera2);
                 
-				
+				$(".dateinfo").html("Data: "+strdate);
 
             };
-			// init();
+            let TAB = "\t";
 			animate();
 		</script>
 	</body>

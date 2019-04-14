@@ -39,6 +39,7 @@ ul {
 	margin: 5px auto;
 	font-size: 1em;
 	letter-spacing: 0;
+	text-align: center;
 	/* margin: 0 10px; */
 }
 
@@ -62,7 +63,7 @@ li {
 	background-color: #00008;
 	opacity: 0.90;
 	padding: 10px;
-	min-height: 185px;
+	min-height: 235px;
 	min-width: 300px;
 	box-sizing: border-box;
 	border: 1px solid #DDD;
@@ -84,8 +85,8 @@ li {
 }
 .sd {
 	width: 100%;
-	margin: 10px auto;
-	margin-top: 15px;
+	/* margin: 10px auto;
+	margin-top: 15px; */
 	padding: 5px;
 	text-align: center;
 }
@@ -127,7 +128,7 @@ li {
 	position: relative;
 	width: 90%;
 	left: 0px;
-	text-align: center;
+	text-align: left;
 	margin: 0 auto;
 	/* border: 1px solid white; */
 }
