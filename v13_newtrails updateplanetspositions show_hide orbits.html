@@ -6,7 +6,7 @@ Ksiezyce (ruch mozliwie najdokladniej fizycznie)
 Skalowanie rozmiarow i odleglosci (na podstawie fizycznych realiów)
 Reset pozycji kamery +-+
 
-Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czasem
+IMPORTANT Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czasem
 -->
 
 <!-- Changelog:
@@ -66,7 +66,7 @@ Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czasem
 			</div>
 		</div>
 		<div id="info">
-			Symulator eksploracji układu słonecznego - v12 <br>
+			Symulator eksploracji układu słonecznego - v13<br>
 			Upływ czasu: 10 dni / sekundę
 		</div>
 		<div class="planetinfobar" id="canvas">
@@ -456,42 +456,43 @@ Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czasem
 				removealltrails();
 				setTimeout(() => {
 					animationstate = false;
-				}, 10);
+				}, 100);
 			}
 			const minusmonth = () => {
 				date.setMonth(date.getMonth()-1);
 				removealltrails();
 				setTimeout(() => {
 					animationstate = false;
-				}, 10);
+				}, 100);
 			}
 			const minusday = () => {
 				date.setDate(date.getDate()-1);
 				removealltrails();
 				setTimeout(() => {
 					animationstate = false;
-				}, 10);
+				}, 100);
 			}
 			const plusday = () => {
 				date.setDate(date.getDate()+1);
 				removealltrails();
+				requestAnimationFrame(animate);
 				setTimeout(() => {
 					animationstate = false;
-				}, 10);
+				}, 100);
 			}
 			const plusmonth = () => {
 				date.setMonth(date.getMonth()+1);
 				removealltrails();
 				setTimeout(() => {
 					animationstate = false;
-				}, 10);
+				}, 100);
 			}
 			const plusyear = () => {
 				date.setFullYear(date.getFullYear()+1);
 				removealltrails();
 				setTimeout(() => {
 					animationstate = false;
-				}, 10);
+				}, 100);
 			}
 			const ustawczas = () => {
 				let chdate = document.getElementById("data").value;
@@ -501,11 +502,12 @@ Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czasem
 				date.setDate(slicedate[2]);
 				console.log(slicedate[0]+"/"+slicedate[1]+"/"+slicedate[2]);
 				removealltrails();
+				requestAnimationFrame(animate);
 				setTimeout(() => {
 					animationstate = false;
 				}, 10);
 				
-				// requestAnimationFrame(animate);
+				
 				// pausetime();
 				// removealltrails();
 			}
