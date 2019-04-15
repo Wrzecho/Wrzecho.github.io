@@ -1,0 +1,68 @@
+Changelog:
+v0
+-   alfa
+
+v1
+-   podstawy (szkielet)
+
+v2
+-   scena, początkowe ustawienia kamery / orbitcontrols itp
+
+v3
+-   wprowadzenie algorytmu obliczającego współrzędne ekliptyczne planet
+-   dodanie obiektów z danymi na temat planet
+
+v4
+-   dodano ślady za planetami rysujące orbity (później zaktualizowano)
+-   dodano funkcje do resetowania/dodania orbit
+
+v5
+-   dodano przyciski umożliwiające sterowanie czasem
+-   dodano datepicker
+
+v6
+-   kosmetyka wyglądu panelu ustawień
+
+v7
+-   dodano przycisk resetujący pozycję kamery w przypadku gdy zostanie ona poruszona
+
+v8
+-   dodano pas asteroid (rand + offset)
+
+v9
+-   korekta początkowych ustawień kamery
+-   synchronizacja z githubem
+
+v10
+-   dodano panel z porównaniem realnych rozmiarów planet
+
+v11
+-   dodano pojawiający się (narazie tylko dla Ziemii) panel z widokiem z drugiej kamery przyklejonej do klikniętej planety na pasku na dole (DO ROZWINIĘCIA)
+
+v12
+-   tutaj chyba tylko kosmetyka -> rozwój w v13
+
+v13
+-	zamiana kulek z pasem asteroid na rysowane linie
+-	aktualizacja wyswietlania/gaszenia orbit (narazie dla jednej planety)
+- 	aktualizacja sposobu resetowania narysowanej do tej pory orbity
+- 	dodano przycisk ze wstepnym systemem skalowania rozmiaru sfer
+- 	dodano checkbox umozliwiający pokazanie/ukrycie orbit
+- 	pozycje planet aktualizowane są już od samego początku trwania animacji
+- 	przeniesiono deklarację funkcji aktualizującej pozycje planet poza obręb "ANIMATE"
+- 	zaimplementowano malutkie opóźnienie po potwierdzeniu daty z datepickera aby zaktualizował pozycję planet 
+	a dopiero po tym zatrzymał animację
+- 	zmieniono zachowanie animacji po nacisnięciu przycisków sterujących czasem (opóźnienie jak dla datepickera) 
+
+v13.1
+-	posprzątano kod
+
+v13.2
+-	poprawione umiejscownienie i rozmiar slonca na panelu realnych wielkości 
+	(slonce jest 110x wieksze od Ziemii która ma "srednice 9px" wiec ma 990px)
+
+v14 (PLANY)
+-   korekta rozmiarów planet (6,8,8,7,17,15,13,12)
+-   checkbox do zmiany rozmiarów początkowych <=> "realnych"
+-	naprawa reakcji na przyciski sterujące czasem
+
