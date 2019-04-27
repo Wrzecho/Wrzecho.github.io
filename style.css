@@ -63,7 +63,7 @@ li {
 	background-color: #00008;
 	opacity: 0.90;
 	padding: 10px;
-	min-height: 235px;
+	min-height: 300px;
 	min-width: 300px;
 	box-sizing: border-box;
 	border: 1px solid #DDD;
@@ -77,9 +77,10 @@ li {
 	display: block;
 	background-color: #3399ff;
 	width: 100%;
-	height: 25px;
+	height: 20px;
 	border-radius: 3px;
 	box-sizing: border-box;
+	padding: 3px;
 	margin: 5px auto;
 	/* margin: 2px; */
 }
@@ -87,7 +88,6 @@ li {
 	width: 100%;
 	/* margin: 10px auto;
 	margin-top: 15px; */
-	padding: 5px;
 	text-align: center;
 }
 
@@ -110,7 +110,7 @@ li {
 }
 
 .datepickerfield {
-	height: 30px;
+	height: 20px;
 	width: 72%;
 	display: inline-block;
 	border: none;
@@ -158,6 +158,94 @@ li {
 .podajdate {
 	display: inline-block;
 	width: 25%;
+	margin: 0px;
+}
+
+.slidecontainer {
+	width: 100%;
+	/* background: purple; */
+	align-items: center;
+	display: flex;
+	flex-wrap: wrap;
+	margin-top: 15px;
+}
+
+.slidecontainer p {
+	display: block;
+	width: 60%;
+	text-align: left;
+	margin-bottom: 0px;
+	margin-top: 0px;
+}
+
+.resetskali, .realscale {
+	flex: 15%;
+	display: block;
+	height: 20px;
+	background: #3399ff;
+	text-align: center;
+	padding: 2px;
+	box-sizing: border-box;
+	border-radius: 5px;
+	margin: 0px 3px;
+}
+
+.resetskali:hover {
+	background-color: #DDD;
+	color: #000;
+}
+
+.slidecontainer #rangeval {
+	display: block;
+	/* width: 20%; */
+	text-align: center;
+	flex: 20%;
+	/* background: #ff9933; */
+}
+
+.slider {
+	flex: 75%;
+	/* width: 80% !important; */
+}
+
+.orbitconfigcontainer {
+	/* margin-top: 15px; */
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-start;
+	justify-content: space-between;
+	margin-top: 5px;
+}
+
+.orbitconfigcontainer p {
+	flex: 100%;
+	display: block;
+	text-align: left;
+	margin: 5px 0px 0px 0px;
+}
+
+.orbitconfigcontainer .allorbitcheck {
+	flex: 100%;
+	/* margin-bottom: 5px; */
+}
+
+.specifiedorbitchecks {
+	flex: 100%;
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+}
+
+.specifiedorbitchecks div {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	
+}
+.specifiedorbitchecks div p {
+	flex: 100%;
+	text-align: center;
+	margin-top: 0px;
 }
 
 .planetscomparison {

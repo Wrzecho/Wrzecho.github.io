@@ -61,8 +61,58 @@ v13.2
 -	poprawione umiejscownienie i rozmiar slonca na panelu realnych wielkości 
 	(slonce jest 110x wieksze od Ziemii która ma "srednice 9px" wiec ma 990px)
 
-v14 (PLANY)
--   korekta rozmiarów planet (6,8,8,7,17,15,13,12)
+v14
+-   korekta rozmiarów planet (6,8,8,7,17,15,13,12) +++
 -   checkbox do zmiany rozmiarów początkowych <=> "realnych"
 -	naprawa reakcji na przyciski sterujące czasem
+-	odleglości planet od słońca (57, 108, 152, 228, 817, 1500, 3000, 4500)
+						------> (170, 140, 140, 130, 70, 50, 40, 30)
+-	korekta odleglosci pasa asteroid (i jego szerokosci) ==> 300, szer 50 
+-	rozmiar "kosmosu" zwiększony do 900 jednostek (unisize), dodatkowo zasięg kamery ustawiono na 2*unisize
+-	korekta początkowej pozycji kamery (500, 150, 150)
+- 	wyłączenie OrbitControls kiedy mysz jest nad opcjami ( zmienna MFC ) - do dopracowania
+- 	dodano suwak skali rozmiaru
+-	dodano checkboxy do pokazywania/ukrywania orbit planet
+-	wstepny rozmiar geometrii planet na 1, a dopiero po dodaniu do sceny ustawieniu ich "skalowanego rozmiaru"
+-	venus obraca się w przeciwnym kierunku
 
+
+
+*** UWAGI ***
+- dodać resztę planet
+- prędkośc obrotowa planet
+- saturn albo uran obraca się pod kątem 90*
+- księżyce, ich obroty / podróż wokół planet (możliwie najdokładniej fizycznie)
+- raycaster na najazd myszą
+- panel z informacjami o planetach
+- dodac informacje o planetach do "obiektów"
+- możliwośc ukrycia / pokazania pasa asteroid
+- możliwość ukrycia / pokazania gwiazd
+- skala na odleglosci miedzy planetami
+- jakas realna miarka odleglosci
+- "aura" symulująca "atmosfery planet"
+- nachylenia planet względem słońca (nie wiem czy zauważalne)
+- przemyśleć jakie efekty threejs mozna jeszcze zaimplementować
+- dodać canvasy z nazwami planet pojawiające się po najechaniu myszką na planetę (lub jej odpowiednik na dolnym panelu)
+- zwiększyć "hitbox" planet na dolnym panelu (dodać otaczający div ??)
+- dodać "efekt glow" na Słońce 
+- opisać przycisk do realnej skali rozmiarów planet !!!
+- oskryptować checkboxy pokazujące/ukrywające orbity
+- dodać tekstury na panelu realnych rozmiarów planet
+
+
+
+*** NAPOTKANE PROBLEMY ***
+
+- przy skalowaniu odległości - algorytm bierze pod uwagę 
+przy obliczaniu pozycji odległość więc "korekę" 
+odległości trzeba dopasować też do faktycznej średniej 
+ogleslosci planety od slonca w związku z tym ten rozmiar 
+korekcji zmniejsza się z każdą kolejną planetą.
+
+- trzeba deaktywować sterowanie kamerą gdy mysz najeżdża na panel ustawień
+ (zmienna mfc sprawdzana przy ruchu myszą, i jeśli pokrywa się z rozmiarem okna ustawień to zostaje odcięte sterowanie)
+
+- nie da się zmienić rozmiaru geometrii ksztaltu w trakcie animacji - trzeba korzystać ze skalowania
+ w związku z tym, początkowe wartości geometrii ustawiłem na 1, a następnie po dodaniu do sceny obiektów przeskalowałem ich rozmiary
+ najpierw do wartości "przyjemnych dla oka" ale pozwoli to też w łatwy sposób przełączać się międz realnymi / "przyjaznymi" i ustawionymi przez uzytkownika rozmiarami
