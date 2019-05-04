@@ -109,6 +109,10 @@ li {
 	width: 100%;
 }
 
+#timespeed {
+	display: inline-block;
+}
+
 .datepickerfield {
 	height: 20px;
 	width: 72%;
@@ -146,8 +150,9 @@ li {
 	height: 20px;
 	background: #ff9933;
 	text-align: center;
-	display: none;
+	opacity: 0;
 	cursor: pointer;
+	transition: opacity .5s ease;
 }
 
 #cameraresetbtn:hover {
@@ -254,7 +259,7 @@ li {
 	bottom: 0px;
 	box-sizing: border-box;
 	position: absolute;
-	background: #000;
+	/* background: #000; */
 	opacity: 0.9;
 	/* border: 1px solid #aaa; */
 	/* border-radius: 5px; */
@@ -288,7 +293,26 @@ li {
 
 .planetsizecontainer {
 	position: relative;
-	text-align: center;
+    text-align: center;
+    /* height: 100px;
+    min-width: 100px; */
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+    align-items: center;
+}
+
+.hitbox {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 50%;
+	/* background: #aaa; */
+}
+
+.hitbox:hover {
+	background: #333;
+	cursor: pointer;
 }
 
 .planet:hover {
@@ -310,15 +334,55 @@ li {
 
 #sun {
 	position: absolute;
-	left: -200px;
-	top: 460px;
+	left: -270px;
+	top: 420px;
 	transform: translate(-50%, -50%);
 	height: 990px;
 	width: 990px;
 	margin: 0px;
-	background-image: url("/textures/sunmap.jpg");
+	background-image: url("textures/sunmap.jpg");
+	/* background-size: cover; */
 }
 
+#mercury {
+background: url("textures/mercurymap.jpg");
+	background-size: cover;
+}
+
+#venus{
+background: url("textures/venusmap.jpg");
+	background-size: cover;
+}
+
+#earth {
+	background-image: url("textures/earthmap1k.jpg");
+	background-size: cover;
+}
+
+#mars {
+background: url("textures/marsmap.jpg");
+	background-size: cover;
+}
+
+#jupiter {
+	background: url("textures/jupitermap.jpg");
+	background-size: cover;
+}
+
+#saturn {
+	background: url("textures/saturnmap.jpg");
+	background-size: cover;
+}
+
+#uranus {
+background: url("textures/uranusmap.jpg");
+	background-size: cover;
+}
+
+#neptune {
+background: url("textures/neptunemap.jpg");
+	background-size: cover;
+}
 .planetinfobar {
 	position: absolute;
 	top: 0px;

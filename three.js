@@ -4767,6 +4767,7 @@
 		UniformContainer.call( this );
 
 		this.renderer = renderer;
+		this.renderer.setPixelRatio(window.devicePixelRatio);
 
 		var n = gl.getProgramParameter( program, gl.ACTIVE_UNIFORMS );
 

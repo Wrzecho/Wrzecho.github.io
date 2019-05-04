@@ -76,9 +76,25 @@ v14
 -	wstepny rozmiar geometrii planet na 1, a dopiero po dodaniu do sceny ustawieniu ich "skalowanego rozmiaru"
 -	venus obraca się w przeciwnym kierunku
 
+v15
+-	dodano plakietki z nazwami planet
+-	spowolniono upływ czasu (jakośc animacji < performance dla fazy DEV)
+- 	dodano orbity wenus, (itd!)
+- 	dodano tekstury na panelu realnych rozmiarów planet
+-	poprawa optymalizacji sprzętowej
+-	skorygowano devicepixelratio w three.js
+- 	zaimplementowano TweenJS dla planet i labelek
+-	korekta rysowania orbit (jak w uwagach)
+- 	pokaz/ukryj nazwy planet
+-	hitboxy planet na dolnym panelu
+-	ustawianie domyslnie dzisiejszej daty w datepickerze
+		(trzeba dodać IF zeby był format rrrr-MM-dd a nie rrrr-m-d)
+		linie: 688 - 692;
 
 
-*** UWAGI ***
+
+
+*** TO DO ***
 - dodać resztę planet
 - prędkośc obrotowa planet
 - saturn albo uran obraca się pod kątem 90*
@@ -98,7 +114,13 @@ v14
 - dodać "efekt glow" na Słońce 
 - opisać przycisk do realnej skali rozmiarów planet !!!
 - oskryptować checkboxy pokazujące/ukrywające orbity
-- dodać tekstury na panelu realnych rozmiarów planet
+- pierścienie saturna
+- pokazywanie/ukrywanie labelek planet
+- obsługa toggleinfobar (dla danych planet - sposob wywolania i parametry wywolania funkcji onclick)
+
+- rysowanie orbit przed rozpoczęciem animacji (ewentualnie) ???
+	- wtedy nie resetujemy orbit przy zmianie daty, conajwyzej je ukrywamy/pokazujemy
+
 
 
 
@@ -116,3 +138,8 @@ korekcji zmniejsza się z każdą kolejną planetą.
 - nie da się zmienić rozmiaru geometrii ksztaltu w trakcie animacji - trzeba korzystać ze skalowania
  w związku z tym, początkowe wartości geometrii ustawiłem na 1, a następnie po dodaniu do sceny obiektów przeskalowałem ich rozmiary
  najpierw do wartości "przyjemnych dla oka" ale pozwoli to też w łatwy sposób przełączać się międz realnymi / "przyjaznymi" i ustawionymi przez uzytkownika rozmiarami
+
+- przy wprowadzeniu TweenJS do plynnego poruszania planetami napotkałem problem z błędnym rysowaniem pierwszego "punktu" orbit
+ (ze względu na pierwszy targetpos zainicjowany w punkcie 0,0,0) - problem rozwiązałem pomijając za pomocą
+ instrukcji warunkowej IF (draworbits == true) rysowanie pierwszego punktu orbity, a po jednorazowym niespełnieniu warunku, przestawiłem zmienną
+ draworbits na TRUE.
