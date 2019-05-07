@@ -383,6 +383,8 @@ IMPORTANT Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czase
 			// konfiguracja biblioteki OrbitControls.js
 			let controls = new THREE.OrbitControls( camera );
 			controls.rotateSpeed = 1.0;
+			// controls.enableZoom = true;
+			// controls.enableDamping = true;
 			controls.zoomSpeed = 0.4;
 			controls.panSpeed = 0.5; 
 			controls.noZoom = false;
@@ -621,10 +623,10 @@ IMPORTANT Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czase
 			sun.add(asteroidbelt);
 			let astrogeo = new THREE.SphereGeometry (.85, 4, 4);
 			let astromat = new THREE.MeshPhongMaterial ({color: 0xffffff} );
-			for ( let i = 0; i < 300; i ++ ) {
+			for ( let i = 0; i < 400; i ++ ) {
 				let mesh = new THREE.Mesh( astrogeo, astromat );
-				let radius = (Math.random()-0.5)*50+300;
-                let randomY = (Math.random()-0.5)*40;
+				let radius = (Math.random()-0.5)*60+300;
+                let randomY = (Math.random()-0.5)*60;
 				let posx = Math.cos(i)*radius;
 				// if (posx <)
 				mesh.position.x = (Math.cos(i))*radius;
@@ -787,7 +789,7 @@ IMPORTANT Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czase
 				removetrail(vtg, venusdata, venus);
 				removetrail(etg, earthdata, earth);
 				removetrail(matg, marsdata, mars);
-				// removetrail(jtg, jupiterdata, jupiter);
+				removetrail(jtg, jupiterdata, jupiter);
 				// removetrail(stg, saturndata, saturn);
 				// removetrail(utg, urandata, uran);
 				// removetrail(ntg, neptunedata, neptune)
@@ -936,6 +938,15 @@ IMPORTANT Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czase
 			matr.geometry.dynamic = true;
 			scene.add(matr);
 
+			//jowisz orbita jupiter
+			let jtg = new THREE.Geometry();
+			for (let i=0; i < parseInt(jupiterdata.ows) + 50 + trails_add_length; i++){
+				jtg.vertices.push(new THREE.Vector3(jupiter.position));
+			}
+			let jtr = new THREE.Line(jtg, tracematerial);
+			jtr.geometry.dynamic = true;
+			scene.add(jtr);
+
 			let i = 0;
 			let strdate;
 			// var init = function () {
@@ -975,6 +986,7 @@ IMPORTANT Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czase
 						addtrail(venusdata, venus.position.x, venus.position.y, venus.position.z, vtr);
 						addtrail(earthdata, earth.position.x, earth.position.y, earth.position.z, etr);
 						addtrail(marsdata, mars.position.x, mars.position.y, mars.position.z, matr);
+						addtrail(jupiterdata, jupiter.position.x, jupiter.position.y, jupiter.position.z, jtr);
 					}
 					i = 0;
 					draworbits = true;
