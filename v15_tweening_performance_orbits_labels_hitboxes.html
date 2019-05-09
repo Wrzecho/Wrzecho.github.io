@@ -32,7 +32,7 @@ IMPORTANT Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czase
                         <li><a class="settings_button" onclick="minusmonth()"><img src="icons/mm.png" alt="-M"></a></i></li>
                         <li><a class="settings_button" onclick="minusday()"><img src="icons/minus.png" alt="+"></a></li>
                         <li><a id="pp" class="settings_button playpause" onclick="togglepp()"><img id="ppbtn" src="icons/pause.png" alt="Pauza"></i></a></li>
-                        <li><a class="settings_button" onclick="plusday(); removealltrails();"><img src="icons/plus.png" alt="+"></a></li>
+                        <li><a class="settings_button" onclick="plusday()"><img src="icons/plus.png" alt="+"></a></li>
                         <li><a class="settings_button" onclick="plusmonth()"><img src="icons/pm.png" alt="+M"></a></i></li>
                         <li><a class="settings_button" onclick="plusyear()"><img src="icons/py.png" alt="+Y"></a></i></li>
                     </ul>
@@ -77,7 +77,7 @@ IMPORTANT Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czase
 			</div>
 		</div>
 		<div id="info">
-			Symulator eksploracji układu słonecznego - v16<br>
+			Symulator eksploracji układu słonecznego - v15<br>
 			Upływ czasu: <p id="timespeed"></p> dni / sekundę
 		</div>
 
@@ -105,46 +105,46 @@ IMPORTANT Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czase
 			</div>
 			<div class="planetsizecontainer">
 				<div class="plabel">Merkury</div>
-				<div class="hitbox" id="mercuryhitbox" onclick="toggleasidebar();toggleinfobar(mercury)">
+				<div class="hitbox" id="mercuryhitbox" onclick="toggleinfobar(mercury)">
 					<div class="planet" id="mercury"></div>
 				</div>
 			</div>
 			<div class="planetsizecontainer">
 				<div class="plabel">Wenus</div>
-				<div class="hitbox" id="venushitbox" onclick="toggleasidebar();toggleinfobar(venus)">
+				<div class="hitbox" id="venushitbox" onclick="toggleinfobar(venus)">
 					<div class="planet" id="venus"></div>
 				</div>
 			</div>
 			<div class="planetsizecontainer">
 					<div class="plabel">Ziemia</div>
-				<div class="hitbox" id="earthhitbox" onclick="toggleasidebar();toggleinfobar(earth)">
+				<div class="hitbox" id="earthhitbox" onclick="toggleinfobar(earth)">
 					<div class="planet" id="earth"></div>
 				</div>
 			</div>
 			<div class="planetsizecontainer">
 					<div class="plabel">Mars</div>
-				<div class="hitbox" id="marshitbox" onclick="toggleasidebar();toggleinfobar(mars)">
+				<div class="hitbox" id="marshitbox" onclick="toggleinfobar(mars)">
 					<div class="planet" id="mars"></div>
 				</div>
 			</div>
 			<div class="planetsizecontainer">
 					<div class="plabel">Jowisz</div>
-					<div class="hitbox" id="jupiterhitbox" onclick="toggleasidebar();toggleinfobar(jupiter)">
+					<div class="hitbox" id="jupiterhitbox" onclick="toggleinfobar(jupiter)">
 				<div class="planet" id="jupiter"></div></div>
 			</div>
 			<div class="planetsizecontainer">
 					<div class="plabel">Saturn</div>
-					<div class="hitbox" id="saturnhitbox" onclick="toggleasidebar();toggleinfobar(saturn)">
+					<div class="hitbox" id="saturnhitbox" onclick="toggleinfobar(saturn)">
 				<div class="planet" id="saturn"></div></div>
 			</div>
 			<div class="planetsizecontainer">
 					<div class="plabel">Uran</div>
-					<div class="hitbox" id="uranushitbox" onclick="toggleasidebar();toggleinfobar(uranus)">
+					<div class="hitbox" id="uranushitbox" onclick="toggleinfobar(uranus)">
 				<div class="planet" id="uranus"></div></div>
 			</div>
 			<div class="planetsizecontainer">
 					<div class="plabel">Neptun</div>
-					<div class="hitbox" id="neptunehitbox" onclick="toggleasidebar();toggleinfobar(neptune)">
+					<div class="hitbox" id="neptunehitbox" onclick="toggleinfobar(neptune)">
 				<div class="planet" id="neptune"></div></div>
 			</div>
 		</div>
@@ -155,16 +155,6 @@ IMPORTANT Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czase
 		<script src="Tween.js"></script>
 		<script src="//unpkg.com/three-spritetext"></script>
 		<script>
-			// deaktywuje animacje gdy karta przegladarki nie jest aktywna
-			let tabfocus = true;
-			window.onfocus = () => {
-				tabfocus = true;
-				// console.log("Focus!");
-			}
-			window.onblur = () => {
-				tabfocus = false;
-				// console.log("Blur!");
-			}
 			// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 			// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 			// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -175,20 +165,6 @@ IMPORTANT Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czase
 			// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 			// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-			let asidebar = document.getElementById("planetinfopanel");
-			const toggleasidebar = () => {
-				if(asidebar.style.opacity == 0) {
-					asidebar.style.opacity = 1;
-					asidebar.style.transform = "translateX(-100%)";
-				}
-				else {
-					asidebar.style.opacity = 0;
-					asidebar.style.transform = "translateX(0px)";
-				}
-			}
-
-			// wyswietlanie aktualnej daty animacji z nazwami miesiecy zamiast liczb
-            let miesiace = ["stycznia","lutego","marca","kwietnia","maja","czerwca","lipca","sierpnia","września","października","listopada","grudnia"];
 
 			// wyswietlanie wartosci ze slidera
 			const sizerange = document.getElementById("psizerange");
@@ -284,6 +260,10 @@ IMPORTANT Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czase
 					pib.style.opacity = 0;
 				}
 			}
+
+
+			// wyswietlanie aktualnej daty animacji z nazwami miesiecy zamiast liczb
+            let miesiace = ["stycznia","lutego","marca","kwietnia","maja","czerwca","lipca","sierpnia","września","października","listopada","grudnia"];
 			
 			// sterowanie pauzą / play aplikacji
 			let animationstate = false;
@@ -349,16 +329,16 @@ IMPORTANT Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czase
 			let neptunedata = {id: 8, ows: 365*249, ink: 1.7681,an: 131.7925,ph: 7.206,md: 30.26664,dm: 0.005919282,eksorb: 0.0102981,ml: 299.8641};
 			
 			// skale w stosunku do promienia ziemii
-			// let planetsizes = [];
-			// planetsizes[0] = 4878 / 12756;
-			// planetsizes[1] = 12104 / 12756;
-			// planetsizes[2] = 12756 / 12756;
-			// planetsizes[3] = 6860 / 12756;
-			// planetsizes[4] = 143640 / 12756;
-			// planetsizes[5] = 120570 / 12756;
-			// planetsizes[6] = 57070 / 12756;
-			// planetsizes[7] = 49670 / 12756;
-			// planetsizes[8] = 1391000 / 12756;
+			let planetsizes = [];
+			planetsizes[0] = 4878 / 12756;
+			planetsizes[1] = 12104 / 12756;
+			planetsizes[2] = 12756 / 12756;
+			planetsizes[3] = 6860 / 12756;
+			planetsizes[4] = 143640 / 12756;
+			planetsizes[5] = 120570 / 12756;
+			planetsizes[6] = 57070 / 12756;
+			planetsizes[7] = 49670 / 12756;
+			planetsizes[8] = 1391000 / 12756;
 
 			// skale w stosunku do promienia Jowisza (dla panelu ze skalą rozmiarów) oraz skalowanie tychże elementów
 			let iconsizes = [4878/143640 , 12104/143640 , 12756/143640 , 6860/143640 , 
@@ -379,11 +359,11 @@ IMPORTANT Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czase
 				hitbox.style.height = hitboxsize;
 				y++;
 			}
-			// let x = 0;
-			// while (x < planetsizes.length) {
-			// 	planetsizes[x] = planetsizes[x].toFixed(2);
-			// 	x++;
-			// }
+			let x = 0;
+			while (x < planetsizes.length) {
+				planetsizes[x] = planetsizes[x].toFixed(2);
+				x++;
+			}
 
 
 			// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -397,7 +377,7 @@ IMPORTANT Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czase
 			// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 			// utworzenie sceny i kamery, rozmiar uniwersum
-			let unisize = 900; //rozmiar uniwersum
+			let unisize = 900;
 
 			let scene = new THREE.Scene();
 			scene.fog = new THREE.FogExp2( 0x111111, 0.001 );
@@ -410,6 +390,8 @@ IMPORTANT Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czase
 			// konfiguracja biblioteki OrbitControls.js
 			let controls = new THREE.OrbitControls( camera );
 			controls.rotateSpeed = 1.0;
+			// controls.enableZoom = true;
+			// controls.enableDamping = true;
 			controls.zoomSpeed = 0.4;
 			controls.panSpeed = 0.5; 
 			controls.noZoom = false;
@@ -417,7 +399,7 @@ IMPORTANT Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czase
 			controls.staticMoving = true;
 			controls.dynamicDampingFactor = 0.3;
 			controls.keys = [ 65, 83, 68 ];
-			// controls.addEventListener( 'change', animate );
+			controls.addEventListener( 'change', animate );
 
 			// window resize
 			window.addEventListener( 'resize', onWindowResize, false );
@@ -480,6 +462,10 @@ IMPORTANT Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czase
 					tween.start();
 				}
 
+				// let camToSave = {};
+				// camToSave.position = camera.position.clone();
+				// camToSave.rotation = camera.rotation.clone();
+				// camToSave.controlCenter = controls.center.clone();
 				const cameratween = (position, rotation, controlCenter) => {
 					let initialpos = camera.position;
 					let targetpos = {x: position.x, y: position.y, z: position.z};
@@ -510,6 +496,16 @@ IMPORTANT Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czase
 					console.log("Movement end!");
 				}
 
+
+				// const resetcameraposition = (position, rotation, controlCenter) => {
+				// 	camera.position.set(parseInt(position.x), position.y, position.z);
+				// 	camera.rotation.set(rotation.x, rotation.y, rotation.z);
+				// 	controls.center.set(controlCenter.x, controlCenter.y, controlCenter.z);
+				// 	controls.update();
+				// 	togglecambtn();
+				// 	render();
+				// }
+
 			// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 			// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 			// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -529,7 +525,7 @@ IMPORTANT Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czase
 
 			// rozmiar ziemii
 			let sizemultiplier = 5;
-			let globaldistanceaspect = 400;
+			let globaldistanceaspect = 100;
 
 			//universe
 			let unigeo = new THREE.SphereGeometry(unisize, 50, 50);
@@ -556,8 +552,6 @@ IMPORTANT Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czase
 
 			// namelabels
 			let namelabels = [];
-
-
 			//slonce + swiatlo
 			let sungeo = new THREE.SphereGeometry( 30, 20, 20 );
 			let sun = new THREE.PointLight( 0xFFFFFF, 1, 0, 2 );
@@ -569,7 +563,6 @@ IMPORTANT Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czase
 			sun.name = 0;
 			scene.add( sun );
 			sun.position.set(0,0,0);
-
 			//label z nazwa
 			let sunlabel = new SpriteText('Słońce');
 			sunlabel.fontFace = 'sans-serif';
@@ -618,7 +611,9 @@ IMPORTANT Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czase
 			//ziemia + ksiezyc
 			let earthg = new THREE.SphereGeometry(1,25,25);
 			let earthtexture = new THREE.TextureLoader().load('textures/earthmap1k.jpg');
-			let earthm = new THREE.MeshPhongMaterial( { color: 0xFFFFFF, map: earthtexture } );	
+			let earthm = new THREE.MeshPhongMaterial( { color: 0xFFFFFF, map: earthtexture } );
+			// var moongeo = new THREE.SphereGeometry(1.5,5,5);
+			// var moonmat = new THREE.MeshPhongMaterial( { color: 0xFFFFFF } );
 			let earth = new THREE.Mesh(earthg,earthm);
 			let eainitscale = 8;
 			earth.receiveShadow = false;
@@ -631,23 +626,13 @@ IMPORTANT Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czase
 			ealabel.fontFace = 'sans-serif';
 			namelabels.push(ealabel);
 			scene.add(ealabel);
-			//earthglow
-			let eaglowmat = new THREE.MeshLambertMaterial({ color: 0x99DDff, transparent: true, opacity: 0.4});
-			let eaglowpivot = new THREE.Object3D();
-			earth.add(eaglowpivot);
-			let eaglow = new THREE.Mesh (earthg, eaglowmat);
-			eaglow.scale.set(1.1,1.1,1.1);
-			eaglowpivot.add(eaglow);
-			// księżyc
-			let earthPivot = new THREE.Object3D();
-			earth.add( earthPivot );
-			let moontexture = new THREE.TextureLoader().load('textures/moonmap.jpg');
-			let moonmat = new THREE.MeshPhongMaterial( { color: 0xFFFFFF, map: moontexture } );
-			let moon = new THREE.Mesh( earthg, moonmat );
-			moon.position.x = 2;
-			moon.scale.set(0.25, 0.25, 0.25);
-			moon.receiveShadow = true;
-			earthPivot.add( moon );
+
+			// var earthPivot = new THREE.Object3D();
+			// earth.add( earthPivot );
+			// var moon = new THREE.Mesh( moongeo, moonmat );
+			// moon.position.x = 7;
+			// moon.receiveShadow = true;
+			// earthPivot.add( moon );
 
 			//mars
 			let marsg = new THREE.SphereGeometry(1,15,15);
@@ -766,71 +751,55 @@ IMPORTANT Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czase
 					}
 				}
 			}, delay);
-
 			const minusyear = () => {
 				date.setFullYear(date.getFullYear()-1);
 				removealltrails();
+				console.log(date.getFullYear());
 				let b2 = date.getFullYear(); //year
 				let b3 = date.getMonth()+1; //month
 				let b4 = date.getDate(); //day
 				let b5 = date.getHours(); //hours
 				let b6 = date.getMinutes(); //minutes
 				updateplanetspositions(b2,b3,b4,b5,b6);
-				animationstate = false;
+				setTimeout(() => {
+					animationstate = false;
+				}, 100);
 			}
 			const minusmonth = () => {
 				date.setMonth(date.getMonth()-1);
 				removealltrails();
-				let b2 = date.getFullYear(); //year
-				let b3 = date.getMonth()+1; //month
-				let b4 = date.getDate(); //day
-				let b5 = date.getHours(); //hours
-				let b6 = date.getMinutes(); //minutes
-				updateplanetspositions(b2,b3,b4,b5,b6);
-				animationstate = false;
+				setTimeout(() => {
+					animationstate = false;
+				}, 100);
 			}
 			const minusday = () => {
 				date.setDate(date.getDate()-1);
 				removealltrails();
-				let b2 = date.getFullYear(); //year
-				let b3 = date.getMonth()+1; //month
-				let b4 = date.getDate(); //day
-				let b5 = date.getHours(); //hours
-				let b6 = date.getMinutes(); //minutes
-				updateplanetspositions(b2,b3,b4,b5,b6);
-				animationstate = false;
+				setTimeout(() => {
+					animationstate = false;
+				}, 100);
 			}
 			const plusday = () => {
 				date.setDate(date.getDate()+1);
-				let b2 = date.getFullYear(); //year
-				let b3 = date.getMonth()+1; //month
-				let b4 = date.getDate(); //day
-				let b5 = date.getHours(); //hours
-				let b6 = date.getMinutes(); //minutes
-				updateplanetspositions(b2,b3,b4,b5,b6);
-				animationstate = false;
+				removealltrails();
+				// requestAnimationFrame(animate);
+				setTimeout(() => {
+					animationstate = false;
+				}, 100);
 			}
 			const plusmonth = () => {
 				date.setMonth(date.getMonth()+1);
 				removealltrails();
-				let b2 = date.getFullYear(); //year
-				let b3 = date.getMonth()+1; //month
-				let b4 = date.getDate(); //day
-				let b5 = date.getHours(); //hours
-				let b6 = date.getMinutes(); //minutes
-				updateplanetspositions(b2,b3,b4,b5,b6);
-				animationstate = false;
+				setTimeout(() => {
+					animationstate = false;
+				}, 100);
 			}
 			const plusyear = () => {
 				date.setFullYear(date.getFullYear()+1);
 				removealltrails();
-				let b2 = date.getFullYear(); //year
-				let b3 = date.getMonth()+1; //month
-				let b4 = date.getDate(); //day
-				let b5 = date.getHours(); //hours
-				let b6 = date.getMinutes(); //minutes
-				updateplanetspositions(b2,b3,b4,b5,b6);
-				animationstate = false;
+				setTimeout(() => {
+					animationstate = false;
+				}, 100);
 			}
 			const ustawczas = () => {
 				let chdate = document.getElementById("data").value;
@@ -840,13 +809,9 @@ IMPORTANT Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czase
 				date.setDate(slicedate[2]);
 				console.log(slicedate[0]+"/"+slicedate[1]+"/"+slicedate[2]);
 				removealltrails();
-				let b2 = date.getFullYear(); //year
-				let b3 = date.getMonth()+1; //month
-				let b4 = date.getDate(); //day
-				let b5 = date.getHours(); //hours
-				let b6 = date.getMinutes(); //minutes
-				updateplanetspositions(b2,b3,b4,b5,b6);
-				animationstate = false;
+				setTimeout(() => {
+					animationstate = false;
+				}, 500);
 			}
 
 
@@ -900,14 +865,8 @@ IMPORTANT Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czase
 
 			let allorbitsview = document.getElementById("orbitview");
 			const orbitview = () => {
-				if (allorbitsview.checked == true) {
-					showalltrails();
-					allorbitsview.checked = true;
-				}
-				else {
-					hidealltrails();
-					allorbitsview.checked = false;
-				}
+				if (allorbitsview.checked == true) showalltrails();
+				else hidealltrails();
 			}
 
 
@@ -954,35 +913,47 @@ IMPORTANT Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czase
 				}
 
 				// aktualizacja pozycji planet, dodanie im sladow itd
-				const updatelabelspositions = () => {
-					melabel.position.set(mercury.position.x, mercury.position.y+(meinitscale*pscale)+10, mercury.position.z);
-					velabel.position.set(venus.position.x, venus.position.y+(veinitscale*pscale)+10, venus.position.z);
-					ealabel.position.set(earth.position.x, earth.position.y+(eainitscale*pscale)+10, earth.position.z);
-					malabel.position.set(mars.position.x, mars.position.y+(mainitscale*pscale)+10, mars.position.z);
-					julabel.position.set(jupiter.position.x, jupiter.position.y+(juinitscale*pscale)+10, jupiter.position.z);
-				}
-
 				const updateplanetspositions = (b2,b3,b4,b5,b6) => {
 					// merkury
 					let mpos = calcplanetpos(b2, b3, b4, b5, b6, mercurydata.ink, mercurydata.an, mercurydata.ph, mercurydata.md, mercurydata.dm, mercurydata.eksorb, mercurydata.ml)
-						tweenobject(mercury,mpos,170);	
+						tweenobject(mercury,mpos,170);
+						// mercury.position.x = mpos[0] * 170;
+						// mercury.position.z = mpos[1] * 170;
+						// mercury.position.y = mpos[2] * globaldistanceaspect;
+						melabel.position.set(mercury.position.x, mercury.position.y+(meinitscale*pscale)+10, mercury.position.z);
 						
 					// venus
 					let vpos = calcplanetpos(b2, b3, b4, b5, b6, venusdata.ink, venusdata.an, venusdata.ph, venusdata.md, venusdata.dm, venusdata.eksorb, venusdata.ml)
 						tweenobject(venus,vpos,140);
+						// venus.position.x = vpos[0] * 140;
+						// venus.position.z = vpos[1] * 140;
+						// venus.position.y = vpos[2] * globaldistanceaspect;
+						velabel.position.set(venus.position.x, venus.position.y+(veinitscale*pscale)+10, venus.position.z);
 						
 					// ziemia
 					let epos = calcplanetpos(b2, b3, b4, b5, b6, earthdata.ink, earthdata.an, earthdata.ph, earthdata.md, earthdata.dm, earthdata.eksorb, earthdata.ml);
-						tweenobject(earth, epos, 140);	
+						tweenobject(earth, epos, 140);
+						// earth.position.x = epos[0] * 140;
+						// earth.position.z = epos[1] * 140;
+						// earth.position.y = epos[2] * globaldistanceaspect;
+						ealabel.position.set(earth.position.x, earth.position.y+(eainitscale*pscale)+10, earth.position.z);
 						
 					// mars
 					var marspos = calcplanetpos(b2, b3, b4, b5, b6, marsdata.ink, marsdata.an, marsdata.ph, marsdata.md, marsdata.dm, marsdata.eksorb, marsdata.ml);
 						tweenobject(mars,marspos,130);
+						// mars.position.x = marspos[0] * 130;
+						// mars.position.z = marspos[1] * 130;
+						// mars.position.y = marspos[2] * globaldistanceaspect;
+						malabel.position.set(mars.position.x, mars.position.y+(mainitscale*pscale)+10, mars.position.z);
 						
 					// jowisz
 					var jupiterpos = calcplanetpos(b2, b3, b4, b5, b6, jupiterdata.ink, jupiterdata.an, jupiterdata.ph, 
 					jupiterdata.md, jupiterdata.dm, jupiterdata.eksorb, jupiterdata.ml);
 						tweenobject(jupiter,jupiterpos,70);
+						// jupiter.position.x = jupiterpos[0] * 70;
+						// jupiter.position.z = jupiterpos[1] * 70;
+						// jupiter.position.y = jupiterpos[2] * globaldistanceaspect;
+						julabel.position.set(jupiter.position.x, jupiter.position.y+(juinitscale*pscale)+10, jupiter.position.z);
 				}
 
 			// dane wyjsciowe dla rysunków orbit
@@ -1056,7 +1027,6 @@ IMPORTANT Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czase
 			// let draworbits = true;
 			var animate = function () {
 			TWEEN.update();
-			updatelabelspositions();
 				// czestotliwosc odswiezania symulacji
 				setTimeout( function() {
 			        requestAnimationFrame( animate );
@@ -1092,16 +1062,11 @@ IMPORTANT Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czase
 				}, 1000);
 				
 
-				// obroty wokol osi (animacja ma 40 klatek na sekundę)
-				let mooncycle = 28; //28 dni to cykl ksiezyca
-				let onerotperframe = (Math.PI / 180) * (360/40); //360 stopni na sekunde
-				let realearthrotationspeed = onerotperframe * (1000/delay);
-				// let earotatespeed = 
+				// obroty wokol osi
 				sun.rotation.y += 0.0003;
 				mercury.rotation.y -= 0.002;	
 				venus.rotation.y += 0.002;
-				earth.rotation.y -= realearthrotationspeed / 5; //5krotne spowolnienie obrotu ziemii
-				earthPivot.rotation.y += (realearthrotationspeed / 5) - (realearthrotationspeed / 5)/mooncycle;
+				earth.rotation.y -= 360/1000/16/2;	
 				mars.rotation.y -= 0.002;
 				jupiter.rotation.y += 0.02;
 
@@ -1122,9 +1087,7 @@ IMPORTANT Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czase
 					
             };
 			init();
-			if (tabfocus == true) {
-				animate();
-			};
+			animate();
 		</script>
 	</body>
 </html>

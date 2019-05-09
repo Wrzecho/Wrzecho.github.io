@@ -383,13 +383,36 @@ background: url("textures/uranusmap.jpg");
 background: url("textures/neptunemap.jpg");
 	background-size: cover;
 }
-.planetinfobar {
+#planetinfopanel {
 	position: absolute;
 	top: 0px;
-	right: 0px;
-	width: 320px;
-	height: 180px;
-	border: 1px solid #DDD;
+	right: -382px;
+	width: 350px;
+	padding: 15px;
+	height: auto;
+	background: #222;
+	/* border: 1px solid #DDD; */
 	opacity: 0;
 	transition: all .2s ease-in;
+}
+
+#planetinfopanel div {
+	margin: 10px 0px;
+	/* box-sizing: border-box; */
+}
+
+#plive {
+	margin: 0px;
+	padding: 0px;
+}
+
+#canvas {
+	/* position: relative; */
+	width: 320px;
+	height: 180px;
+	/* background: purple; */
+	border: 1px solid #555;
+	margin: 0px auto !important;
+	opacity: 1;
+	z-index: 2;
 }

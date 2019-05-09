@@ -87,11 +87,33 @@ v15
 -	korekta rysowania orbit (jak w uwagach)
 - 	pokaz/ukryj nazwy planet
 -	hitboxy planet na dolnym panelu
+-	tweening camery przy wciśnięciu "RESET KAMERY"
+-	oskryptowane checkboxy pokaz/ukryj orbite pojedynczej planety
+
+v16
+-	przygotowany panel z informacjami o planecie
 -	ustawianie domyslnie dzisiejszej daty w datepickerze
 		(trzeba dodać IF zeby był format rrrr-MM-dd a nie rrrr-m-d)
 		linie: 688 - 692;
-
-
+-	informacje o planetach:
+	-	nazwa 
+	-	widok z kamerki
+	- 	krótki opis	
+	-	typ
+	-	średnica (ilosc srednic ziemii)
+	-	odl od slonca
+	-	czas obiegu orbity
+	-	śr temperatura?
+	-	księżyce?
+	-	czas potrzebny swiatlu na dotarcie od slonca do planety
+	-	mean orbit velocity (srednia predkosc orbitalna)
+	-	masa (ilosc mas ziemii)
+	-	średnia gęstość
+	-	skład "atmosfery"
+-	efekt glow na słońcu (poświata) +- (chcilbym coś lepszego)
+-	dodano księżyc Ziemski (do opisania jego zachowanie (0 - 5*))
+-	skorygowano predkosc obrotu Ziemii (wyliczenie realnej i spowolnienie 5x)
+-	oskryptowane pokazywanie / ukrywanie panelu z informacjami o planecie
 
 
 *** TO DO ***
