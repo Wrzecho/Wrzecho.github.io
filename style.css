@@ -11,7 +11,11 @@ body {
 #info {
 	color: white;
 	position: absolute;
-	top: 0px; width: 100%;
+	top: 0px;
+	left: 50%;
+	transform: translateX(-50%);
+	margin: 10px auto;
+	text-align: center;
 	padding: 0px;
 }
 
@@ -56,21 +60,27 @@ li {
 	border-radius: 5px;
 }
 
-.settings {
+#settingspanel {
 	position: absolute;
-	top: 0%;
-	left: 0%;
-	background-color: #00008;
+	top: 0px;
+	left: -350px;
+	background-color: #222;
 	opacity: 0.90;
 	padding: 10px;
+	padding-top: 30px;
 	min-height: 300px;
-	min-width: 300px;
+	width: 350px;
 	box-sizing: border-box;
-	border: 1px solid #DDD;
-	border-radius: 3px;
-	z-index: 10000;
-	background: #000;
+	transition: all .3s ease-in-out;
+	/* border: 1px solid #DDD; */
+	/* border-radius: 3px; */
+	/* z-index: 10000; */
+	/* background: #000; */
 }
+.show {
+	left: 0px !important;
+}
+
 
 .settings_button {
 	border: none;
@@ -84,10 +94,12 @@ li {
 	margin: 5px auto;
 	/* margin: 2px; */
 }
+.playbtn {
+	src: url("icons/play.png") !important;
+	background: #ff9933 !important;
+}
 .sd {
 	width: 100%;
-	/* margin: 10px auto;
-	margin-top: 15px; */
 	text-align: center;
 }
 
@@ -100,13 +112,7 @@ li {
 	color: #FFF;
 	position: absolute;
 	top: 5px;
-	left: 5px;
-}
-.sett {
-	position: absolute;
-	top: 25px;
-	left: 0;
-	width: 100%;
+	left: 10px;
 }
 
 #timespeed {
@@ -200,12 +206,12 @@ li {
 	color: #000;
 }
 
-.slidecontainer #rangeval {
+#rangeval {
 	display: block;
-	/* width: 20%; */
+	width: 20%;
 	text-align: center;
 	flex: 20%;
-	/* background: #ff9933; */
+	margin: 10px 0px;
 }
 
 .slider {
@@ -385,15 +391,20 @@ background: url("textures/neptunemap.jpg");
 }
 #planetinfopanel {
 	position: absolute;
-	top: 0px;
-	right: -382px;
+	top: -100%;
+	right: 0px;
 	width: 350px;
-	padding: 15px;
+	padding: 5px;
 	height: auto;
+	max-height: 80vh;
 	background: #222;
 	/* border: 1px solid #DDD; */
-	opacity: 0;
-	transition: all .2s ease-in;
+	opacity: .9;
+	transition: all .5s ease-in;
+}
+
+.infopanelvisible {
+	top: 0px !important;
 }
 
 #planetinfopanel div {
@@ -404,6 +415,7 @@ background: url("textures/neptunemap.jpg");
 #plive {
 	margin: 0px;
 	padding: 0px;
+	display: none;
 }
 
 #canvas {
@@ -415,4 +427,51 @@ background: url("textures/neptunemap.jpg");
 	margin: 0px auto !important;
 	opacity: 1;
 	z-index: 2;
+}
+
+#tinfop, #settingsbtn {
+	width: 40px;
+	height: 40px;
+	transform: translate(-50%,-50%);
+	position: absolute;
+	border-radius: 50%;
+	bottom: -75px;
+	left: 50%;
+	border: none;
+	background-color: inherit;
+	cursor: pointer;
+	box-sizing: border-box;
+	opacity: 1;
+}
+
+#settingsbtn {
+	top: 50%;
+	left: 390px;
+	background-image: url("icons/cogs-01.png");
+	background-position: center;
+	background-size: 60%;
+	background-repeat: no-repeat;
+}
+
+#asidebtn {
+	/* content: ''; */
+	/* color: #DDD; */
+	display: block;
+	box-sizing: border-box;
+	position: absolute;
+	top: 40%;
+	left: 30%;
+	/* background: white; */
+	transform: translate(-50%, -50%);
+	transform: rotate(135deg);
+	border-bottom: 2px solid #3399ff;
+	border-left: 2px solid #3399ff;
+	width: 16px;
+	height: 16px;
+	transition: all .2s ease-in-out;
+	margin: 0px !important;
+}
+#asidebtn:hover {
+	border-bottom: 2px solid #DDD;
+	border-left: 2px solid #DDD;
 }

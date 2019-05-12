@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset=utf-8>
+		<title>Solar System v5 - inz</title>
+		<style>
+			body {
+				color: #000;
+				font-family:Monospace;
+				font-size:13px;
+				text-align:center;
+				font-weight: bold;
+				background-color: #fff;
+				margin: 0px;
+				overflow: hidden;
+			}
+			#info {
+				color: white;
+				position: absolute;
+				top: 0px; width: 100%;
+				padding: 5px;
+			}
+			a {
+				color: red;
+			}
+		</style>
+		<script src="math.js" type="text/javascript"></script>
+		<script src="jquery-3.3.1.min.js" type="text/javascript"></script>
+	</head>
+	<body>
+		<div id="info">
+			Symulator eksploracji układu słonecznego - v2
+		</div>
+		<script src="three.min.js"></script>
+		<script src="Orbitcontrols.js"></script>
+		<script src="Projector.js"></script>
+		<script>
+
+
+				var del=0;
+				var scene = new THREE.Scene();
+				// scene.fog = new THREE.FogExp2( 0x000022, 0.001 );
+				var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 1, 1000 );
+
+				controls = new THREE.OrbitControls( camera );
+				controls.rotateSpeed = 1.0;
+				controls.zoomSpeed = 1.2;
+				controls.panSpeed = 0.8;
+				controls.noZoom = false;
+				controls.noPan = false;
+				controls.staticMoving = true;
+				controls.dynamicDampingFactor = 0.3;
+				controls.keys = [ 65, 83, 68 ];
+				controls.addEventListener( 'change', render );
+
+				var mouse = { x: 0, y: 0 }, INTERSECTED;
+
+				function onMouseMove( event ) 
+				{
+
+					mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+					mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+
+				}
+
+				var renderer = new THREE.WebGLRenderer();
+				renderer.setSize( window.innerWidth, window.innerHeight );
+				document.body.appendChild( renderer.domElement );
+				renderer.shadowMap.enabled = true;
+				renderer.setClearColor( 0x000022, 1 );
+
+				//gwiazdy
+				var stargeo = new THREE.SphereGeometry( 1, 9, 9);
+				var starmat =  new THREE.MeshPhongMaterial( { color:0xFFFFFF, shading: THREE.FlatShading } );
+				for ( var i = 0; i < 100; i ++ ) {
+					var mesh = new THREE.Mesh( stargeo, starmat );
+					mesh.position.x = ( Math.random() - 0.5 ) * 900;
+					mesh.position.y = ( Math.random() - 0.5 ) * 900;
+					mesh.position.z = ( Math.random() - 0.5 ) * 900;
+					mesh.updateMatrix();
+					mesh.matrixAutoUpdate = false;
+					scene.add( mesh );
+				}
+
+				//slonce
+				var sungeo = new THREE.SphereGeometry( 20, 50, 50 );
+				var sun = new THREE.PointLight( 0xffFFFF, 1.5, 0,2 );
+				var sunmaterial = new THREE.MeshBasicMaterial( { color: 0xCCCCCC} );
+				sun.add( new THREE.Mesh( sungeo, sunmaterial ) );
+				sunmaterial.map = THREE.ImageUtils.loadTexture('textures/sunmap.jpg');
+				sun.castShadow = true;
+				sun.receiveShadow = false;
+				scene.add( sun );
+			
+
+				//ziemia + ksiezyc
+				var earthg = new THREE.SphereGeometry(7,30,30);
+				var earthm = new THREE.MeshPhongMaterial( { color: 0xFFFFFF } );
+				var moongeo = new THREE.SphereGeometry(1.5,5,5);
+				var moonmat = new THREE.MeshPhongMaterial( { color: 0xFFFFFF } );
+				var earth = new THREE.Mesh(earthg,earthm);
+				earthm.map = THREE.ImageUtils.loadTexture('textures/earthmap1k.jpg');
+				//moonmat.map = THREE.ImageUtils.loadTexture('textures/moonmap.jpg');
+				earth.receiveShadow = true;
+				earth.castShadow = true;
+				scene.add(earth);
+				var earthPivot = new THREE.Object3D();
+				earth.add( earthPivot );
+				var moon = new THREE.Mesh( moongeo, moonmat );
+				moon.position.x = 7;
+				moon.receiveShadow = true;
+				earthPivot.add( moon );
+
+
+				var projector = new THREE.Projector();
+				addEventListener( 'mousemove', onMouseMove, false );
+
+				camera.position.x = 300*Math.cos( del );
+				camera.position.z = 300*Math.sin( del );
+				camera.position.y = 100;
+				scene.rotation.x = 0.05;
+
+				// console.log("Pi: "+cos(pi()));
+
+
+			window.addEventListener( 'resize', onWindowResize, false );
+
+			function onWindowResize()
+			{
+				camera.aspect = window.innerWidth / window.innerHeight;
+				camera.updateProjectionMatrix();
+				controls.handleResize();
+
+			    renderer.setSize( window.innerWidth, window.innerHeight );
+			}
+
+			var render = function () 
+			{
+				requestAnimationFrame(render);
+
+				var time = Date.now() * 0.0002;
+
+				var vector = new THREE.Vector3( mouse.x, mouse.y, 1 );
+				// projector.unprojectVector( vector, camera );
+				vector.unproject(camera);
+				var ray = new THREE.Raycaster( camera.position, vector.sub( camera.position ).normalize() );
+
+				var intersects = ray.intersectObjects( scene.children );
+				if ( intersects.length > 0 )
+				{
+					// if the closest object intersected is not the currently stored intersection object
+					if ( intersects[ 0 ].object != INTERSECTED ) 
+					{
+					    // restore previous intersection object (if it exists) to its original color
+						if ( INTERSECTED ) 
+							INTERSECTED.material.color.setHex( INTERSECTED.currentHex );
+						// store reference to closest object as current intersection object
+						INTERSECTED = intersects[ 0 ].object;
+						// store color of closest object (for later restoration)
+						INTERSECTED.currentHex = INTERSECTED.material.color.getHex();
+						// set a new color for closest object
+						if(INTERSECTED != mesh)
+						{
+						INTERSECTED.material.color.setHex( 0x222222 );
+						}
+					}
+				} 
+				else // there are no intersections
+				{
+					// restore previous intersection object (if it exists) to its original color
+					if ( INTERSECTED ) 
+						INTERSECTED.material.color.setHex( INTERSECTED.currentHex );
+					// remove previous intersection object reference
+					//     by setting current intersection object to "nothing"
+					
+					
+					INTERSECTED = null;
+				}
+
+				sun.rotation.x += 0.003;
+				sun.rotation.y += 0.001;
+				sun.position.set(0,0,0);
+
+				earth.position.x = Math.cos(time*0.4)*110;
+				earth.position.z = Math.sin(time*0.4)*110;
+				earth.rotation.y -= 0.002;	
+				earthPivot.rotation.y = Math.sin(time);
+				earthPivot.rotation.x = Math.cos(time);
+
+
+				//light.position.set(sun.position.x , sun.position.y , sun.position.z);
+				
+				//ustawienia kamery
+				camera.lookAt (new THREE.Vector3(sun.position.x, sun.position.y-40, sun.position.z));
+
+				renderer.render(scene, camera);
+			};
+			render();
+		</script>
+	</body>
+</html>

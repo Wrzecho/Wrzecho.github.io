@@ -89,9 +89,21 @@ v15
 -	hitboxy planet na dolnym panelu
 -	tweening camery przy wciśnięciu "RESET KAMERY"
 -	oskryptowane checkboxy pokaz/ukryj orbite pojedynczej planety
+- 	zwiąkszono "hitbox" planet na dolnym panelu
 
 v16
 -	przygotowany panel z informacjami o planecie
+-	dodano księżyc Ziemski (do opisania jego zachowanie (0 - 5*))
+-	skorygowano predkosc obrotu Ziemii (wyliczenie realnej i spowolnienie 5x) ++
+-	oskryptowane pokazywanie / ukrywanie panelu z informacjami o planecie ++
+-	kosmetyczna zmiana asidepanel
+-	button umożliwiający ukrycie asidepanel
+-	pokazywanie/ukrywanie panelu ustawień
+-	funkcje sterowania czasem przeniesione do innego pliku (datesettings.js)
+-	rozpoczęto przenoszenie funkcji sterujących interface do innego pliku (interface.js)
+-	dodano Saturna
+
+v17
 -	ustawianie domyslnie dzisiejszej daty w datepickerze
 		(trzeba dodać IF zeby był format rrrr-MM-dd a nie rrrr-m-d)
 		linie: 688 - 692;
@@ -111,9 +123,12 @@ v16
 	-	średnia gęstość
 	-	skład "atmosfery"
 -	efekt glow na słońcu (poświata) +- (chcilbym coś lepszego)
--	dodano księżyc Ziemski (do opisania jego zachowanie (0 - 5*))
--	skorygowano predkosc obrotu Ziemii (wyliczenie realnej i spowolnienie 5x)
--	oskryptowane pokazywanie / ukrywanie panelu z informacjami o planecie
+-	dodać rysowanie orbity za saturnem
+-	wprowadzenie rysowania orbit przed rozpoczęciem animacji (NIE MAM POMYSLU)
+-	nachylenie Ziemii
+-	zoom Camera2
+-	dodanie Urana i Neptuna
+- 	optymalizacja aplikacji (addtrails)
 
 
 *** TO DO ***
@@ -132,13 +147,13 @@ v16
 - nachylenia planet względem słońca (nie wiem czy zauważalne)
 - przemyśleć jakie efekty threejs mozna jeszcze zaimplementować
 - dodać canvasy z nazwami planet pojawiające się po najechaniu myszką na planetę (lub jej odpowiednik na dolnym panelu)
-- zwiększyć "hitbox" planet na dolnym panelu (dodać otaczający div ??)
 - dodać "efekt glow" na Słońce 
 - opisać przycisk do realnej skali rozmiarów planet !!!
 - oskryptować checkboxy pokazujące/ukrywające orbity
 - pierścienie saturna
 - pokazywanie/ukrywanie labelek planet
 - obsługa toggleinfobar (dla danych planet - sposob wywolania i parametry wywolania funkcji onclick)
+- obsługa niemożności odpauzowania animacji w momencie gdy jest pokazany asidepanel ??
 
 - rysowanie orbit przed rozpoczęciem animacji (ewentualnie) ???
 	- wtedy nie resetujemy orbit przy zmianie daty, conajwyzej je ukrywamy/pokazujemy
@@ -165,3 +180,8 @@ korekcji zmniejsza się z każdą kolejną planetą.
  (ze względu na pierwszy targetpos zainicjowany w punkcie 0,0,0) - problem rozwiązałem pomijając za pomocą
  instrukcji warunkowej IF (draworbits == true) rysowanie pierwszego punktu orbity, a po jednorazowym niespełnieniu warunku, przestawiłem zmienną
  draworbits na TRUE.
+
+- po zaimplementowaniu wszystkich planet ujawniły się problemy optymalizacyjne polegające na przycinaniu się aplikacji.
+Okazało się, że powodem takiego działania był duży koszt obliczeniowy wymagany przy rysowaniu orbit planet za każdym razem gdy zmienia się ich pozycja.
+Rozwiązaniem problemu była zmiana sposoby rysowania orbit, zostało to podzielona dla każdej z planet w zależności od prędkości z jaką porusza się w aplikacji.
+Np o ile Merkury porusza się bardzo szybko i dla niego trzeba często rysować fragmenty orbit tak im dalsza od Słońca planeta tym rzadziej wymaga aktualizowania orbity.
