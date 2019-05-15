@@ -24,7 +24,7 @@ IMPORTANT Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czase
 	</head>
 	<body>
 		<div class="show" id="settingspanel" >
-			<div id="settingsbtn" onclick="togglesettingsbar()"></div>
+			<div id="settingsbtn" class="settingsbtnclass" onclick="togglesettingsbar()"></div>
 			<div class="dateinfo" id="infodate"></div>
                 <div class="row">
                     <ul>
@@ -75,7 +75,7 @@ IMPORTANT Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czase
 			</div>
 		</div>
 		<div id="info">
-			Symulator eksploracji układu słonecznego - v16<br>
+			Symulator eksploracji układu słonecznego - v17<br>
 			Upływ czasu: <p id="timespeed"></p> dni / sekundę
 		</div>
 
@@ -233,10 +233,10 @@ IMPORTANT Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czase
 			}, delay);
 
 			// utworzenie sceny i kamery, rozmiar uniwersum
-			let unisize = 900; //rozmiar uniwersum
+			let unisize = 1500; //rozmiar uniwersum
 
 			let scene = new THREE.Scene();
-			scene.fog = new THREE.FogExp2( 0x111111, 0.001 );
+			scene.fog = new THREE.FogExp2( 0x111111, 0.0005 );
 			let camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 1, unisize*2 );
 			let camera2 = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 1, unisize*2 );
 
@@ -247,12 +247,17 @@ IMPORTANT Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czase
 			let controls = new THREE.OrbitControls( camera );
 			controls.rotateSpeed = 1.0;
 			controls.zoomSpeed = 0.4;
-			controls.panSpeed = 0.5; 
+			controls.panSpeed = 0.4; 
 			controls.noZoom = false;
 			controls.noPan = false;
-			controls.staticMoving = true;
+			// controls.staticMoving = true;
 			controls.dynamicDampingFactor = 0.3;
-			controls.keys = [ 65, 83, 68 ];
+			controls.keys = {
+				LEFT: 37, //left arrow
+				UP: 38, // up arrow
+				RIGHT: 39, // right arrow
+				BOTTOM: 40 // down arrow
+			}
 			// controls.addEventListener( 'change', animate );
 
 			// window resize
@@ -360,21 +365,21 @@ IMPORTANT Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czase
 			// DODAWANIE OBIEKTÓW DO SCENY
 			//#region
 
-
 			// rozmiar ziemii
 			let sizemultiplier = 5;
-			let globaldistanceaspect = 400;
+			let globaldistanceaspect = 200;
+			let planetlabelsize = 20;
 
 			//universe
 			let unigeo = new THREE.SphereGeometry(unisize, 50, 50);
 			let unitexture = new THREE.TextureLoader().load('textures/universe.jpg');
-			let unimat = new THREE.MeshBasicMaterial({color: 0x333333, map: unitexture});
+			let unimat = new THREE.MeshBasicMaterial({color: 0xffffff, map: unitexture});
 			let universe = new THREE.Mesh(unigeo, unimat);
 			universe.material.side = THREE.BackSide;
 			scene.add(universe);
 
 			//gwiazdy
-			let stargeo = new THREE.SphereGeometry( 0.4, 9, 9);
+			let stargeo = new THREE.SphereGeometry( 0.3, 9, 9);
 			let starmat =  new THREE.MeshPhongMaterial( { color:0xFFFFFF} );
 			for ( let i = 0; i < 300; i ++ ) {
 					let mesh = new THREE.Mesh( stargeo, starmat );
@@ -393,7 +398,7 @@ IMPORTANT Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czase
 
 
 			//slonce + swiatlo
-			let sungeo = new THREE.SphereGeometry( 30, 20, 20 );
+			let sungeo = new THREE.SphereGeometry( 75, 100, 100 );
 			let sun = new THREE.PointLight( 0xFFFFFF, 1, 0, 2 );
 			let suntexture = new THREE.TextureLoader().load('textures/sunmap.jpg');
 			let sunmaterial = new THREE.MeshBasicMaterial( { color: 0xFFFFFF, map: suntexture} );
@@ -407,8 +412,9 @@ IMPORTANT Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czase
 			//label z nazwa
 			let sunlabel = new SpriteText('Słońce');
 			sunlabel.fontFace = 'sans-serif';
+			sunlabel.textHeight = planetlabelsize * 1.618;
 			// sunlabel.scale.set(35,12,1);
-			sunlabel.position.set(0,40,0);
+			sunlabel.position.set(0,100,0);
 			namelabels.push(sunlabel);
 			scene.add(sunlabel);
 	
@@ -416,11 +422,11 @@ IMPORTANT Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czase
 			scene.add(ambientlight);
 		
 			// merkury
-			let mercgeo = new THREE.SphereGeometry(1,15,15);
+			let mercgeo = new THREE.SphereGeometry(1,50,50);
 			let mercurytexture = new THREE.TextureLoader().load('textures/mercurymap.jpg');
 			let mercurymat = new THREE.MeshPhongMaterial( { color: 0xFFFFFF, map: mercurytexture} );
 			let mercury = new THREE.Mesh(mercgeo,mercurymat);
-			let meinitscale = 6;
+			let meinitscale = 9;
 			mercury.receiveShadow = false;
 			mercury.castShadow = false;
 			mercury.name = 1;
@@ -429,15 +435,16 @@ IMPORTANT Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czase
 			//label z nazwa
 			let mercurylabel = new SpriteText(PLnames[0]);
 			mercurylabel.fontFace = 'sans-serif';
+			mercurylabel.textHeight = planetlabelsize;
 			namelabels.push(mercurylabel);
 			scene.add(mercurylabel);
 
 			//venus
-			let veng = new THREE.SphereGeometry(1,15,15);
+			let veng = new THREE.SphereGeometry(1,50,50);
 			let venustexture = new THREE.TextureLoader().load('textures/venusmap.jpg');
 			let venusmat = new THREE.MeshPhongMaterial( { color: 0xFFFFFF, map: venustexture} );
 			let venus = new THREE.Mesh(veng,venusmat);
-			let veinitscale = 8;
+			let veinitscale = 11;
 			venus.receiveShadow = false;
 			venus.castShadow = false;
 			venus.name = 2;
@@ -446,15 +453,16 @@ IMPORTANT Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czase
 			//label z nazwa
 			let venuslabel = new SpriteText(PLnames[1]);
 			venuslabel.fontFace = 'sans-serif';
+			venuslabel.textHeight = planetlabelsize;
 			namelabels.push(venuslabel);
 			scene.add(venuslabel);
 
 			//ziemia + ksiezyc
-			let earthg = new THREE.SphereGeometry(1,25,25);
+			let earthg = new THREE.SphereGeometry(1,50,50);
 			let earthtexture = new THREE.TextureLoader().load('textures/earthmap1k.jpg');
 			let earthm = new THREE.MeshPhongMaterial( { color: 0xFFFFFF, map: earthtexture } );	
 			let earth = new THREE.Mesh(earthg,earthm);
-			let eainitscale = 8;
+			let eainitscale = 12;
 			earth.receiveShadow = false;
 			earth.castShadow = false;
 			earth.name = 3;
@@ -463,6 +471,7 @@ IMPORTANT Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czase
 			//label z nazwa
 			let earthlabel = new SpriteText(PLnames[2]);
 			earthlabel.fontFace = 'sans-serif';
+			earthlabel.textHeight = planetlabelsize;
 			namelabels.push(earthlabel);
 			scene.add(earthlabel);
 			//earthglow
@@ -478,17 +487,17 @@ IMPORTANT Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czase
 			let moontexture = new THREE.TextureLoader().load('textures/moonmap.jpg');
 			let moonmat = new THREE.MeshPhongMaterial( { color: 0xFFFFFF, map: moontexture } );
 			let moon = new THREE.Mesh( earthg, moonmat );
-			moon.position.x = 2;
+			moon.position.x = 3;
 			moon.scale.set(0.25, 0.25, 0.25);
 			moon.receiveShadow = true;
 			earthPivot.add( moon );
 
 			//mars
-			let marsg = new THREE.SphereGeometry(1,15,15);
+			let marsg = new THREE.SphereGeometry(1,50,50);
 			let marstexture = new THREE.TextureLoader().load('textures/marsmap.jpg');
 			let marsmat = new THREE.MeshPhongMaterial( { color: 0xFFFFFF, map: marstexture } );
 			let mars = new THREE.Mesh(marsg,marsmat);
-			let mainitscale = 7;
+			let mainitscale = 10;
 			mars.receiveShadow = false;
 			mars.castShadow = false;
 			mars.name = 4;
@@ -497,15 +506,16 @@ IMPORTANT Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czase
 			//label z nazwa
 			let marslabel = new SpriteText(PLnames[3]);
 			marslabel.fontFace = 'sans-serif';
+			marslabel.textHeight = planetlabelsize;
 			namelabels.push(marslabel);
 			scene.add(marslabel);
 
 			//jowisz
-			let jupiterg = new THREE.SphereGeometry(1,25,25);
+			let jupiterg = new THREE.SphereGeometry(1,50,50);
 			let jupitertexture = new THREE.TextureLoader().load('textures/jupitermap.jpg');
 			let jupitermat = new THREE.MeshPhongMaterial( { color: 0xFFFFFF, map: jupitertexture } );
 			let jupiter = new THREE.Mesh(jupiterg,jupitermat);
-			let juinitscale = 17;
+			let juinitscale = 25;
 			jupiter.receiveShadow = false;
 			jupiter.castShadow = false;
 			jupiter.name = 5;
@@ -514,22 +524,23 @@ IMPORTANT Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czase
 			//label z nazwa
 			let jupiterlabel = new SpriteText(PLnames[4]);
 			jupiterlabel.fontFace = 'sans-serif';
+			jupiterlabel.textHeight = planetlabelsize;
 			namelabels.push(jupiterlabel);
 			scene.add(jupiterlabel);
 
 			//saturn
-			let saturng = new THREE.SphereGeometry(1,25,25);
+			let saturng = new THREE.SphereGeometry(1,50,50);
 			let saturntexture = new THREE.TextureLoader().load('textures/saturnmap.jpg');
 			let saturnmat = new THREE.MeshPhongMaterial( { color: 0xFFFFFF, map: saturntexture } );
 			let saturn = new THREE.Mesh(saturng,saturnmat);
-			let sainitscale = 13;
+			let sainitscale = 22;
 			saturn.receiveShadow = false;
 			saturn.castShadow = false;
 			saturn.name = 6;
 			scene.add(saturn);
 			saturn.scale.set(sainitscale,sainitscale,sainitscale);
 			// pierscienie
-			let saturnringgeo = new THREE.RingGeometry( 1.2, 2.2, 30, 30, 0, Math.PI * 2 );
+			// let saturnringgeo = new THREE.RingGeometry( 1.2, 2.2, 30, 30, 0, Math.PI * 2 );
 			let saturnringtexture = new THREE.TextureLoader().load('textures/saturnringcolor.jpg');
 			let saturnringmat = new THREE.MeshPhongMaterial( { color: 0xFFFFFF, map: saturnringtexture } );
 			let saturnPivot = new THREE.Object3D();
@@ -538,7 +549,7 @@ IMPORTANT Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czase
 			for ( let i = 0; i < 200; i ++ ) {
 				let mesh = new THREE.Mesh( stargeo, saturnringmat );
 				mesh.scale.set(0.1 , 0.1, 0.1);
-				let radius = (Math.random()-0.5)*1+1.8;
+				let radius = (Math.random()-0.5)*1.2+ 1.8;
                 let randomZ = (Math.random()-0.5)*0.2;
 				mesh.position.x = (Math.cos(i))*radius;
 				mesh.position.y = (Math.sin(i))*radius;
@@ -552,32 +563,33 @@ IMPORTANT Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czase
 			//label z nazwa
 			let saturnlabel = new SpriteText(PLnames[5]);
 			saturnlabel.fontFace = 'sans-serif';
+			saturnlabel.textHeight = planetlabelsize;
 			namelabels.push(saturnlabel);
 			scene.add(saturnlabel);
 
 			//uran
-			let uranusg = new THREE.SphereGeometry(1,25,25);
+			let uranusg = new THREE.SphereGeometry(1,50,50);
 			let uranustexture = new THREE.TextureLoader().load('textures/uranusmap.jpg');
-			let uranusmat = new THREE.MeshPhongMaterial( { color: 0xFFFFFF, map: jupitertexture } );
+			let uranusmat = new THREE.MeshPhongMaterial( { color: 0xFFFFFF, map: uranustexture } );
 			let uranus = new THREE.Mesh(uranusg,uranusmat);
-			let urinitscale = 12;
+			let urinitscale = 20;
 			uranus.receiveShadow = false;
 			uranus.castShadow = false;
 			uranus.name = 7;
 			scene.add(uranus);
 			uranus.scale.set(urinitscale,urinitscale,urinitscale);
 			// pierscienie
-			let uranusringgeo = new THREE.RingGeometry( 1.2, 2.2, 30, 30, 0, Math.PI * 2 );
+			// let uranusringgeo = new THREE.RingGeometry( 1.2, 2.2, 30, 30, 0, Math.PI * 2 );
 			let uranusringtexture = new THREE.TextureLoader().load('textures/uranusringcolour.jpg');
 			let uranusringmat = new THREE.MeshPhongMaterial( { color: 0xFFFFFF, map: saturnringtexture } );
 			let uranusPivot = new THREE.Object3D();
-			uranus.add( uranusPivot );
+			// uranus.add( uranusPivot );
 			uranusPivot.rotation.x = 80;
-			for ( let i = 0; i < 200; i ++ ) {
+			for ( let i = 0; i < 100; i ++ ) {
 				let mesh = new THREE.Mesh( stargeo, uranusringmat );
 				mesh.scale.set(0.1 , 0.1, 0.1);
-				let radius = (Math.random()-0.5)*1+1.8;
-                let randomZ = (Math.random()-0.5)*0.2;
+				let radius = (Math.random()-0.5)*0.3+1.8;
+                let randomZ = (Math.random()-0.5)*0.1;
 				mesh.position.x = (Math.cos(i))*radius;
 				mesh.position.y = (Math.sin(i))*radius;
 				mesh.position.z = randomZ;
@@ -585,13 +597,32 @@ IMPORTANT Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czase
 				mesh.receiveShadow = false;
 				mesh.updateMatrix();
 				mesh.matrixAutoUpdate = false;
-			uranusPivot.add( mesh );
+			// uranusPivot.add( mesh );
 			}
-			//label z nazwa
+			// label z nazwa
 			let uranuslabel = new SpriteText(PLnames[6]);
 			uranuslabel.fontFace = 'sans-serif';
+			uranuslabel.textHeight = planetlabelsize;
 			namelabels.push(uranuslabel);
 			scene.add(uranuslabel);
+
+			//neptun
+			let neptuneg = new THREE.SphereGeometry(1,50,50);
+			let neptunetexture = new THREE.TextureLoader().load('textures/neptunemap.jpg');
+			let neptunemat = new THREE.MeshPhongMaterial( { color: 0xFFFFFF, map: neptunetexture } );
+			let neptune = new THREE.Mesh(neptuneg,neptunemat);
+			let neinitscale = 18;
+			neptune.receiveShadow = false;
+			neptune.castShadow = false;
+			neptune.name = 5;
+			scene.add(neptune);
+			neptune.scale.set(neinitscale,neinitscale,neinitscale);
+			//label z nazwa
+			let neptunelabel = new SpriteText(PLnames[7]);
+			neptunelabel.fontFace = 'sans-serif';
+			neptunelabel.textHeight = planetlabelsize;
+			namelabels.push(neptunelabel);
+			scene.add(neptunelabel);
 
 
 			// pas asteroid
@@ -601,8 +632,8 @@ IMPORTANT Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czase
 			let astromat = new THREE.MeshPhongMaterial ({color: 0xffffff} );
 			for ( let i = 0; i < 1000; i ++ ) {
 				let mesh = new THREE.Mesh( astrogeo, astromat );
-				let radius = (Math.random()-0.5)*60+300;
-                let randomY = (Math.random()-0.5)*60;
+				let radius = (Math.random()-0.5)*80+520;
+                let randomY = (Math.random()-0.5)*30;
 				let posx = Math.cos(i)*radius;
 				mesh.position.x = (Math.cos(i))*radius;
 				mesh.position.z = (Math.sin(i))*radius;
@@ -620,7 +651,6 @@ IMPORTANT Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czase
 
 			//#endregion
 		
-		
 			// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 			// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 			// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -630,7 +660,7 @@ IMPORTANT Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czase
 			// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 			// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 			// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-			camera.position.set(-500,150,150);
+			camera.position.set(-300,1000,550);
 			campos = camera.position;
 			camera.lookAt (new THREE.Vector3(sun.position.x, sun.position.y, sun.position.z));
 
@@ -662,10 +692,6 @@ IMPORTANT Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czase
 			// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 			// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-			// rysowanie orbit za planetami (dla 1 planety)
-
-			// dane wyjsciowe dla rysunków orbit
-			// updateplanetspositions();
 			mercury.initpos = mercury.position;
 			venus.initpos = venus.position;
 			earth.initpos = earth.position;
@@ -673,9 +699,8 @@ IMPORTANT Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czase
 			jupiter.initpos = jupiter.position;
 			saturn.initpos = saturn.position;
 			uranus.initpos = uranus.position;
-			// neptune.initpos = neptune.position;
+			neptune.initpos = neptune.position;
 
-			//#region
 			// merkury orbita
 			let mtg = new THREE.Geometry();
 			for (let i=0; i < parseInt(mercurydata.ows); i++){
@@ -687,12 +712,12 @@ IMPORTANT Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czase
 
 			//venus orbita
 			let vtg = new THREE.Geometry();
-			for (let i=0; i < parseInt(venusdata.ows); i++){vtg.vertices.push(new THREE.Vector3(venus.position)); }
+			for (let i=0; i < parseInt(venusdata.ows) ; i++){vtg.vertices.push(new THREE.Vector3(venus.position)); }
 			let vtr = new THREE.Line(vtg, tracematerial); vtr.geometry.dynamic = true; scene.add(vtr);
 
 			//ziemia orbita
 			let etg = new THREE.Geometry();
-			for (let i=0; i < parseInt(earthdata.ows) + 50; i++){
+			for (let i=0; i < parseInt(earthdata.ows) + 50 ; i++){
 				etg.vertices.push(new THREE.Vector3(earth.position));
 			}
 			let etr = new THREE.Line(etg, etracemat);
@@ -701,16 +726,16 @@ IMPORTANT Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czase
 
 			//mars orbita
 			let matg = new THREE.Geometry();
-			for (let i=0; i < parseInt(marsdata.ows) + 50; i++){
+			for (let i=0; i < parseInt(marsdata.ows) + 50 ; i++){
 				matg.vertices.push(new THREE.Vector3(mars.position));
 			}
 			let matr = new THREE.Line(matg, tracematerial);
 			matr.geometry.dynamic = true;
 			scene.add(matr);
 
-			//jowisz orbita 
+			//jowisz orbita jupiter
 			let jtg = new THREE.Geometry();
-			for (let i=0; i < parseInt(jupiterdata.ows) + 50; i++){
+			for (let i=0; i < parseInt(jupiterdata.ows) + 50 ; i++){
 				jtg.vertices.push(new THREE.Vector3(jupiter.position));
 			}
 			let jtr = new THREE.Line(jtg, tracematerial);
@@ -719,7 +744,7 @@ IMPORTANT Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czase
 
 			// saturn orbita
 			let stg = new THREE.Geometry();
-			for (let i=0; i < parseInt(saturndata.ows) + 50; i++){
+			for (let i=0; i < parseInt(saturndata.ows) + 50 ; i++){
 				stg.vertices.push(new THREE.Vector3(saturn.position));
 			}
 			let str = new THREE.Line(stg, tracematerial);
@@ -728,15 +753,23 @@ IMPORTANT Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czase
 
 			// uran orbita
 			let utg = new THREE.Geometry();
-			for (let i=0; i < parseInt(uranusdata.ows) + 50; i++){
+			for (let i=0; i < parseInt(uranusdata.ows) + 50 ; i++){
 				utg.vertices.push(new THREE.Vector3(uranus.position));
 			}
 			let utr = new THREE.Line(utg, tracematerial);
 			utr.geometry.dynamic = true;
 			scene.add(utr);
 
+			// neptun orbita
+			let ntg = new THREE.Geometry();
+			for (let i=0; i < parseInt(neptunedata.ows) + 50 ; i++){
+				ntg.vertices.push(new THREE.Vector3(neptune.position));
+			}
+			let ntr = new THREE.Line(ntg, tracematerial);
+			ntr.geometry.dynamic = true;
+			scene.add(ntr);
 
-			//#endregion
+
 
 			// dodaje punkt orbity
 			const addtrail = (planet,x,y,z,planettrace) => {
@@ -760,8 +793,8 @@ IMPORTANT Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czase
 				removetrail(matg, marsdata, mars);
 				removetrail(jtg, jupiterdata, jupiter);
 				removetrail(stg, saturndata, saturn);
-				removetrail(utg, uranusdata, uran);
-				// removetrail(ntg, neptunedata, neptune)
+				removetrail(utg, uranusdata, uranus);
+				removetrail(ntg, neptunedata, neptune)
 			;}
 
 			const showtrail = (planet_trail) => {planet_trail.visible = true;}
@@ -790,21 +823,21 @@ IMPORTANT Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czase
 
 
 				//NACHYLENIA PLANET:
-				mercury.rotation.x = -(mercurydata.tilt * Math.PI/180);
-				venus.rotation.x = -(venusdata.tilt * Math.PI/180);
-				earth.rotation.x = -(earthdata.tilt * Math.PI/180);
-				mars.rotation.x = -(marsdata.tilt * Math.PI/180);
-				jupiter.rotation.x = -(jupiterdata.tilt * Math.PI/180);
-				saturn.rotation.x = -(saturndata.tilt * Math.PI/180);
-				uranus.rotation.x = -(uranusdata.tilt * Math.PI/180);
-				// neptune.rotation.x = -(neptunedata.tilt * Math.PI/180);
+				mercury.rotation.x = -(mercurydata.axistilt * Math.PI/180);
+				venus.rotation.x = -(venusdata.axistilt * Math.PI/180);
+				earth.rotation.x = -(earthdata.axistilt * Math.PI/180);
+				mars.rotation.x = -(marsdata.axistilt * Math.PI/180);
+				jupiter.rotation.x = -(jupiterdata.axistilt * Math.PI/180);
+				saturn.rotation.x = -(saturndata.axistilt * Math.PI/180);
+				uranus.rotation.x = -(uranusdata.axistilt * Math.PI/180);
+				neptune.rotation.x = -(neptunedata.axistilt * Math.PI/180);
 			}
 
 			// ANIMATE
 			let i = 0;
+			let j = 0;
 			var animate = function () {
 			TWEEN.update();
-			updatelabelspositions();
 
 				// czestotliwosc odswiezania symulacji ( 40 FPS )
 				setTimeout( function() {
@@ -823,24 +856,49 @@ IMPORTANT Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czase
 				if(animationstate == true) {
 
 				//ustawienie planet po przeliczeniu ich pozycji (co 8 klatek)
-				if(++i % ((delay/40)*2) == 0) {
-					console.log("TIK: "+(1000/delay));
+				if(++i % 8 == 0) {
+					console.log("TIK, j: "+j);
+					updatelabelspositions();
+					++j;
 					updateplanetspositions(b2,b3,b4,b5,b6);	
-						addtrail(mercurydata, mercury.position.x, mercury.position.y, mercury.position.z, mtr);
-						addtrail(venusdata, venus.position.x, venus.position.y, venus.position.z, vtr);
-						addtrail(earthdata, earth.position.x, earth.position.y, earth.position.z, etr);
-						addtrail(marsdata, mars.position.x, mars.position.y, mars.position.z, matr);
-						addtrail(jupiterdata, jupiter.position.x, jupiter.position.y, jupiter.position.z, jtr);
-						addtrail(saturndata, saturn.position.x, saturn.position.y, saturn.position.z, str);
+						switch (j) {
+							case 1:
+								addtrail(mercurydata, mercury.position.x, mercury.position.y, mercury.position.z, mtr);
+							break;
+							case 2:
+								addtrail(venusdata, venus.position.x, venus.position.y, venus.position.z, vtr);
+							break;
+							case 3:
+								addtrail(earthdata, earth.position.x, earth.position.y, earth.position.z, etr);
+							break;
+							case 4:
+								addtrail(marsdata, mars.position.x, mars.position.y, mars.position.z, matr);
+							break;
+							case 5:
+								addtrail(jupiterdata, jupiter.position.x, jupiter.position.y, jupiter.position.z, jtr);
+								addtrail(mercurydata, mercury.position.x, mercury.position.y, mercury.position.z, mtr);
+							break;
+							case 6:
+								addtrail(saturndata, saturn.position.x, saturn.position.y, saturn.position.z, str);
+							break;
+							case 7:
+								addtrail(uranusdata, uranus.position.x, uranus.position.y, uranus.position.z, utr);
+							break;
+							case 8:
+								addtrail(neptunedata, neptune.position.x, neptune.position.y, neptune.position.z, ntr);
+								j = 0;
+							break;
+							default:
+							break;
+						}
 					i = 0;
 					document.getElementById("timespeed").innerText = 1000/delay;
 				}	
+				// console.log(i);
+				
 				
 				// pojawienie sie przycisku jesli ruszymy kamera
 				setTimeout(function() {
-					if ((parseInt(camera.position.y) < 145) || (parseInt(camera.position.y) > 155)) {
-						camreset.style.opacity = 1;
-					} else camreset.style.opacity = 0;
 					if (animationstate == true) {
 						document.getElementById("ppbtn").src = "icons/pause.png";
 						document.getElementById("pp").style.background = "#FF9933 !important";
@@ -876,10 +934,14 @@ IMPORTANT Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czase
                 renderer.render(scene, camera);
 				renderer2.render(scene, camera2);
 
+				if ((parseInt(camera.position.y) < 995) || (parseInt(camera.position.y) > 1005)) {
+						camreset.style.opacity = 1;
+				} else camreset.style.opacity = 0;
 				// draworbits = true;
             };
 			init();
-			if (tabfocus == true) {
+			let doanimate = true;
+			if ((tabfocus == true) && (doanimate == true)) {
 				animate();
 			};
 		</script>

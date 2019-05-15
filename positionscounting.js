@@ -50,7 +50,7 @@ const updateplanetspositions = (b2,b3,b4,b5,b6) => {
 
     // venus
     let vpos = calcplanetpos(b2, b3, b4, b5, b6, venusdata.ink, venusdata.an, venusdata.ph, venusdata.md, venusdata.dm, venusdata.eksorb, venusdata.ml)
-        tweenobject(venus,vpos,300);
+        tweenobject(venus,vpos,310);
         
     // ziemia
     let epos = calcplanetpos(b2, b3, b4, b5, b6, earthdata.ink, earthdata.an, earthdata.ph, earthdata.md, earthdata.dm, earthdata.eksorb, earthdata.ml);

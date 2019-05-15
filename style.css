@@ -391,8 +391,9 @@ background: url("textures/neptunemap.jpg");
 }
 #planetinfopanel {
 	position: absolute;
-	top: -100%;
-	right: 0px;
+	box-sizing: border-box;
+	top: 0px;
+	right: -350px;
 	width: 350px;
 	padding: 5px;
 	height: auto;
@@ -404,7 +405,7 @@ background: url("textures/neptunemap.jpg");
 }
 
 .infopanelvisible {
-	top: 0px !important;
+	right: 0px !important;
 }
 
 #planetinfopanel div {
@@ -415,7 +416,9 @@ background: url("textures/neptunemap.jpg");
 #plive {
 	margin: 0px;
 	padding: 0px;
-	display: none;
+	display: block;
+	opacity: 0;
+	transition: all .5s ease-in;
 }
 
 #canvas {
@@ -431,17 +434,17 @@ background: url("textures/neptunemap.jpg");
 
 #tinfop, #settingsbtn {
 	width: 40px;
-	height: 40px;
-	transform: translate(-50%,-50%);
-	position: absolute;
-	border-radius: 50%;
-	bottom: -75px;
-	left: 50%;
-	border: none;
-	background-color: inherit;
-	cursor: pointer;
-	box-sizing: border-box;
-	opacity: 1;
+    height: 40px;
+    transform: translate(-50%,-50%);
+    position: absolute;
+    border-radius: 50%;
+    top: 50%;
+    left: -10%;
+    border: none;
+    background-color: inherit;
+    cursor: pointer;
+    box-sizing: border-box;
+	opacity: 0;
 }
 
 #settingsbtn {
@@ -453,23 +456,27 @@ background: url("textures/neptunemap.jpg");
 	background-repeat: no-repeat;
 }
 
+.settingsbtnclass {
+	opacity: 1 !important;
+}
+
 #asidebtn {
 	/* content: ''; */
 	/* color: #DDD; */
 	display: block;
-	box-sizing: border-box;
-	position: absolute;
-	top: 40%;
-	left: 30%;
-	/* background: white; */
-	transform: translate(-50%, -50%);
-	transform: rotate(135deg);
-	border-bottom: 2px solid #3399ff;
-	border-left: 2px solid #3399ff;
-	width: 16px;
-	height: 16px;
-	transition: all .2s ease-in-out;
-	margin: 0px !important;
+    box-sizing: border-box;
+    position: absolute;
+    top: 30%;
+    left: 23%;
+    /* background: white; */
+    transform: translate(-50%, -50%);
+    transform: rotate(225deg);
+    border-bottom: 2px solid #3399ff;
+    border-left: 2px solid #3399ff;
+    width: 16px;
+    height: 16px;
+    transition: all .2s ease-in-out;
+    margin: 0px !important;
 }
 #asidebtn:hover {
 	border-bottom: 2px solid #DDD;

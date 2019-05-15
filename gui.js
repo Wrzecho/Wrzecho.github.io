@@ -63,14 +63,14 @@ const showasidebar = () => {
   asidebar.classList.add("infopanelvisible");
   asidebutton.style.opacity = 1;
   setTimeout(function() {
-    plive.style.display = "block";
+    plive.style.opacity = 1;
   }, 500);
 };
 const hideasidebar = () => {
   asidebar.classList.remove("infopanelvisible");
   asidebutton.style.opacity = 0;
   setTimeout(function() {
-    plive.style.display = "none";
+    plive.style.opacity = 0;
   }, 500);
   animationstate = true;
 };

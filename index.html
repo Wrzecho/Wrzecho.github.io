@@ -24,7 +24,7 @@ IMPORTANT Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czase
 	</head>
 	<body>
 		<div class="show" id="settingspanel" >
-			<div id="settingsbtn" onclick="togglesettingsbar()"></div>
+			<div id="settingsbtn" class="settingsbtnclass" onclick="togglesettingsbar()"></div>
 			<div class="dateinfo" id="infodate"></div>
                 <div class="row">
                     <ul>
@@ -75,7 +75,7 @@ IMPORTANT Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czase
 			</div>
 		</div>
 		<div id="info">
-			Symulator eksploracji układu słonecznego - v16<br>
+			Symulator eksploracji układu słonecznego - v18<br>
 			Upływ czasu: <p id="timespeed"></p> dni / sekundę
 		</div>
 
@@ -247,12 +247,17 @@ IMPORTANT Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czase
 			let controls = new THREE.OrbitControls( camera );
 			controls.rotateSpeed = 1.0;
 			controls.zoomSpeed = 0.4;
-			controls.panSpeed = 0.5; 
+			controls.panSpeed = 0.4; 
 			controls.noZoom = false;
 			controls.noPan = false;
-			controls.staticMoving = true;
+			// controls.staticMoving = true;
 			controls.dynamicDampingFactor = 0.3;
-			controls.keys = [ 65, 83, 68 ];
+			controls.keys = {
+				LEFT: 37, //left arrow
+				UP: 38, // up arrow
+				RIGHT: 39, // right arrow
+				BOTTOM: 40 // down arrow
+			}
 			// controls.addEventListener( 'change', animate );
 
 			// window resize
@@ -358,7 +363,6 @@ IMPORTANT Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czase
 			// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 			// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 			// DODAWANIE OBIEKTÓW DO SCENY
-
 			//#region
 
 			// rozmiar ziemii
@@ -688,10 +692,6 @@ IMPORTANT Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czase
 			// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 			// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-			// rysowanie orbit za planetami (dla 1 planety)
-			// let trails_add_length = 30;
-			// dane wyjsciowe dla rysunków orbit
-			// updateplanetspositions();
 			mercury.initpos = mercury.position;
 			venus.initpos = venus.position;
 			earth.initpos = earth.position;
@@ -838,7 +838,6 @@ IMPORTANT Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czase
 			let j = 0;
 			var animate = function () {
 			TWEEN.update();
-			updatelabelspositions();
 
 				// czestotliwosc odswiezania symulacji ( 40 FPS )
 				setTimeout( function() {
@@ -859,6 +858,7 @@ IMPORTANT Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czase
 				//ustawienie planet po przeliczeniu ich pozycji (co 8 klatek)
 				if(++i % 8 == 0) {
 					console.log("TIK, j: "+j);
+					updatelabelspositions();
 					++j;
 					updateplanetspositions(b2,b3,b4,b5,b6);	
 						switch (j) {
@@ -899,9 +899,6 @@ IMPORTANT Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czase
 				
 				// pojawienie sie przycisku jesli ruszymy kamera
 				setTimeout(function() {
-					if ((parseInt(camera.position.y) < 145) || (parseInt(camera.position.y) > 155)) {
-						camreset.style.opacity = 1;
-					} else camreset.style.opacity = 0;
 					if (animationstate == true) {
 						document.getElementById("ppbtn").src = "icons/pause.png";
 						document.getElementById("pp").style.background = "#FF9933 !important";
@@ -937,10 +934,14 @@ IMPORTANT Obsługa aktualizacji aplikacji i pauzy animacji po zasterowaniu czase
                 renderer.render(scene, camera);
 				renderer2.render(scene, camera2);
 
+				if ((parseInt(camera.position.y) < 995) || (parseInt(camera.position.y) > 1005)) {
+						camreset.style.opacity = 1;
+				} else camreset.style.opacity = 0;
 				// draworbits = true;
             };
 			init();
-			if (tabfocus == true) {
+			let doanimate = true;
+			if ((tabfocus == true) && (doanimate == true)) {
 				animate();
 			};
 		</script>

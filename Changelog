@@ -104,9 +104,42 @@ v16
 -	dodano Saturna
 
 v17
+-	dodano rysowanie orbity za wszystkimi planetami
+-	nachylenie Ziemii
+-	zoom Camera2
+-	dodanie Urana i Neptuna
+- 	optymalizacja aplikacji (addtrails)
+
+v18 - w trakcie
+
+
+*** TO DO ***
+- DONE dodać resztę planet 
+- DONE "aura" symulująca "atmosfery planet" ZROBIONE DLA ZIEMII (ale niespecjalnie podoba mi się efekt)
+- DONE nachylenia planet względem słońca 
+- DONE oskryptować checkboxy pokazujące/ukrywające orbity  (do lekkich korekt)
+- DONE pierścienie saturna 
+- DONE pokazywanie/ukrywanie labelek planet 
+- panel z informacjami o planetach WSTĘPNIE PRZYGOTOWANY DO ROZWINIECIA
+- opisać przycisk do realnej skali rozmiarów planet !!! 
+- przemyśleć jakie efekty threejs mozna jeszcze zaimplementować
+- dodać "efekt glow" na Słońce 
+- prędkośc obrotowa planet wokół własnych osi
+- księżyce, ich obroty / podróż wokół planet (możliwie najdokładniej fizycznie)
+- raycaster na najazd myszą
+	- podswietlenie obiektu (lub przyciemnienie) gdy mysz znajduje się nad nim lub jest kliknięty
+	- po kliknięciu w obiekt ma się pokazac asidepanel z informacjami o nim
+- dodac informacje o planetach do "obiektów"
+- możliwośc ukrycia / pokazania pasa asteroid
+- możliwość ukrycia / pokazania gwiazd
+- skala na odleglosci miedzy planetami
+- obsługa toggleinfobar (dla danych planet - sposob wywolania i parametry wywolania funkcji onclick)
+- obsługa niemożności odpauzowania animacji w momencie gdy jest pokazany asidepanel ??
+- rysowanie orbit przed rozpoczęciem animacji (nie mam pomysłu) ???
+	- wtedy nie resetujemy orbit przy zmianie daty, conajwyzej je ukrywamy/pokazujemy
 -	ustawianie domyslnie dzisiejszej daty w datepickerze
 		(trzeba dodać IF zeby był format rrrr-MM-dd a nie rrrr-m-d)
-		linie: 688 - 692;
+		LUB zmienić jedno pole daty na 3 osobne - kompatybilniejsze z większą ilością przeglądarek
 -	informacje o planetach:
 	-	nazwa 
 	-	widok z kamerki
@@ -123,42 +156,7 @@ v17
 	-	średnia gęstość
 	-	skład "atmosfery"
 -	efekt glow na słońcu (poświata) +- (chcilbym coś lepszego)
--	dodać rysowanie orbity za saturnem
--	wprowadzenie rysowania orbit przed rozpoczęciem animacji (NIE MAM POMYSLU)
--	nachylenie Ziemii
--	zoom Camera2
--	dodanie Urana i Neptuna
-- 	optymalizacja aplikacji (addtrails)
-
-
-*** TO DO ***
-- dodać resztę planet
-- prędkośc obrotowa planet
-- saturn albo uran obraca się pod kątem 90*
-- księżyce, ich obroty / podróż wokół planet (możliwie najdokładniej fizycznie)
-- raycaster na najazd myszą
-- panel z informacjami o planetach
-- dodac informacje o planetach do "obiektów"
-- możliwośc ukrycia / pokazania pasa asteroid
-- możliwość ukrycia / pokazania gwiazd
-- skala na odleglosci miedzy planetami
-- jakas realna miarka odleglosci
-- "aura" symulująca "atmosfery planet"
-- nachylenia planet względem słońca (nie wiem czy zauważalne)
-- przemyśleć jakie efekty threejs mozna jeszcze zaimplementować
-- dodać canvasy z nazwami planet pojawiające się po najechaniu myszką na planetę (lub jej odpowiednik na dolnym panelu)
-- dodać "efekt glow" na Słońce 
-- opisać przycisk do realnej skali rozmiarów planet !!!
-- oskryptować checkboxy pokazujące/ukrywające orbity
-- pierścienie saturna
-- pokazywanie/ukrywanie labelek planet
-- obsługa toggleinfobar (dla danych planet - sposob wywolania i parametry wywolania funkcji onclick)
-- obsługa niemożności odpauzowania animacji w momencie gdy jest pokazany asidepanel ??
-
-- rysowanie orbit przed rozpoczęciem animacji (ewentualnie) ???
-	- wtedy nie resetujemy orbit przy zmianie daty, conajwyzej je ukrywamy/pokazujemy
-
-
+-	zmniejszenie wagi tekstur (zostawiamy wysoką jakość tekstury tylko dla ZIEMII) ???
 
 
 *** NAPOTKANE PROBLEMY ***
@@ -166,22 +164,21 @@ v17
 - przy skalowaniu odległości - algorytm bierze pod uwagę 
 przy obliczaniu pozycji odległość więc "korekę" 
 odległości trzeba dopasować też do faktycznej średniej 
-ogleslosci planety od slonca w związku z tym ten rozmiar 
-korekcji zmniejsza się z każdą kolejną planetą.
-
-- trzeba deaktywować sterowanie kamerą gdy mysz najeżdża na panel ustawień
- (zmienna mfc sprawdzana przy ruchu myszą, i jeśli pokrywa się z rozmiarem okna ustawień to zostaje odcięte sterowanie)
+odleglosci planety od slonca w związku z tym ten rozmiar 
+korekcji zmniejsza się z każdą kolejną planetą - dzięki temu wygląda to bardziej "przystępnie".
 
 - nie da się zmienić rozmiaru geometrii ksztaltu w trakcie animacji - trzeba korzystać ze skalowania
  w związku z tym, początkowe wartości geometrii ustawiłem na 1, a następnie po dodaniu do sceny obiektów przeskalowałem ich rozmiary
  najpierw do wartości "przyjemnych dla oka" ale pozwoli to też w łatwy sposób przełączać się międz realnymi / "przyjaznymi" i ustawionymi przez uzytkownika rozmiarami
 
 - przy wprowadzeniu TweenJS do plynnego poruszania planetami napotkałem problem z błędnym rysowaniem pierwszego "punktu" orbit
- (ze względu na pierwszy targetpos zainicjowany w punkcie 0,0,0) - problem rozwiązałem pomijając za pomocą
- instrukcji warunkowej IF (draworbits == true) rysowanie pierwszego punktu orbity, a po jednorazowym niespełnieniu warunku, przestawiłem zmienną
- draworbits na TRUE.
+ (ze względu na pierwszy targetpos zainicjowany w punkcie 0,0,0) - problem rozwiązałem ustawiając planety w odpowiednich miejscach jeszcze przed rozpoczęciem animacji
 
 - po zaimplementowaniu wszystkich planet ujawniły się problemy optymalizacyjne polegające na przycinaniu się aplikacji.
 Okazało się, że powodem takiego działania był duży koszt obliczeniowy wymagany przy rysowaniu orbit planet za każdym razem gdy zmienia się ich pozycja.
 Rozwiązaniem problemu była zmiana sposoby rysowania orbit, zostało to podzielona dla każdej z planet w zależności od prędkości z jaką porusza się w aplikacji.
 Np o ile Merkury porusza się bardzo szybko i dla niego trzeba często rysować fragmenty orbit tak im dalsza od Słońca planeta tym rzadziej wymaga aktualizowania orbity.
+
+- problemy z optymalizacją i szybko rosnącymi temparaturami - DO ROZWIAZANIA
+- orbity nie chcą rysować się przed animacją - DO ROZWIAZANIA
+- trzeba deaktywować sterowanie kamerą gdy mysz najeżdża na panel ustawień (mam pomysł ale zastanawiam się nad sensem wprowadzania takiej zmiany)
