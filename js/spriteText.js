@@ -193,3 +193,5 @@
   };
 
 })();
+
+console.log("spritetext.js loaded!");

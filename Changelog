@@ -109,8 +109,14 @@ v17
 -	zoom Camera2
 -	dodanie Urana i Neptuna
 - 	optymalizacja aplikacji (addtrails)
+-	oskryptowano przycisk realnej skali rozmiarow planet
 
 v18 - w trakcie
+-	geometria planet sprowadzona do jednej zmiennej
+-	geometria pierscieni sprowdzona do jednej zmiennej
+-	poprawiono pokaz/ukryj orbity (nowy sposob wyswietlania orbit)
+-	dodano pokaz/ukryj gwiazdy
+-	ukrywanie orbit gdy pokazujemy boczny panel z informacjami
 
 
 *** TO DO ***
@@ -120,8 +126,8 @@ v18 - w trakcie
 - DONE oskryptować checkboxy pokazujące/ukrywające orbity  (do lekkich korekt)
 - DONE pierścienie saturna 
 - DONE pokazywanie/ukrywanie labelek planet 
+- DONE opisać przycisk do realnej skali rozmiarów planet 
 - panel z informacjami o planetach WSTĘPNIE PRZYGOTOWANY DO ROZWINIECIA
-- opisać przycisk do realnej skali rozmiarów planet !!! 
 - przemyśleć jakie efekty threejs mozna jeszcze zaimplementować
 - dodać "efekt glow" na Słońce 
 - prędkośc obrotowa planet wokół własnych osi
@@ -159,6 +165,7 @@ v18 - w trakcie
 -	zmniejszenie wagi tekstur (zostawiamy wysoką jakość tekstury tylko dla ZIEMII) ???
 
 
+
 *** NAPOTKANE PROBLEMY ***
 
 - przy skalowaniu odległości - algorytm bierze pod uwagę 
@@ -179,6 +186,7 @@ Okazało się, że powodem takiego działania był duży koszt obliczeniowy wyma
 Rozwiązaniem problemu była zmiana sposoby rysowania orbit, zostało to podzielona dla każdej z planet w zależności od prędkości z jaką porusza się w aplikacji.
 Np o ile Merkury porusza się bardzo szybko i dla niego trzeba często rysować fragmenty orbit tak im dalsza od Słońca planeta tym rzadziej wymaga aktualizowania orbity.
 
-- problemy z optymalizacją i szybko rosnącymi temparaturami - DO ROZWIAZANIA
+- problemy z optymalizacją i szybko rosnącymi temparaturami - zmniejszono limit klatek na sekundę do 20, ponadto wysokie użycie pamięci RAM niestety nadal jest problemem, ale za to przycięcia
+animacji udało się rozwiązać gdyż były spowodowane rysowaniem orbit, zmieniłem to zatem na swój autorski sposób kreślenia śladów.
 - orbity nie chcą rysować się przed animacją - DO ROZWIAZANIA
 - trzeba deaktywować sterowanie kamerą gdy mysz najeżdża na panel ustawień (mam pomysł ale zastanawiam się nad sensem wprowadzania takiej zmiany)

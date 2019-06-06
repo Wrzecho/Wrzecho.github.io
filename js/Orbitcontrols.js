@@ -585,3 +585,4 @@ THREE.OrbitControls = function ( object, domElement, localElement ) {
 };
 
 THREE.OrbitControls.prototype = Object.create( THREE.EventDispatcher.prototype );
+console.log("orbitcontrols.js loaded!");

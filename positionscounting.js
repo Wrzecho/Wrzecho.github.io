@@ -80,3 +80,5 @@ const updateplanetspositions = (b2,b3,b4,b5,b6) => {
         neptunedata.md, neptunedata.dm, neptunedata.eksorb, neptunedata.ml);
             tweenobject(neptune,neptunepos,40);
 }
+
+console.log("positionscounting.js loaded!");

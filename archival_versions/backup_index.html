@@ -27,8 +27,6 @@
                 <div class="row">
                     <p class="podajdate">Podaj datę:</p><input type="date" id="data" class="datepickerfield" placeholder="Wybierz Datę">
 					<a class="settings_button sd" onclick="ustawczas()">Potwierdź datę</a>
-				</div>
-				<div class="row">
 					<div class="slidecontainer">
 						<p>Skala rozmiaru planet:</p>
 						<a class="realscale" id="realpscale" onclick="realscaleset()">Realna</a>
@@ -36,41 +34,26 @@
 						<input type="range" min="0.5" max="5" value="1" step="0.1" class="slider" id="psizerange">
 						<div id="rangeval"></div>
 					</div>
-				</div>
-				<div class="row">
-					<div class="labelsvisibility visibilitycontainer">
-						<p>Pokaż/ukryj nazwy planet: </p>
-						<input type="checkbox" id="labelview" name="" checked onclick="labelview()">
+					<div class="labelsvisibility">
+						Pokaż/ukryj nazwy planet: <input type="checkbox" id="labelview" name="" checked onclick="labelview()">
 					</div>
-				</div>
-				<div class="row">
-					<div class="starsvisibility  visibilitycontainer">
-						<p>Pokaż/ukryj gwiazdy: </p>
-						<input type="checkbox" id="starsview" name="" checked onclick="togglestars(this)">
-					</div>
-				</div>
-				<div class="row">
-					<div class="asteroidsvisibility  visibilitycontainer">
-						<p>Pokaż/ukryj pas asteroid: </p>
-						<input type="checkbox" id="asteroidcheckbox" name="" checked onclick="asteroidview()">
-					</div>
-				</div>
-				<div class="row">
 					<div class="orbitconfigcontainer">
-						<div class="allorbitcheck visibilitycontainer" >
-							<p>Pokaż/ukryj wszystkie orbity: </p>
-							<input type="checkbox" id="orbitview" checked onclick="togglealltrails(this)"></div>
+						<div class="allorbitcheck">
+							Pokaż/ukryj wszystkie orbity: 
+							<input type="checkbox" id="orbitview" checked onclick="orbitview()"></div>
+							lub tylko wybrane:
 						<div class="specifiedorbitchecks">
-							<div><p>M</p><input type="checkbox" name="" id="" checked onclick="toggletrail(metr, this)"></div>
-							<div><p>W</p><input type="checkbox" name="" id="" checked onclick="toggletrail(vetr, this)"></div>
-							<div><p>Z</p><input type="checkbox" name="" id="" checked onclick="toggletrail(eatr, this)"></div>
-							<div><p>M</p><input type="checkbox" name="" id="" checked onclick="toggletrail(matr, this)"></div>
-							<div><p>J</p><input type="checkbox" name="" id="" checked onclick="toggletrail(jutr, this)"></div>
-							<div><p>S</p><input type="checkbox" name="" id="" checked onclick="toggletrail(satr, this)"></div>
-							<div><p>U</p><input type="checkbox" name="" id="" checked onclick="toggletrail(urtr, this)"></div>
-							<div><p>N</p><input type="checkbox" name="" id="" checked onclick="toggletrail(netr, this)"></div>
+							<div><p>M</p><input type="checkbox" name="" id="" checked onclick="toggletrail(mtr)"></div>
+							<div><p>W</p><input type="checkbox" name="" id="" checked onclick="toggletrail(vtr)"></div>
+							<div><p>Z</p><input type="checkbox" name="" id="" checked onclick="toggletrail(etr)"></div>
+							<div><p>M</p><input type="checkbox" name="" id="" checked onclick="toggletrail(matr)"></div>
+							<div><p>J</p><input type="checkbox" name="" id="" checked onclick="toggletrail(jtr)"></div>
+							<div><p>S</p><input type="checkbox" name="" id="" checked onclick="toggletrail(str)"></div>
+							<div><p>U</p><input type="checkbox" name="" id="" checked onclick="toggletrail(utr)"></div>
+							<div><p>N</p><input type="checkbox" name="" id="" checked onclick="toggletrail(ntr)"></div>
 						</div>
-					</div>
+				</div>
+				<div class="row">
 				</div>
                 <div class="timestatus">
                     <div class="tstat"></div>
@@ -84,23 +67,20 @@
 		</div>
 
 		<!-- INFORMACJE O PLANECIE -->
-		<div id="pinfocontainer">
-			<div id="tinfop" onclick="hideasidebar(); showalltrails();"><div id="asidebtn"></div></div>
-			<div id="planetinfopanel">
-						<div id="pname">Nazwa</div>
-						<div id="plive">
-							<div id="canvas"></div>
-						</div>
-						<div class="descriptioncontainer">
-							<div class="category" id="pdescription">Opis
-								<br><p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Assumenda suscipit non voluptate rem ratione consectetur illo similique, voluptatum a culpa enim, accusantium consequatur, sit dolorem ducimus fuga corporis eum. Ullam!</p></div>
-							<div class="category" id="typ">Typ <br> <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Assumenda suscipit non voluptate rem ratione consectetur illo similique, voluptatum a culpa enim, accusantium consequatur, sit dolorem ducimus fuga corporis eum. Ullam!</p></div>
-							<div class="category" id="size">Srednica <br> <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Assumenda suscipit non voluptate rem ratione consectetur illo similique, voluptatum a culpa enim, accusantium consequatur, sit dolorem ducimus fuga corporis eum. Ullam!</p></div>
-							<div class="category" id="meandistance">Sredni dystans od Słońca <br> <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Assumenda suscipit non voluptate rem ratione consectetur illo similique, voluptatum a culpa enim, accusantium consequatur, sit dolorem ducimus fuga corporis eum. Ullam!</p></div>
-							<div class="category" id="velocity">Srednia predkosc orbitalna <br> <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Assumenda suscipit non voluptate rem ratione consectetur illo similique, voluptatum a culpa enim, accusantium consequatur, sit dolorem ducimus fuga corporis eum. Ullam!</p></div>
-							<div class="category" id="mass">Masa <br> <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Assumenda suscipit non voluptate rem ratione consectetur illo similique, voluptatum a culpa enim, accusantium consequatur, sit dolorem ducimus fuga corporis eum. Ullam!</p></div>
-						</div>
-					</div>
+		<div id="planetinfopanel">
+			<div id="tinfop" onclick="hideasidebar();"><div id="asidebtn"></div></div>
+			<div id="pname">Nazwa</div>
+			<div id="plive">
+				<div id="canvas"></div>
+			</div>
+			<div class="descriptioncontainer">
+				<div class="category" id="pdescription">Opis</div>
+				<div class="category" id="typ">Typ</div>
+				<div class="category" id="size">Srednica</div>
+				<div class="category" id="meandistance">Sredni dystans od Słońca</div>
+				<div class="category" id="velocity">Srednia predkosc orbitalna</div>
+				<div class="category" id="mass">Masa</div>
+			</div>
 		</div>
 
 		</div>
@@ -118,46 +98,46 @@
 			</div>
 			<div class="planetsizecontainer">
 				<div class="plabel">Merkury</div>
-				<div class="hitbox" id="mercuryhitbox" onclick="showasidebar();toggleinfobar(mercury, mercurydata); hidealltrails();">
+				<div class="hitbox" id="mercuryhitbox" onclick="showasidebar();toggleinfobar(mercury, mercurydata)">
 					<div class="planet" id="mercury"></div>
 				</div>
 			</div>
 			<div class="planetsizecontainer">
 				<div class="plabel">Wenus</div>
-				<div class="hitbox" id="venushitbox" onclick="showasidebar();toggleinfobar(venus, venusdata); hidealltrails();">
+				<div class="hitbox" id="venushitbox" onclick="showasidebar();toggleinfobar(venus, venusdata)">
 					<div class="planet" id="venus"></div>
 				</div>
 			</div>
 			<div class="planetsizecontainer">
 					<div class="plabel">Ziemia</div>
-				<div class="hitbox" id="earthhitbox" onclick="showasidebar();toggleinfobar(earth, earthdata); hidealltrails();">
+				<div class="hitbox" id="earthhitbox" onclick="showasidebar();toggleinfobar(earth, earthdata)">
 					<div class="planet" id="earth"></div>
 				</div>
 			</div>
 			<div class="planetsizecontainer">
 					<div class="plabel">Mars</div>
-				<div class="hitbox" id="marshitbox" onclick="showasidebar();toggleinfobar(mars, marsdata); hidealltrails();">
+				<div class="hitbox" id="marshitbox" onclick="showasidebar();toggleinfobar(mars, marsdata)">
 					<div class="planet" id="mars"></div>
 				</div>
 			</div>
 			<div class="planetsizecontainer">
 					<div class="plabel">Jowisz</div>
-					<div class="hitbox" id="jupiterhitbox" onclick="showasidebar();toggleinfobar(jupiter, jupiterdata); hidealltrails();">
+					<div class="hitbox" id="jupiterhitbox" onclick="showasidebar();toggleinfobar(jupiter, jupiterdata)">
 				<div class="planet" id="jupiter"></div></div>
 			</div>
 			<div class="planetsizecontainer">
 					<div class="plabel">Saturn</div>
-					<div class="hitbox" id="saturnhitbox" onclick="showasidebar();toggleinfobar(saturn, saturndata); hidealltrails();">
+					<div class="hitbox" id="saturnhitbox" onclick="showasidebar();toggleinfobar(saturn, saturndata)">
 				<div class="planet" id="saturn"></div></div>
 			</div>
 			<div class="planetsizecontainer">
 					<div class="plabel">Uran</div>
-					<div class="hitbox" id="uranushitbox" onclick="showasidebar();toggleinfobar(uranus, uranusdata); hidealltrails();">
+					<div class="hitbox" id="uranushitbox" onclick="showasidebar();toggleinfobar(uranus, uranusdata)">
 				<div class="planet" id="uranus"></div></div>
 			</div>
 			<div class="planetsizecontainer">
 					<div class="plabel">Neptun</div>
-					<div class="hitbox" id="neptunehitbox" onclick="showasidebar();toggleinfobar(neptune, neptunedata); hidealltrails();">
+					<div class="hitbox" id="neptunehitbox" onclick="showasidebar();toggleinfobar(neptune, neptunedata)">
 				<div class="planet" id="neptune"></div></div>
 			</div>
 		</div>
@@ -165,7 +145,6 @@
 		<script src="datesettings.js"></script> <!--funkcje zmiany czasu-->
 		<script src="positionscounting.js"></script><!--obliczanie pozycji planet-->
 		<script src="gui.js"></script><!--interakcje z interface-->
-		<script src="trails.js"></script>
 		<script src="js/Projector.js"></script>
 		<script src="js/Tween.js" ></script>
 		<script src="js/Orbitcontrols.js" ></script>
@@ -205,7 +184,7 @@
 			let uranusdata = 
 			{id: 7, name: 'Uran' , ows: 365*165, ink: 0.77343,an: 74.0954,ph: 175.6807,md: 19.30181,dm: 0.01162295,eksorb: 0.0428959,ml: 303.18967, axistilt: 97.8};
 			let neptunedata = 
-			{id: 8, name: 'Neptun' , ows: 365*249, ink: 1.7681,an: 131.7925,ph: 7.206,md: 30.26664,dm: 0.005919282,eksorb: 0.0102981,ml: 299.8641, axistilt: 28.3};
+			{id: 8, name: 'Naptun' , ows: 365*249, ink: 1.7681,an: 131.7925,ph: 7.206,md: 30.26664,dm: 0.005919282,eksorb: 0.0102981,ml: 299.8641, axistilt: 28.3};
 
 
 			// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -274,7 +253,7 @@
 				{
 					mfc.x = event.clientX;
 					mfc.y = event.clientY;
-					if (((mfc.x <= settingspanel.offsetWidth) && (mfc.y <= settingspanel.offsetHeight)) || (asidebar.classList == 'infopanelvisible')) {
+					if ((mfc.x <= settingspanel.offsetWidth) && (mfc.y <= settingspanel.offsetHeight)){
 						controls.enabled = false;
 						// console.log("x: "+mfc.x+" y: "+mfc.y);
 					} else controls.enabled = true;
@@ -374,11 +353,9 @@
 			scene.add(universe);
 
 			//gwiazdy
-			let stars = new THREE.Object3D();
-			scene.add(stars);
-			let stargeo = new THREE.SphereGeometry( 1, 5, 5);
+			let stargeo = new THREE.SphereGeometry( 0.3, 9, 9);
 			let starmat =  new THREE.MeshPhongMaterial( { color:0xFFFFFF} );
-			for ( let i = 0; i < 100; i ++ ) {
+			for ( let i = 0; i < 300; i ++ ) {
 					let mesh = new THREE.Mesh( stargeo, starmat );
 					mesh.position.x = ( Math.random() - 0.5 ) * unisize;
 					mesh.position.y = ( Math.random() - 0.5 ) * unisize;
@@ -387,36 +364,15 @@
 					mesh.castShadow = false;
 					mesh.receiveShadow = false;
 					mesh.matrixAutoUpdate = false;
-					stars.add( mesh );
+					scene.add( mesh );
 				}
 
-			// pas asteroid
-			let asteroidbelt = new THREE.Object3D();
-			scene.add(asteroidbelt);
-			let astrogeo = new THREE.SphereGeometry (1, 4, 4);
-			let astromat = new THREE.MeshPhongMaterial ({color: 0xffffff} );
-			for ( let i = 0; i < 800; i ++ ) {
-				let mesh = new THREE.Mesh( astrogeo, astromat );
-				let radius = (Math.random()-0.5)*80+520;
-                let randomY = (Math.random()-0.5)*30;
-				let posx = Math.cos(i)*radius;
-				mesh.position.x = (Math.cos(i))*radius;
-				mesh.position.z = (Math.sin(i))*radius;
-				mesh.position.y = randomY;
-				mesh.castShadow = false;
-				mesh.receiveShadow = false;
-				mesh.updateMatrix();
-				mesh.matrixAutoUpdate = false;
-				asteroidbelt.add(mesh);
-			}
-
-			// namelabels i geometria planet i pierscieni
+			// namelabels
 			let namelabels = [];
-			let planetgeometry = new THREE.SphereGeometry(1,25,25);
-			let ringsgeometry = new THREE.SphereGeometry(0.35, 4, 4);
+
 
 			//slonce + swiatlo
-			let sungeo = new THREE.SphereGeometry( 75, 30, 30 );
+			let sungeo = new THREE.SphereGeometry( 75, 100, 100 );
 			let sun = new THREE.PointLight( 0xFFFFFF, 1, 0, 2 );
 			let suntexture = new THREE.TextureLoader().load('textures/sunmap.jpg');
 			let sunmaterial = new THREE.MeshBasicMaterial( { color: 0xFFFFFF, map: suntexture} );
@@ -440,9 +396,10 @@
 			scene.add(ambientlight);
 		
 			// merkury
+			let mercgeo = new THREE.SphereGeometry(1,50,50);
 			let mercurytexture = new THREE.TextureLoader().load('textures/mercurymap.jpg');
 			let mercurymat = new THREE.MeshPhongMaterial( { color: 0xFFFFFF, map: mercurytexture} );
-			let mercury = new THREE.Mesh(planetgeometry,mercurymat);
+			let mercury = new THREE.Mesh(mercgeo,mercurymat);
 			let meinitscale = 9;
 			mercury.receiveShadow = false;
 			mercury.castShadow = false;
@@ -457,9 +414,10 @@
 			scene.add(mercurylabel);
 
 			//venus
+			let veng = new THREE.SphereGeometry(1,50,50);
 			let venustexture = new THREE.TextureLoader().load('textures/venusmap.jpg');
 			let venusmat = new THREE.MeshPhongMaterial( { color: 0xFFFFFF, map: venustexture} );
-			let venus = new THREE.Mesh(planetgeometry,venusmat);
+			let venus = new THREE.Mesh(veng,venusmat);
 			let veinitscale = 11;
 			venus.receiveShadow = false;
 			venus.castShadow = false;
@@ -474,9 +432,10 @@
 			scene.add(venuslabel);
 
 			//ziemia + ksiezyc
+			let earthg = new THREE.SphereGeometry(1,50,50);
 			let earthtexture = new THREE.TextureLoader().load('textures/earthmap1k.jpg');
 			let earthm = new THREE.MeshPhongMaterial( { color: 0xFFFFFF, map: earthtexture } );	
-			let earth = new THREE.Mesh(planetgeometry,earthm);
+			let earth = new THREE.Mesh(earthg,earthm);
 			let eainitscale = 12;
 			earth.receiveShadow = false;
 			earth.castShadow = false;
@@ -493,7 +452,7 @@
 			let eaglowmat = new THREE.MeshLambertMaterial({ color: 0x99DDff, transparent: true, opacity: 0.4});
 			let eaglowpivot = new THREE.Object3D();
 			earth.add(eaglowpivot);
-			let eaglow = new THREE.Mesh (planetgeometry, eaglowmat);
+			let eaglow = new THREE.Mesh (earthg, eaglowmat);
 			eaglow.scale.set(1.1,1.1,1.1);
 			eaglowpivot.add(eaglow);
 			// księżyc
@@ -501,16 +460,17 @@
 			earth.add( earthPivot );
 			let moontexture = new THREE.TextureLoader().load('textures/moonmap.jpg');
 			let moonmat = new THREE.MeshPhongMaterial( { color: 0xFFFFFF, map: moontexture } );
-			let moon = new THREE.Mesh( planetgeometry, moonmat );
+			let moon = new THREE.Mesh( earthg, moonmat );
 			moon.position.x = 3;
 			moon.scale.set(0.25, 0.25, 0.25);
 			moon.receiveShadow = true;
 			earthPivot.add( moon );
 
 			//mars
+			let marsg = new THREE.SphereGeometry(1,50,50);
 			let marstexture = new THREE.TextureLoader().load('textures/marsmap.jpg');
 			let marsmat = new THREE.MeshPhongMaterial( { color: 0xFFFFFF, map: marstexture } );
-			let mars = new THREE.Mesh(planetgeometry,marsmat);
+			let mars = new THREE.Mesh(marsg,marsmat);
 			let mainitscale = 10;
 			mars.receiveShadow = false;
 			mars.castShadow = false;
@@ -525,9 +485,10 @@
 			scene.add(marslabel);
 
 			//jowisz
+			let jupiterg = new THREE.SphereGeometry(1,50,50);
 			let jupitertexture = new THREE.TextureLoader().load('textures/jupitermap.jpg');
 			let jupitermat = new THREE.MeshPhongMaterial( { color: 0xFFFFFF, map: jupitertexture } );
-			let jupiter = new THREE.Mesh(planetgeometry,jupitermat);
+			let jupiter = new THREE.Mesh(jupiterg,jupitermat);
 			let juinitscale = 25;
 			jupiter.receiveShadow = false;
 			jupiter.castShadow = false;
@@ -542,9 +503,10 @@
 			scene.add(jupiterlabel);
 
 			//saturn
+			let saturng = new THREE.SphereGeometry(1,50,50);
 			let saturntexture = new THREE.TextureLoader().load('textures/saturnmap.jpg');
 			let saturnmat = new THREE.MeshPhongMaterial( { color: 0xFFFFFF, map: saturntexture } );
-			let saturn = new THREE.Mesh(planetgeometry,saturnmat);
+			let saturn = new THREE.Mesh(saturng,saturnmat);
 			let sainitscale = 22;
 			saturn.receiveShadow = false;
 			saturn.castShadow = false;
@@ -559,7 +521,7 @@
 			saturn.add( saturnPivot );
 			saturnPivot.rotation.x = 80;
 			for ( let i = 0; i < 200; i ++ ) {
-				let mesh = new THREE.Mesh( ringsgeometry, saturnringmat );
+				let mesh = new THREE.Mesh( stargeo, saturnringmat );
 				mesh.scale.set(0.1 , 0.1, 0.1);
 				let radius = (Math.random()-0.5)*1.2+ 2.2;
                 let randomZ = (Math.random()-0.5)*0.2;
@@ -580,9 +542,10 @@
 			scene.add(saturnlabel);
 
 			//uran
+			let uranusg = new THREE.SphereGeometry(1,50,50);
 			let uranustexture = new THREE.TextureLoader().load('textures/uranusmap.jpg');
 			let uranusmat = new THREE.MeshPhongMaterial( { color: 0xFFFFFF, map: uranustexture } );
-			let uranus = new THREE.Mesh(planetgeometry,uranusmat);
+			let uranus = new THREE.Mesh(uranusg,uranusmat);
 			let urinitscale = 20;
 			uranus.receiveShadow = false;
 			uranus.castShadow = false;
@@ -597,7 +560,7 @@
 			// uranus.add( uranusPivot );
 			uranusPivot.rotation.x = 80;
 			for ( let i = 0; i < 100; i ++ ) {
-				let mesh = new THREE.Mesh( ringsgeometry, uranusringmat );
+				let mesh = new THREE.Mesh( stargeo, uranusringmat );
 				mesh.scale.set(0.1 , 0.1, 0.1);
 				let radius = (Math.random()-0.5)*0.3+1.8;
                 let randomZ = (Math.random()-0.5)*0.1;
@@ -618,9 +581,10 @@
 			scene.add(uranuslabel);
 
 			//neptun
+			let neptuneg = new THREE.SphereGeometry(1,50,50);
 			let neptunetexture = new THREE.TextureLoader().load('textures/neptunemap.jpg');
 			let neptunemat = new THREE.MeshPhongMaterial( { color: 0xFFFFFF, map: neptunetexture } );
-			let neptune = new THREE.Mesh(planetgeometry,neptunemat);
+			let neptune = new THREE.Mesh(neptuneg,neptunemat);
 			let neinitscale = 18;
 			neptune.receiveShadow = false;
 			neptune.castShadow = false;
@@ -633,18 +597,31 @@
 			neptunelabel.textHeight = planetlabelsize;
 			namelabels.push(neptunelabel);
 			scene.add(neptunelabel);
+
+
+			// pas asteroid
+			let asteroidbelt = new THREE.Object3D();
+			scene.add(asteroidbelt);
+			let astrogeo = new THREE.SphereGeometry (.85, 4, 4);
+			let astromat = new THREE.MeshPhongMaterial ({color: 0xffffff} );
+			for ( let i = 0; i < 1000; i ++ ) {
+				let mesh = new THREE.Mesh( astrogeo, astromat );
+				let radius = (Math.random()-0.5)*80+520;
+                let randomY = (Math.random()-0.5)*30;
+				let posx = Math.cos(i)*radius;
+				mesh.position.x = (Math.cos(i))*radius;
+				mesh.position.z = (Math.sin(i))*radius;
+				mesh.position.y = randomY;
+				mesh.castShadow = false;
+				mesh.receiveShadow = false;
+				mesh.updateMatrix();
+				mesh.matrixAutoUpdate = false;
+				asteroidbelt.add(mesh);
+			}
 			
-			// ORBITY
-			let metr = new THREE.Object3D();
-			let vetr = new THREE.Object3D();
-			let eatr = new THREE.Object3D();
-			let matr = new THREE.Object3D();
-			let jutr = new THREE.Object3D();
-			let satr = new THREE.Object3D();
-			let urtr = new THREE.Object3D();
-			let netr = new THREE.Object3D();
-			scene.add(metr,vetr,eatr,matr,jutr,satr,urtr,netr);
-			var trailsize = 100;
+			let tracegeometry = new THREE.Geometry();
+			let tracematerial = new THREE.LineBasicMaterial({color: 0xFFFFFF});
+			let etracemat = new THREE.LineBasicMaterial({color: 0x27aa53});
 
 			//#endregion
 		
@@ -680,20 +657,133 @@
 
 			// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 			// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-			// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++	
+			// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+			// ORBITY - TRACES
+			//#region
+
+			mercury.initpos = mercury.position;
+			venus.initpos = venus.position;
+			earth.initpos = earth.position;
+			mars.initpos = mars.position;
+			jupiter.initpos = jupiter.position;
+			saturn.initpos = saturn.position;
+			uranus.initpos = uranus.position;
+			neptune.initpos = neptune.position;
+
+			// merkury orbita
+			let mtg = new THREE.Geometry();
+			for (let i=0; i < parseInt(mercurydata.ows); i++){
+				mtg.vertices.push(new THREE.Vector3(mercury.position));
+			}
+			let mtr = new THREE.Line(mtg, tracematerial);
+			mtr.geometry.dynamic = true;
+			scene.add(mtr);
+
+			//venus orbita
+			let vtg = new THREE.Geometry();
+			for (let i=0; i < parseInt(venusdata.ows) ; i++){vtg.vertices.push(new THREE.Vector3(venus.position)); }
+			let vtr = new THREE.Line(vtg, tracematerial); vtr.geometry.dynamic = true; scene.add(vtr);
+
+			//ziemia orbita
+			let etg = new THREE.Geometry();
+			for (let i=0; i < parseInt(earthdata.ows) + 50 ; i++){
+				etg.vertices.push(new THREE.Vector3(earth.position));
+			}
+			let etr = new THREE.Line(etg, etracemat);
+			etr.geometry.dynamic = true;
+			scene.add(etr);
+
+			//mars orbita
+			let matg = new THREE.Geometry();
+			for (let i=0; i < parseInt(marsdata.ows) + 50 ; i++){
+				matg.vertices.push(new THREE.Vector3(mars.position));
+			}
+			let matr = new THREE.Line(matg, tracematerial);
+			matr.geometry.dynamic = true;
+			scene.add(matr);
+
+			//jowisz orbita jupiter
+			let jtg = new THREE.Geometry();
+			for (let i=0; i < parseInt(jupiterdata.ows) + 50 ; i++){
+				jtg.vertices.push(new THREE.Vector3(jupiter.position));
+			}
+			let jtr = new THREE.Line(jtg, tracematerial);
+			jtr.geometry.dynamic = true;
+			scene.add(jtr);
+
+			// saturn orbita
+			let stg = new THREE.Geometry();
+			for (let i=0; i < parseInt(saturndata.ows) + 50 ; i++){
+				stg.vertices.push(new THREE.Vector3(saturn.position));
+			}
+			let str = new THREE.Line(stg, tracematerial);
+			str.geometry.dynamic = true;
+			scene.add(str);
+
+			// uran orbita
+			let utg = new THREE.Geometry();
+			for (let i=0; i < parseInt(uranusdata.ows) + 50 ; i++){
+				utg.vertices.push(new THREE.Vector3(uranus.position));
+			}
+			let utr = new THREE.Line(utg, tracematerial);
+			utr.geometry.dynamic = true;
+			scene.add(utr);
+
+			// neptun orbita
+			let ntg = new THREE.Geometry();
+			for (let i=0; i < parseInt(neptunedata.ows) + 50 ; i++){
+				ntg.vertices.push(new THREE.Vector3(neptune.position));
+			}
+			let ntr = new THREE.Line(ntg, tracematerial);
+			ntr.geometry.dynamic = true;
+			scene.add(ntr);
+
+
+			const traillength = 100;
+			// dodaje punkt orbity
+			const addtrail = (planet,x,y,z,planettrace) => {
+				// shift the array
+				planettrace.geometry.vertices.push(planettrace.geometry.vertices.shift());
+				// add the point to the end of the array
+				planettrace.geometry.vertices[parseInt(planet.ows)-1] = new THREE.Vector3(x,y,z);
+				planettrace.geometry.verticesNeedUpdate = true;
+			}
+
+			// usuwanie rysowanych orbit
+			const removetrail = (trail, planet, mesh) => {
+				for (let i=0; i < parseInt(planet.ows)+50; i++) {
+				trail.vertices[i] = (new THREE.Vector3(mesh.position));
+				}
+			}
+			const removealltrails = () => {
+				removetrail(mtg, mercurydata, mercury);
+				removetrail(vtg, venusdata, venus);
+				removetrail(etg, earthdata, earth);
+				removetrail(matg, marsdata, mars);
+				removetrail(jtg, jupiterdata, jupiter);
+				removetrail(stg, saturndata, saturn);
+				removetrail(utg, uranusdata, uranus);
+				removetrail(ntg, neptunedata, neptune)
+			;}
+
+			const showtrail = (planet_trail) => {planet_trail.visible = true;}
+			const hidetrail = (planet_trail) => {planet_trail.visible = false;}
+
+			const toggletrail = (planet_trail) => {
+				if(planet_trail.visible == true) hidetrail(planet_trail);
+				else showtrail(planet_trail);
+			}
+			const togglealltrails = () => {toggletrail(mtr);toggletrail(vtr);toggletrail(etr);toggletrail(matr);toggletrail(jtr);toggletrail(str);toggletrail(utr);toggletrail(ntr);}
+			const showalltrails = () => {showtrail(mtr);showtrail(vtr);showtrail(etr);showtrail(matr);showtrail(jtr);showtrail(str);showtrail(utr);showtrail(ntr);}
+			const hidealltrails = () => {hidetrail(mtr);hidetrail(vtr);hidetrail(etr);hidetrail(matr);hidetrail(jtr);hidetrail(str);hidetrail(utr);hidetrail(ntr);}
+
+			//#endregion
+				
 			
 
 			// INIT
 			var init = function () {
 				requestAnimationFrame ( animate);
-				// mercury.initpos = mercury.position;
-				// venus.initpos = venus.position;
-				// earth.initpos = earth.position;
-				// mars.initpos = mars.position;
-				// jupiter.initpos = jupiter.position;
-				// saturn.initpos = saturn.position;
-				// uranus.initpos = uranus.position;
-				// neptune.initpos = neptune.position;
 				let b2 = date.getFullYear(); //year
 				let b3 = date.getMonth()+1; //month
 				let b4 = date.getDate(); //day
@@ -715,6 +805,7 @@
 
 			// ANIMATE
 			let i = 0;
+			let j = 0;
 			let h = 0;
 			let mooncycle = 28; //28 dni to cykl ksiezyca
 			let slowdown = 5;
@@ -735,8 +826,9 @@
 
 				if(animationstate == true) {
 					//ustawienie planet po przeliczeniu ich pozycji (co 8 klatek)
-					if(++i % 10 == 0) {
+					if(++i % 10== 0) {
 						console.log("TIK");
+						++j;
 						//wciągnięcie szczegółów daty
 						let b2 = date.getFullYear(); //year
 						let b3 = date.getMonth()+1; //month
@@ -744,24 +836,38 @@
 						let b5 = date.getHours(); //hours
 						let b6 = date.getMinutes(); //minutes
 						updateplanetspositions(b2,b3,b4,b5,b6);	
-						
-						addtrail(mercury.position, metr);
-						checktrailarraycapacity(metr, parseInt(mercurydata.ows));
-						addtrail(venus.position, vetr);
-						checktrailarraycapacity(vetr, parseInt(venusdata.ows));
-						addtrail(earth.position, eatr);
-						checktrailarraycapacity(eatr, parseInt(earthdata.ows));
-						addtrail(mars.position, matr);
-						checktrailarraycapacity(matr, parseInt(marsdata.ows));
-						addtrail(jupiter.position, jutr);
-						checktrailarraycapacity(jutr, parseInt(jupiterdata.ows));
-						addtrail(saturn.position, satr);
-						checktrailarraycapacity(satr, parseInt(saturndata.ows));
-						addtrail(uranus.position, urtr);
-						checktrailarraycapacity(urtr, parseInt(uranusdata.ows));
-						addtrail(neptune.position, netr);
-						checktrailarraycapacity(netr, parseInt(neptunedata.ows));
-					
+							switch (j) {
+								case 1:
+									addtrail(mercurydata, mercury.position.x, mercury.position.y, mercury.position.z, mtr);
+								break;
+								case 2:
+									addtrail(venusdata, venus.position.x, venus.position.y, venus.position.z, vtr);
+								break;
+								case 3:
+									addtrail(earthdata, earth.position.x, earth.position.y, earth.position.z, etr);
+									addtrail(mercurydata, mercury.position.x, mercury.position.y, mercury.position.z, mtr);
+								break;
+								case 4:
+									addtrail(marsdata, mars.position.x, mars.position.y, mars.position.z, matr);
+								break;
+								case 5:
+									addtrail(jupiterdata, jupiter.position.x, jupiter.position.y, jupiter.position.z, jtr);
+									addtrail(mercurydata, mercury.position.x, mercury.position.y, mercury.position.z, mtr);
+								break;
+								case 6:
+									addtrail(saturndata, saturn.position.x, saturn.position.y, saturn.position.z, str);
+								break;
+								case 7:
+									addtrail(uranusdata, uranus.position.x, uranus.position.y, uranus.position.z, utr);
+									addtrail(mercurydata, mercury.position.x, mercury.position.y, mercury.position.z, mtr);
+								break;
+								case 8:
+									addtrail(neptunedata, neptune.position.x, neptune.position.y, neptune.position.z, ntr);
+									j = 0;
+								break;
+								default:
+								break;
+							}
 						i = 0;
 						document.getElementById("timespeed").innerText = 1000/delay;
 					}	
@@ -776,6 +882,8 @@
 					mars.rotation.y -= 0.002;
 					jupiter.rotation.y += 0.02;
 
+					// earthPivot.rotation.y = Math.sin(time);
+					// earthPivot.rotation.x = Math.cos(time);
 				} 	
 				// ! end of checking animationstate
 				// END OF MOVEMENT
@@ -784,7 +892,7 @@
                 renderer.render(scene, camera);
 				renderer2.render(scene, camera2);
 
-				if (++h % 20 == 0) {
+				if (++h % 40 == 0) {
 					if ((parseInt(camera.position.y) < 995) || (parseInt(camera.position.y) > 1005)) {
 						camreset.style.opacity = 1;
 					} else camreset.style.opacity = 0;

@@ -1106,3 +1106,5 @@ THREE.Projector = function () {
 	}
 
 };
+
+console.log("projector.js loaded!");

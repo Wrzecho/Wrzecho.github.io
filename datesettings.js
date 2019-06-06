@@ -107,3 +107,7 @@ const ustawczas = () => {
     strdate = b4+" " +miesiace[b3-1]+" "+b2+" r";
 	document.getElementById("infodate").innerHTML = "Data: "+strdate;
 }
+
+
+
+console.log("datesettings.js loaded!");
