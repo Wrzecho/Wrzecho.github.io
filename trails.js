@@ -1,6 +1,6 @@
 console.log("Trails Loaded!");
 // rysowanie orbit za planetami (dla 1 planety)
-const trailgeometry = new THREE.SphereGeometry(1.5, 5, 5);
+const trailgeometry = new THREE.SphereGeometry(1, 5, 5);
 const trailmaterial = new THREE.MeshBasicMaterial({ color: 0xcccccc });
 const addtrail = (posvector, planettrace) => {
     let newtrace = new THREE.Mesh(trailgeometry, trailmaterial);
@@ -53,7 +53,19 @@ const showalltrails = () => {
 }
 
 const togglealltrails = element => {
-    element.checked == true ? showalltrails() : hidealltrails();
+    let pchecks = document.querySelectorAll('.pcheck');
+    if(element.checked == true) {
+        showalltrails();
+        for(let iterator = 0 ; iterator < pchecks.length; iterator++) {
+            pchecks[iterator].checked = true;
+        }
+
+    } else {
+        hidealltrails();
+        for(let iterator = 0 ; iterator < pchecks.length; iterator++) {
+            pchecks[iterator].checked = false;
+        }
+    }
 };
 
 const toggletrail = (trailarray, element) => {
@@ -68,4 +80,3 @@ const hidetrail = trailarray => {
     trailarray.visible = false;
 };
 
-const asidebar = document.getElementById('')

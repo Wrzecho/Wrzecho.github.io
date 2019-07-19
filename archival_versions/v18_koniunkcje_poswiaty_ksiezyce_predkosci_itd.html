@@ -126,7 +126,7 @@
 			</div>
 		</div>
 		<div id="info">
-			Symulator eksploracji układu słonecznego - v19<br>
+			Symulator eksploracji układu słonecznego - v18<br>
 			Upływ czasu: <p id="timespeed"></p> dni / sekundę <br>
 			Prędkośc obrotu planet wokół własnej osi spowolnione <p id="slowdown"></p> krotnie.
 		</div>
@@ -520,8 +520,8 @@
 			let astromat = new THREE.MeshPhongMaterial ({color: 0xffffff} );
 			for ( let i = 0; i < 800; i ++ ) {
 				let mesh = new THREE.Mesh( astrogeo, astromat );
-				let radius = (Math.random()-0.5)*90+510;
-                let randomY = (Math.random()-0.5)*80;
+				let radius = (Math.random()-0.5)*80+520;
+                let randomY = (Math.random()-0.5)*30;
 				let posx = Math.cos(i)*radius;
 				mesh.position.x = (Math.cos(i))*radius;
 				mesh.position.z = (Math.sin(i))*radius;
@@ -548,7 +548,6 @@
 			sun.castShadow = false;
 			sun.receiveShadow = false;
 			sun.name = 0;
-			sun.fullname = 'sun';
 			scene.add( sun );
 			sun.position.set(0,0,0);
 			//poswiata
@@ -593,7 +592,6 @@
 			mercury.receiveShadow = false;
 			mercury.castShadow = false;
 			mercury.name = 1;
-			mercury.fullname = 'mercury';
 			scene.add(mercury);
 			mercury.scale.set(meinitscale,meinitscale,meinitscale);
 			//label z nazwa
@@ -611,7 +609,6 @@
 			venus.receiveShadow = false;
 			venus.castShadow = false;
 			venus.name = 2;
-			venus.fullname = 'venus';
 			scene.add(venus);
 			venus.scale.set(veinitscale,veinitscale,veinitscale);
 			//label z nazwa
@@ -629,7 +626,6 @@
 			earth.receiveShadow = false;
 			earth.castShadow = false;
 			earth.name = 3;
-			earth.fullname = 'earth';
 			scene.add(earth);
 			earth.scale.set(eainitscale,eainitscale,eainitscale);
 			//label z nazwa
@@ -678,7 +674,6 @@
 			mars.receiveShadow = false;
 			mars.castShadow = false;
 			mars.name = 4;
-			mars.fullname = 'mars';
 			scene.add(mars);
 			mars.scale.set(mainitscale,mainitscale,mainitscale);
 			//label z nazwa
@@ -719,7 +714,6 @@
 			jupiter.receiveShadow = false;
 			jupiter.castShadow = false;
 			jupiter.name = 5;
-			jupiter.fullname = 'jupiter';
 			scene.add(jupiter);
 			jupiter.scale.set(juinitscale,juinitscale,juinitscale);
 			//label z nazwa
@@ -737,7 +731,6 @@
 			saturn.receiveShadow = false;
 			saturn.castShadow = false;
 			saturn.name = 6;
-			saturn.fullname = 'saturn';
 			scene.add(saturn);
 			saturn.scale.set(sainitscale,sainitscale,sainitscale);
 			// pierscienie
@@ -776,7 +769,6 @@
 			uranus.receiveShadow = false;
 			uranus.castShadow = false;
 			uranus.name = 7;
-			uranus.fullname = 'uranus';
 			scene.add(uranus);
 			uranus.scale.set(urinitscale,urinitscale,urinitscale);
 			// pierscienie
@@ -815,7 +807,6 @@
 			neptune.receiveShadow = false;
 			neptune.castShadow = false;
 			neptune.name = 8;
-			neptune.fullname = 'neptune';
 			scene.add(neptune);
 			neptune.scale.set(neinitscale,neinitscale,neinitscale);
 			//label z nazwa

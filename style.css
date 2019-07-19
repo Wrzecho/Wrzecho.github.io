@@ -30,6 +30,10 @@ body {
 	text-align: center;
 	padding-top: 5px;
 	font-size: 1.4em;
+		color: #FFF;
+		position: absolute;
+		top: 5px;
+		left: 10px;
 }
 
 #play {
@@ -49,6 +53,9 @@ ul {
 	font-size: 1em;
 	letter-spacing: 0;
 	text-align: center;
+	display: flex;
+	align-items: center;
+
 	/* margin: 0 10px; */
 }
 
@@ -108,10 +115,41 @@ li {
 	margin: 5px auto;
 	/* margin: 2px; */
 }
-.playbtn {
-	src: url("icons/play.png") !important;
-	background: #ff9933 !important;
+.playpause {
+	background: #3399ff;
+	position: relative;
+	transition: background-color .15s ease-in-out;
 }
+
+.playpause::before{
+	content: '';
+	box-sizing: border-box;
+	height: 12px;
+	transform: translate(-50%, -50%);
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	border-left: 12px solid #fff;
+}
+
+.paused {
+	background: #ff9933;
+}
+
+.paused::before{
+	content: '';
+	box-sizing: border-box;
+	width: 12px;
+	height: 12px;
+	transform: translate(-50%, -50%) rotate(45deg);
+	position: absolute;
+	top: 50%;
+	left: 40%;
+	/* background-color: #000; */
+	border-top: 12px solid #fff;
+	border-left: 12px solid transparent;
+}
+
 .sd {
 	width: 100%;
 	text-align: center;
@@ -122,14 +160,18 @@ li {
 	color: #000;
 }
 
-.dateinfo {
-	color: #FFF;
-	position: absolute;
-	top: 5px;
-	left: 10px;
+
+
+.eventinfo {
+	color: #00ff00;
+	text-align: center;
+	font-weight: bold;
+	margin-top: 5px;
+	font-size: 1.2em;
+	animation: blink 1.5s infinite;
 }
 
-#timespeed {
+#timespeed, #slowdown {
 	display: inline-block;
 }
 
@@ -154,30 +196,12 @@ li {
 	left: 0px;
 	text-align: left;
 	margin: 5px auto;
+	padding-top: 5px;
 	/* border: 1px solid white; */
 }
 
 #tstat {
 	color: #FFF;
-}
-
-#cameraresetbtn {
-	position: absolute;
-	bottom: 110px;
-	right: 5px;
-	/* transform: translatex(-50%); */
-	width: 100px;
-	height: 20px;
-	background: #ff9933;
-	text-align: center;
-	opacity: 0;
-	cursor: pointer;
-	transition: opacity .5s ease;
-}
-
-#cameraresetbtn:hover {
-	background: #DDD;
-	color: #000;
 }
 
 .podajdate {
@@ -285,16 +309,116 @@ li {
 	margin-top: 0px;
 }
 
-.planetscomparison {
+.buttonscontainer {
+	display: flex;
+	width: 100%;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.buttonscontainer button {
+	padding: 5px;
+	color: #FFF;
+	background-color: #3399FF;
+	border: none;
+	border-radius: 3px;
+	transition: background-color .15s ease-in-out, color .15s ease-in-out;
+}
+
+.buttonscontainer .activelistbtn {
+	background-color: #ff9933;
+	color: #fff;
+}
+
+.buttonscontainer button:hover {
+	background-color: #DDD;
+	color: #222;
+}
+
+.listcontainer {
+	width: 100%;
+	background: #333;
+}
+
+.conlist {
+	width: 100%;
+	/* height: 300px; */
+	max-height: 100%;
+	/* background: BLUE; */
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-around;
+}
+
+.conlist li {
+	width: 30%;
+	flex: 30%;
+	text-align: center;
+	font-size: 1em;
+	color: #FFF;
+	cursor: pointer;
+	font-weight: bold;
+	transition: color .15s ease-in-out;
+}
+
+#jupiterlist, 
+#marslist, 
+#saturnlist, 
+#uranuslist, 
+#neptunelist {
+	display: none;
+}
+
+.conlist li:hover {
+	color: #3399FF;
+}
+
+#sizes, #distances, #cameraresetbtn {
+	color: #FFF;
+	border: none;
+	background-color: #ff9933;
+	box-sizing: border-box;
+	padding: 5px 10px;
+	margin: 0px 10px;
+	border-radius: 3px;
+	transition: background-color .15s ease-in;
+}
+
+#cameraresetbtn {
+	position: absolute;
+	bottom: 110px;
+	right: 0px;
+	transition: opacity .15s ease-in-out;
+}
+
+#sizes:hover , #distances:hover, #cameraresetbtn:hover {
+	background-color: #3399FF;
+}
+
+#chosen {
+	font-weight: bold;
+	margin: 0px 5px;
+}
+
+#toggler {
+	position: absolute;
+	bottom: 110px;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	padding-left: 10px;
+}
+
+.planetscomparison, .distancescomparison {
 	width: 100%;
 	height: 100px;
 	bottom: 0px;
 	box-sizing: border-box;
 	position: absolute;
-	/* background: #000; */
 	opacity: 0.9;
-	/* border: 1px solid #aaa; */
-	/* border-radius: 5px; */
 	color: #FFF;
 	font-size: .8em;
 	text-align: left;
@@ -302,15 +426,7 @@ li {
 	justify-content: space-around;
 	align-items: center;
 	padding: 0;
-}
-
-.pcdesc {
-	padding: 0;
-	margin: 0;
-	bottom: 100px;
-	left: 5px;
-	position: absolute;
-	z-index: 100;
+	transition:  transform .15s ease-in-out;
 }
 
 .planet {
@@ -339,11 +455,13 @@ li {
 	justify-content: center;
 	align-items: center;
 	border-radius: 50%;
+	background: #222;
+	transition: background-color .15s ease-in-out;
 	/* background: #aaa; */
 }
 
 .hitbox:hover {
-	background: #333;
+	background: #555;
 	cursor: pointer;
 }
 
@@ -415,6 +533,42 @@ background: url("textures/uranusmap.jpg");
 background: url("textures/neptunemap.jpg");
 	background-size: cover;
 }
+
+
+.distancescomparison {
+	justify-content: left;
+}
+
+.pdist {
+	width: 0px;
+	position: absolute;
+	border-right: 1px solid #DDD;
+	height: 100%;
+	display: flex;
+	align-items: flex-start;
+	justify-content: right;
+}
+
+.pdist p {
+	transform: rotate(-90deg) ;
+	position: absolute;
+	display: block;
+	width: 100%;
+	left: -5px;
+	bottom: 0%;
+	text-align: center;
+}
+#asteroiddist {
+	border: 1px dashed #DDD;
+}
+
+.slideddown {
+	transform: translateY(120px);
+}
+.hiddentogglerbtn {
+	display: none;
+}
+
 #planetinfopanel {
 	position: absolute;
 	box-sizing: border-box;
@@ -444,18 +598,38 @@ background: url("textures/neptunemap.jpg");
 
 .descriptioncontainer {
 	padding: 10px;
+	background: #333;
+	width: 320px;
+	margin: 0px auto !important;
 }
 
 .descriptioncontainer .category {
 	/* height: 350px; */
 	background: #333;
-	font-size: 1.5em;
-	padding: 10px;
+	color: #3399ff;
+	display: block;
+	font-size: 1.2em;
+	padding: 5px;
+	text-align: left;
 }
 
 .descriptioncontainer p {
 	text-align: justify;
 	font-size: 14px;
+}
+
+.container div {
+	width: 100%;
+	padding: 0px 20px;
+	text-align: left;
+}
+
+.container {
+	border-bottom: 1px dotted #555;
+}
+
+#description {
+	text-align: justify;
 }
 
 #plive {
@@ -469,14 +643,14 @@ background: url("textures/neptunemap.jpg");
 #pname {
 	font-weight: bold;
 	font-size: 20px;
+	color: #ff9933;
 }
 
 #canvas {
 	/* position: relative; */
 	width: 320px;
-	height: 180px;
+	height: 240px;
 	/* background: purple; */
-	border: 1px solid #555;
 	margin: 0px auto !important;
 	opacity: 1;
 	z-index: 2;
@@ -532,4 +706,16 @@ background: url("textures/neptunemap.jpg");
 #asidebtn:hover {
 	border-bottom: 2px solid #DDD;
 	border-left: 2px solid #DDD;
+}
+
+@keyframes blink {
+	0% {
+		color: #FF0000;
+	}
+	50% {
+		color: #00ff00;
+	}
+	100% {
+		color: #FF0000;
+	}
 }
