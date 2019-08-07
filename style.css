@@ -649,7 +649,7 @@ background: url("textures/neptunemap.jpg");
 #canvas {
 	/* position: relative; */
 	width: 320px;
-	height: 240px;
+	height: 180px;
 	/* background: purple; */
 	margin: 0px auto !important;
 	opacity: 1;

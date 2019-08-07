@@ -133,7 +133,7 @@
 
 		<!-- INFORMACJE O PLANECIE -->
 		<div id="pinfocontainer">
-			<div id="tinfop" onclick="hideasidebar(); showalltrails();"><div id="asidebtn"></div></div>
+			<div id="tinfop" onclick="hideasidebar(); showalltrails(); showlabels();"><div id="asidebtn"></div></div>
 			<div id="planetinfopanel" class="">
 						<div id="pname">Nazwa</div>
 						<div id="plive">
@@ -261,7 +261,8 @@
 
 		<script src="js/three.js"></script>
 		<script src="datesettings.js"></script> <!--funkcje zmiany czasu-->
-		<script src="positionscounting.js"></script><!-- obliczanie pozycji planet -->
+		<!-- <script src="positionscounting.js"></script>obliczanie pozycji planet -->
+		<script src="poscount.js"></script>
 		<script src="eclipticcoordinates.js"></script>
 		<script src="gui.js"></script><!--interakcje z interface-->
 		<script src="trails.js"></script>
@@ -305,7 +306,7 @@
 			yearlength: '224.7 dni', daylength: '243 dni', averagetemp: 'Około 465°C', surface: 'Kamienista/Stała, pokryta wulkanami i ogromnymi górami.', moons: 'Nie posiada', 
 			diameter: '12 104 km', lighttime: 'Około 6 minut', meanvelocity: '126 074 km/h', description: 'Ciekawostką na temat tej planety jest to, że obraca się ona w przeciwnym kierunku niż pozostałe planety, ponadto robi to bardzo powoli. Posiada bardzo grubą atmosferę blokującą spadek jej temperatury w związku z czym jest ona najgorętszą planetą Układu Słonecznego.'};
 			let earthdata = 
-			{id: 3, name: 'Ziemia' , ows: 365, ink: 0,an: 349.2,ph: 102.8517,md: 1,dm: 0.9855796,eksorb: 0.0166967,ml: 328.40353, axistilt: 23.44, 
+			{id: 3, name: 'Ziemia' , ows: 365, ink: 0.00041,an: 349.2,ph: 102.8517,md: 1,dm: 0.9855796,eksorb: 0.0166967,ml: 328.40353, axistilt: 23.44, 
 			yearlength: '365.25 dni', daylength: '24 godziny', averagetemp: 'Od -81°C do 47°C', surface: 'Skalna/Stała', moons: 'Posiada jeden księżyc', 
 			diameter: '12 742 km', lighttime: 'Około 8 minut', meanvelocity: '107 218 km/h', description: 'Nasza ojczysta planeta. Jedyna w Układzie Słonecznym zamieszkana przez żywe organizmy. Dodatkowo również jako jedyna posiada na swojej powierzchni wodę w stanie ciekłym.'};
 			let marsdata = 
@@ -392,6 +393,7 @@
 
 			// wstęp do obsługi ruchy myszy
 			let mfc = {x: 0, y: 0};
+			let raycaster = new THREE.Raycaster();
 			let mouse = { x: 0, y: 0 }, INTERSECTED;
 			function onMouseMove( event ) 
 				{
@@ -404,6 +406,17 @@
 					mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
 					mouse.y =  -( event.clientY / window.innerHeight ) * 2 + 1;
 				}
+
+			let ray = new THREE.Raycaster();
+			document.onmousedown = () => {
+									name = INTERSECTED.fullname;
+									data = INTERSECTED.fullname+'data';
+									if(data != 'undefineddata') {
+										showasidebar();
+										toggleinfobar(eval(name), eval(data)); 
+										hidealltrails();
+									}
+								}
 			
 			// silnik renderujący obraz
 			let renderer = new THREE.WebGLRenderer();
@@ -418,7 +431,7 @@
 
 			// dodatkowa kamera
 			renderer2 = new THREE.WebGLRenderer();
-			renderer2.setSize( 320, 240 );
+			renderer2.setSize( 320, 180 );
 			container.appendChild( renderer2.domElement );
 
 
@@ -568,11 +581,9 @@
 				blending: THREE.AdditiveBlending,
 				transparent: true
 			}   );
-			let sunglow = new THREE.Object3D();
 			sunshader = new THREE.Mesh( sungeo.clone(), sunglowmat.clone() );
 			sunshader.scale.multiplyScalar(1.2);
-			scene.add(sunshader);
-			sun.add( sunglow );
+			sun.add(sunshader);
 			//label z nazwa
 			let sunlabel = new SpriteText('Słońce');
 			sunlabel.fontFace = 'sans-serif';
@@ -581,6 +592,7 @@
 			sunlabel.position.set(0,100,0);
 			namelabels.push(sunlabel);
 			scene.add(sunlabel);
+			sunlabel.fullname = 'sun';
 
 			let ambientlight = new THREE.AmbientLight( 0xFFFFFF, 0.6 );
 			scene.add(ambientlight);
@@ -602,6 +614,7 @@
 			mercurylabel.textHeight = planetlabelsize;
 			namelabels.push(mercurylabel);
 			scene.add(mercurylabel);
+			mercurylabel.fullname = 'mercury';
 
 			//venus
 			let venustexture = new THREE.TextureLoader().load('textures/venusmap.jpg');
@@ -620,6 +633,7 @@
 			venuslabel.textHeight = planetlabelsize;
 			namelabels.push(venuslabel);
 			scene.add(venuslabel);
+			venuslabel.fullname = 'venus';
 
 			//ziemia + ksiezyc
 			let earthtexture = new THREE.TextureLoader().load('textures/earthmap1k.jpg');
@@ -638,6 +652,7 @@
 			earthlabel.textHeight = planetlabelsize;
 			namelabels.push(earthlabel);
 			scene.add(earthlabel);
+			earthlabel.fullname = 'earth';
 			//atmosfera
 			let earthglowmat = new THREE.ShaderMaterial( 
 			{
@@ -687,6 +702,7 @@
 			marslabel.textHeight = planetlabelsize;
 			namelabels.push(marslabel);
 			scene.add(marslabel);
+			marslabel.fullname = 'mars';
 			let phobosPivot = new THREE.Object3D();
 			mars.add( phobosPivot );
 			let deimosPivot = new THREE.Object3D();
@@ -728,6 +744,7 @@
 			jupiterlabel.textHeight = planetlabelsize;
 			namelabels.push(jupiterlabel);
 			scene.add(jupiterlabel);
+			jupiterlabel.fullname = 'jupiter';
 
 			//saturn
 			let saturntexture = new THREE.TextureLoader().load('textures/saturnmap.jpg');
@@ -767,6 +784,7 @@
 			saturnlabel.textHeight = planetlabelsize;
 			namelabels.push(saturnlabel);
 			scene.add(saturnlabel);
+			saturnlabel.fullname = 'saturn';
 
 			//uran
 			let uranustexture = new THREE.TextureLoader().load('textures/uranusmap.jpg');
@@ -806,6 +824,7 @@
 			uranuslabel.textHeight = planetlabelsize;
 			namelabels.push(uranuslabel);
 			scene.add(uranuslabel);
+			uranuslabel.fullname = 'uranus';
 
 			//neptun
 			let neptunetexture = new THREE.TextureLoader().load('textures/neptunemap.jpg');
@@ -824,6 +843,7 @@
 			neptunelabel.textHeight = planetlabelsize;
 			namelabels.push(neptunelabel);
 			scene.add(neptunelabel);
+			neptunelabel.fullname = 'neptune';
 			
 			// ORBITY
 			let metr = new THREE.Object3D();
@@ -873,44 +893,6 @@
 			// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 			// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++	
 			
-// dodawanie orbit przed animacja (WERSJA AAAALFAAAAA)
-// 			const georb = () => {
-//     let gdate = new Date();
-//     gdate.setFullYear(1970);
-//     gdate.setMonth(0);
-//     gdate.setDate(1);
-//     console.log(gdate);
-//     b2 = gdate.getFullYear();
-//     b3 = gdate.getMonth();
-// 	b4 = gdate.getDate();
-// 	b5 = 1;
-// 	b6 = 1;
-// 	console.log(b2+'/'+b3+"/"+b4);
-// 	let i = 0;
-//     while(i < 300) {
-//         let epos = calcplanetpos(
-//         3,
-//         b2,
-//         b3,
-//         b4,
-//         b5,
-//         b6,
-//         earthdata.ink,
-//         earthdata.an,
-//         earthdata.ph,
-//         earthdata.md,
-//         earthdata.dm,
-//         earthdata.eksorb,
-//         earthdata.ml
-// 	);
-// 	earth.position.set(epos[0],epos[1],epos[2]);
-//         addtrail(earth.position, eatr);
-// 		gdate.setDate(gdate.getDate()+1);
-// 		console.log(earth.position);
-// 		i++;
-// 		// requestAnimationFrame ( animate);
-//     }
-// }		
 const update = function () {
 	sunshader.material.uniforms.viewVector.value = new THREE.Vector3().subVectors( camera.position, sunshader.position );
 	earthGlow.material.uniforms.viewVector.value = new THREE.Vector3().subVectors( camera.position, earthGlow.position );
@@ -953,6 +935,8 @@ const update = function () {
 			};
 
 			// ANIMATE
+			let intersects;
+			let name, data;
 			const FPS = 20;
 			let i = 0;
 			let h = 0;
@@ -968,7 +952,41 @@ const update = function () {
 				// czestotliwosc odswiezania symulacji ( 40 FPS )
 				setTimeout( function() {
 			        requestAnimationFrame( animate );
-			    }, 1000/FPS);
+				}, 1000/FPS);
+				
+				setTimeout (function() {
+					// RAYCASTER
+					ray.setFromCamera( mouse, camera );
+					intersects = ray.intersectObjects( scene.children );
+						if ( intersects.length > 0 )
+						{
+							// if the closest object intersected is not the currently stored intersection object
+							if ( intersects[ 0 ].object != INTERSECTED ) 
+							{
+								// restore previous intersection object (if it exists) to its original color
+								if ( INTERSECTED ) {
+									INTERSECTED.material.color.setHex( INTERSECTED.currentHex );
+								}
+								//przypisuje interakcje do INTERSECTED
+								INTERSECTED = intersects[ 0 ].object;
+								// zachowuje pierwotny kolor obiektu
+								INTERSECTED.currentHex = INTERSECTED.material.color.getHex();
+								// podswietla planete (planety maja ID > 900 dlatego po tym wiem ze nimi są)
+								if(INTERSECTED.id > 900)
+								{
+								INTERSECTED.material.color.setHex( 0xDD0000 );
+								}
+							}
+						} 
+						else // nie ma interakcji
+						{
+							// przywraca kolor jesli nie najezdzamy na nic mysza
+							if ( INTERSECTED ) 
+								INTERSECTED.material.color.setHex( INTERSECTED.currentHex );
+							// resetuje intersekcje
+							INTERSECTED = null;
+						}
+				}, 2*1000/FPS);
 				
 				//	! CAŁY MOVEMENT (checking of animationstate)
 

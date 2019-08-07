@@ -135,8 +135,12 @@ v18
 -	poprawiono poswiaty wokół słonca i ziemii (użyłem do tego shaderów)
 
 v19 - w trakcie
-TODO raycaster (interakcje myszą)
-TODO korekta liczenia pozycji
+-	dodano raycaster po najechaniu myszą (podswietla się planeta - to w funkcji animate)
+-	dodano interakcje po kliknięciu myszą (document.onmousedown zaraz pod stworzeniem raycastera przed funkcją animate)
+-	po kliknieciu na planete pokazuja sie informacje o niespecjalnie
+-	dodano do 'labels' parametry fullname odpowiadajęce tym samym parametrom dla planety do której są przypisane aby możnabyło
+	wywołać funkcję pokazującą info o planecie klikając też na jej nazwę a nie tylko kulę
+-	poprawiono algorytm liczacy pozycje planet wczasie (prawie OK)
 TODO domyślna dzisiejsza data w datepickerze
 TODO ostylowanie interface?
 

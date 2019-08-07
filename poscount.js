@@ -1,11 +1,11 @@
-let f2,b7,b8,g5,g6,g7,g9,g11,g13,g14,g15,f16,c9,c10,b11,cx,cy,cz;
+let f2,b7,b8,g5,g6,g7,g9,g11,g13,g14,g15,f16,c9,c10,b11,cx,cy,cz,JD;
 const calcplanetpos = (
     planet,
-    b2, //year
-    b3, //month
+    b2,
+    b3,
     b4,
     b5,
-    b6, //minute
+    b6,
     f5,
     f6,
     f7,
@@ -17,76 +17,22 @@ const calcplanetpos = (
     // f5 - inklinacja
     // f6 - asc node (Right Ascension)
     // f7 - peryhelium
-    // f8 - mean distance
+    // f8 - mean distance lub semi major axis
     // f9 - daily motion (predkosc planety)
     // f10 - ekscentrycznosc orbity
     // f11 - mean longitude - srednia odleglosc od slonca
 
-     f2 = 2450680.5; //cej
-     b7 = 367 * b2 - Math.round((7 * (b2 + Math.round((b3 + 9) / 12))) / 4) + Math.round(275 * b3 / 9) + b4 - 730531.5 ;
-        // +
+    // f2 = 2450680.5; //cej
+    b7 = 367 * b2 - Math.round((7 * (b2 + Math.round( (b3 + 9) / 12) )) / 4) + Math.round(275 * b3 / 9) + b4 - 730530 ;
+    //   b7 = 367 * b2 -  (7 * (b2 + (b3 + 9) / 12) / 4 ) + 275 * b3 / 9 + b4 - 730531.5 + b5 / 24;
+     
+     // +
         // (b5 + b6 / 60); //j2000.0
-     b8 = b7 - (f2 - 2451545); //el_dnia!!!!!!!!
+    //  b8 = b7 - (f2 - 2451545); 
     // console.log(b7);
-
-    // switch (planet) {
-    //     case 1:
-    //         f6 = 48.3313 + 3.24587e-5 * b7;
-    //         f5 = 7.0047 + 5.0e-8 * b7;
-    //         f7 = 29.1241 + 1.01444e-5 * b7;
-    //         f8 = 0.387098;
-    //         f10 = 0.205635 + 5.59e-10 * b7;
-    //         break;
-    //     case 2:
-    //         f6 = 76.6799 + 2.46590E-5 * b7;
-    //         f5 = 3.3946 + 2.75E-8 * b7;
-    //         f7 = 54.8910 + 1.38374E-5 * b7;
-    //         f8 = 0.723330;
-    //         f10 = 0.006773 - 1.302E-9 * b7;
-    //         break;
-    //     case 3:
-    //         f6 = 0.0;
-    //         f5 = 0.0;
-    //         f7 = 282.9404 + 4.70935e-5 * b7;
-    //         f8 = 1.0;
-    //         f10 = 0.016709 - 1.151e-9 * b7;
-    //         break;
-    //     case 4:
-    //         f6 = 49.5574 + 2.11081E-5 * b7;
-    //         f5 = 1.8497 - 1.78E-8 * b7;
-    //         f7 = 286.5016 + 2.92961E-5 * b7;
-    //         f8 = 1.523688;
-    //         f10 = 0.093405 + 2.516E-9 * b7;
-    //         break;
-    //     case 5:
-    //         f6 = 100.4542 + 2.76854E-5 * b7;
-    //         f5 = 1.3030 - 1.557E-7 * b7;
-    //         f7 = 273.8777 + 1.64505E-5 * b7;
-    //         f8 = 5.20256;
-    //         f10 = 0.048498 + 4.469E-9 * b7;
-    //         break;
-    //     case 6:
-    //         f6 = 113.6634 + 2.38980E-5 * b7;
-    //         f5 = 2.4886 - 1.081E-7 * b7;
-    //         f7 = 339.3939 + 2.97661E-5 * b7;
-    //         f8 = 9.55475;
-    //         f10 = 0.055546 - 9.499E-9 * b7;
-    //         break;
-    //     case 7:
-    //         f6 = 74.0005 + 1.3978E-5 * b7;
-    //         f5 = 0.7733 + 1.9E-8 * b7;
-    //         f7 = 96.6612 + 3.0565E-5 * b7;
-    //         f8 = 19.18171 - 1.55E-8 * b7;
-    //         f10 = 0.047318 + 7.45E-9 * b7;
-    //         break;
-    //     case 8:
-    //         f6 = 131.7806 + 3.0173E-5 * b7;
-    //         f5 = 1.7700 - 2.55E-7 * b7;
-    //         f7 = 272.8461 - 6.027E-6 * b7;
-    //         f8 = 30.05826 + 3.313E-8 * b7;
-    //         f10 = 0.008606 + 2.15E-9 * b7;
-    //         break;
-    // }
+    //el_dnia!!!!!!!! ( JulianDay = b7 minus stała mean ecliptic (2451545))
+     b8 = b7 - 2451545;
+    // console.log(b7);
 
     // zmiana orbity na radiany
      g5 = f5 * (Math.PI / 180); //inkrad
@@ -96,72 +42,39 @@ const calcplanetpos = (
      g11 = f11 * (Math.PI / 180); //mlrad
 
     //główne obliczenia OLD
-     g13 = (g9 * b8 + g11 - g7) % (2 * Math.PI); //mean_anomally
-     g14 =
-        g13 +
-        (2 * f10 - Math.pow(f10, 3) / 4 + (5 / 96) * Math.pow(f10, 5)) *
-            Math.sin(g13) +
-        ((5 * Math.pow(f10, 2)) / 4 - (11 / 24) * Math.pow(f10, 4)) *
-            Math.sin(2 * g13) +
-        13 * (Math.pow(f10, 3) / 12) -
-        (43 / 64) * Math.pow(f10, 5) * Math.sin(3 * g13) +
-        (103 / 96) * Math.pow(f10, 4) * Math.sin(4 * g13) +
-        (1097 / 960.0) * Math.pow(f10, 5) * Math.sin(5 * g13); //true anomally
+     g13 = (f9 * b8 + f11 - f7) % (360); //mean_anomally
+     //true anomally
+     g14 = g13 + 180/Math.PI * ( (2 * f10 - Math.pow(f10,0.75) ) * Math.sin( (Math.PI/180) * g13) 
+     + 5/4 * Math.pow(f10,2) * Math.sin((Math.PI/180) * (2 * g13)) + 13/12 * Math.pow(f10,3) * Math.sin((Math.PI/180) 
+     * (3 * g13)));
 
-    //główne obliczenia NEW (potęgi na pewno nie mają tak być)
-    //  g13 = (g9 * b8 + g11 - g7) % (2 * Math.PI); //mean_anomally
-    //  g14 =
-    //     g13 +
-    //     (2 * f10 - Math.pow(f10, 3/4)  + (5 / 96) * Math.pow(f10, 5)) *
-    //         Math.sin(g13) +
-    //     ((5 * Math.pow(f10, 2/4)) - (11 / 24) * Math.pow(f10, 4)) *
-    //         Math.sin(2 * g13) +
-    //     (13 * (Math.pow(f10, 3/12) ) -
-    //     (43 / 64) * Math.pow(f10, 5)) * Math.sin(3 * g13) +
-    //     (103 / 96) * Math.pow(f10, 4) * Math.sin(4 * g13) +
-    //     (1097 / 960.0) * Math.pow(f10, 5) * Math.sin(5 * g13); //true anomally
+     //radius vector
+     r = f8 * (1 - Math.pow(f10,2)) / ( 1 + f10 * Math.cos((Math.PI/180) * g14));
 
-     g15 = (g14 + g7) % (2 * Math.PI); //longitude
-     f16 = (f8 * (1 - Math.pow(f10, 2))) / (1 + f10 * Math.cos(g14)); //el_odl
-     c9 =
-        Math.atan2(Math.cos(g15 - g6), Math.sin(g15 - g6) * Math.cos(g5)) + g6; //helio_long
-     c10 = Math.asin(Math.sin(g15 - g6) * Math.sin(g5)); //helio_lat
+     //heliocentryczne coordynaty planety
+     let hx = r * ( Math.cos((Math.PI/180) * f6) * Math.cos((Math.PI/180) * ( g14 + f7 - f6 )) - 
+     Math.sin((Math.PI/180) * f6) * Math.sin((Math.PI/180) * ( g14 + f7 - f6 )) * Math.cos((Math.PI/180) * f5) );
+     
+     let hz = r * ( Math.sin((Math.PI/180) * f6) * Math.cos((Math.PI/180) * ( g14 + f7 - f6 )) + 
+     Math.cos((Math.PI/180) * f6) * Math.sin((Math.PI/180) * ( g14 + f7 - f6 )) * Math.cos((Math.PI/180) * f5) );
+
+     let hy = r * ( Math.sin((Math.PI/180) * ( g14 + f7 - f6 )) * Math.sin((Math.PI/180) * f5) );
+
+    //  g15 = (g14 + g7) % (2 * Math.PI); //longitude
+    //  f16 = (f8 * (1 - Math.pow(f10, 2))) / (1 + f10 * Math.cos(g14)); //el_odl
+    //  c9 =
+    //     Math.atan2(Math.cos(g15 - g6), Math.sin(g15 - g6) * Math.cos(g5)) + g6; //helio_long
+    //  c10 = Math.asin(Math.sin(g15 - g6) * Math.sin(g5)); //helio_lat
+
 
     // wspolrzedne ekliptyczne
-     b11 = f16 * Math.cos(c10);
-     cx = b11 * Math.cos(c9) * Math.cos(c10);
-     cz = b11 * Math.sin(c9) * Math.cos(c10);
-     cy = b11 * Math.sin(c10);
+    //  b11 = f16 * Math.cos(c10);
+    //  cx = b11 * Math.cos(c9) * Math.cos(c10);
+    //  cz = b11 * Math.sin(c9) * Math.cos(c10);
+    //  cy = b11 * Math.sin(c10);
 
-    return [cx, cz, cy];
+    return [hx, hz, hy];
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // aktualizacja pozycji planet, dodanie im sladow itd
 const updatelabelspositions = () => {
@@ -278,7 +191,7 @@ const updateplanetspositions = (b2, b3, b4, b5, b6) => {
         marsdata.eksorb,
         marsdata.ml
     );
-    tweenobject(mars, marspos, 250);
+    tweenobject(mars, marspos, 260);
 
     // jowisz
     let jupiterpos = calcplanetpos(

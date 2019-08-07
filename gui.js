@@ -71,7 +71,9 @@ const showasidebar = () => {
 const hideasidebar = () => {
   asidebar.classList.remove("infopanelvisible");
   asidebutton.style.opacity = 0;
-  if(document.getElementById('labelview').checked == true) showlabels(); 
+  if(document.getElementById('labelview').checked == true) {
+    showlabels(); 
+  }
   setTimeout(function() {
     plive.style.opacity = 0;
   }, 500);
@@ -99,7 +101,6 @@ let lighttime = document.getElementById('lighttime');
 let meanvelocity = document.getElementById('meanvelocity');
 
 const toggleinfobar = (planet, planetdata) => {
-  if (animationstate == true) animationstate = false;
   let yoffset, xoffset, zoffset;
   console.log(planet);
   switch(planet.name) {
@@ -109,40 +110,40 @@ const toggleinfobar = (planet, planetdata) => {
       // zoffset = 200;
       break;
     case 1 :
-      yoffset = 20;
+      yoffset = 40;
       // xoffset = 20;
       // zoffset = 20;
       break;
     case 2 :
-      yoffset = 18;
+      yoffset = 36;
       // xoffset = 18;
       // zoffset = 18;
       break;
     case 3 :
-      yoffset = 22;
+      yoffset = 44;
       // xoffset = 20;
       // zoffset = 20;
       break;
     case 4 :
-      yoffset = 12;
+      yoffset = 24;
       // xoffset = 20;
       // zoffset = 20;
       break;
     case 5 :
-      yoffset = 40;
+      yoffset = 80;
       // xoffset = 40;
       // zoffset = 40;
       break;
     case 6 :
-      yoffset = 90;
+      yoffset = 150;
       // xoffset = 40;
       // zoffset = 40;
       break;
     case 7 :
-      yoffset = 40;
+      yoffset = 80;
       break;
     case 8 :
-      yoffset = 40;
+      yoffset = 80;
       // xoffset = 40;
       // zoffset = 40;
       break;
@@ -160,10 +161,19 @@ const toggleinfobar = (planet, planetdata) => {
   // if((planet.position.x < 0) && (planet.position.z < 0)) {
   //   camera2.position.set(planet.position.x+xoffset,planet.position.y,planet.position.z+zoffset);
   // }
-  camera2.position.set(planet.position.x,planet.position.y+yoffset,planet.position.z);
-  camera2.lookAt(planet.position);
+  if (animationstate == true)  {
+    animationstate = false;
+    setTimeout(() => {
+      camera2.position.set(planet.position.x,planet.position.y+yoffset,planet.position.z);
+      camera2.lookAt(planet.position);
+      camera2.updateProjectionMatrix();
+    },1000);
+  } else {
+      camera2.position.set(planet.position.x,planet.position.y+yoffset,planet.position.z);
+      camera2.lookAt(planet.position);
+      camera2.updateProjectionMatrix();
+  }
   asidename.innerHTML = planetdata.name;
-  camera2.updateProjectionMatrix();
   description.innerText = planetdata.description;
   yearlength.innerHTML = planetdata.yearlength;
   daytime.innerText = planetdata.daylength;

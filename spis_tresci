@@ -1,0 +1,58 @@
+TEORIA
+1.  Wstęp
+2.  Co jest przedmiotem pracy inżynierskiej i dlaczego taki temat
+3.  Z jakich technologii i narzędzi będę korzystał i krótko opisać każde
+PRAKTYKA
+4.  Utworzenie sceny ze słońcem na środku oraz światłem
+    4.1 Dodanie kuli słońca
+    4.2 dodanie światła w miejscu słońca
+    4.3 Dodanie shadera z promieniami
+5.  Dodanie obiektów do sceny
+    5.1 Planety
+        5.1.1 pamiętać o "atmosferze ziemskiej zrobionej shaderem jak promienie słońca"
+        5.1.2 rozmiary planet
+    5.2 Gwiazdy
+    5.3 Pas asteroid
+        5.3.1 Jak zrobić żeby był losowo generowanym pierścieniem
+    5.4 Księżyce Planet
+    5.5 Pierścienie saturna
+    5.6 Sfera z uniwersum
+    5.7 Prędkości obrotowe planet
+    5.8 Nachylenie planet względem słońca
+    5.9 Prędkość okrążania księżyca Ziemskiego oraz księżyców Marsa swoich planet
+    5.10 Przejrzyste rozmiary planet
+6.  Nadanie tekstur obiektom
+7.  Dodanie labelek z nazwami
+8.  Algorytm liczący pozycje planet w czasie
+    8.1 Pobranie czasu
+    8.2 Liczenie pozycji dla każdej z planet
+        8.2.1   Algorytm liczący
+        8.2.2   Korekta odległości od słońca
+    8.3 Aktualizacja pozycji
+        8.3.1   Biblioteka TweenJS
+9.  Dodanie biblioteki OrbitControls
+10. Dodanie rysowania Orbit planet 
+INTERAKCJE
+11. Dodanie elementów GUI
+    11.1    Sterowanie czasem
+    11.2    Pokazywanie/Ukrywanie obiektów
+    11.3    Generowanie list z datami koniunkcji
+    11.4    Przycisk ukrycia/pokazania panelu opcji
+    11.5    Panel z informacjami o rozmiarze planet
+        11.5.1  Skalowanie rozmiarów planet na panelu
+        11.5.2  Umożliwienie kliknięcia w planetę
+        11.5.3  Przełącznik na odległości/rozmiary
+    11.6    Panel z informacjami o planecie
+        11.6.1  Utworzenie dodatkowej kamery do panelu
+        11.6.2  Dynamiczne wypełnianie planet w zależności która została kliknięta
+        11.6.3  Pauzowanie sterowania kamerą i czasu gdy panel z informacjami jest aktywny 
+                    i przywrócenie do normy po ukryciu go
+    11.7    Skalowanie rozmiarów planet
+12. Raycaster
+    12.1 Reakcja na najazd myszą
+    12.2 Reakcja na kliknięcie myszą na planecie
+13. Koniunkcje planet
+    13.1 Planety podświetlają się gdy klikniemy w datę koniunkcji
+14. Napotkane problemy
+15. Wnioski
+16. Żródła, obrazy itd...
