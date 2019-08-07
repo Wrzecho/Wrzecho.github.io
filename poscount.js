@@ -22,16 +22,16 @@ const calcplanetpos = (
     // f10 - ekscentrycznosc orbity
     // f11 - mean longitude - srednia odleglosc od slonca
 
-    // f2 = 2450680.5; //cej
+    f2 = 2450680.5; //cej
     b7 = 367 * b2 - Math.round((7 * (b2 + Math.round( (b3 + 9) / 12) )) / 4) + Math.round(275 * b3 / 9) + b4 - 730530 ;
     //   b7 = 367 * b2 -  (7 * (b2 + (b3 + 9) / 12) / 4 ) + 275 * b3 / 9 + b4 - 730531.5 + b5 / 24;
      
      // +
         // (b5 + b6 / 60); //j2000.0
-    //  b8 = b7 - (f2 - 2451545); 
+     b8 = b7 - (f2 - 2451545); 
     // console.log(b7);
     //el_dnia!!!!!!!! ( JulianDay = b7 minus stała mean ecliptic (2451545))
-     b8 = b7 - 2451545;
+    //  b8 = b7 - 2451545;
     // console.log(b7);
 
     // zmiana orbity na radiany
