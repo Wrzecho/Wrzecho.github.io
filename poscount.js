@@ -51,7 +51,7 @@ const calcplanetpos = (
      //radius vector
      r = f8 * (1 - Math.pow(f10,2)) / ( 1 + f10 * Math.cos((Math.PI/180) * g14));
 
-     //heliocentryczne coordynaty planety
+     //heliocentryczne koordynaty planety
      let hx = r * ( Math.cos((Math.PI/180) * f6) * Math.cos((Math.PI/180) * ( g14 + f7 - f6 )) - 
      Math.sin((Math.PI/180) * f6) * Math.sin((Math.PI/180) * ( g14 + f7 - f6 )) * Math.cos((Math.PI/180) * f5) );
      

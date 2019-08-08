@@ -37,8 +37,9 @@
 				gl_FragColor = vec4( glow, 1.0 );
 			}
 		</script>
-	<!-- ----------------------------------------------------------- -->
+		<!-- ----------------------------------------------------------- -->
 
+		<!-- panel ustawien -->
 		<div class="show" id="settingspanel" >
 			<div id="settingsbtn" class="settingsbtnclass" onclick="togglesettingsbar()"></div>
 			<div class="dateinfo" id="infodate"></div>
@@ -119,11 +120,8 @@
 						<ul class="conlist" id="neptunelist"></ul>
 					</div>
 				</div>
-                <!-- <div class="timestatus">
-                    <div class="tstat"></div>
-                    <input type="checkbox" id="play" checked>
-                </div> -->
 			</div>
+			<!-- koniec panel ustawien -->
 		</div>
 		<div id="info">
 			Symulator eksploracji układu słonecznego - v19<br>
@@ -179,14 +177,16 @@
 						</div>
 					</div>
 		</div>
-
+		<!-- koniec informacji o planecie -->
 		</div>
+
 		<div class="resetcamera">
 			<a id="cameraresetbtn" 
 			onclick="cameratween(camToSave.position, camToSave.rotation, camToSave.controlCenter)">
 			RESET KAMERY
 			</a>
 		</div>
+
 		<div id="toggler">
 			<p class="pcdesc">Porównanie realnych </p>
 			<p id="chosen">wielkości</p>
@@ -195,6 +195,7 @@
 			<button id="distances" onclick="showdistances()" class="">SKALA ODLEGŁOŚCI</button>
 		</div>
 
+		<!-- skala rozmiarów planet -->
 		<div class="planetscomparison ">
 			<div class="planetsizecntainer">
 				<div class="slabel">Słońce</div>
@@ -245,7 +246,8 @@
 				<div class="planet" id="neptune"></div></div>
 			</div>
 		</div>
-
+		<!-- kioniec skala rozmiarów planet -->
+		<!-- skala odleglosci miedzy planetami -->
 		<div class="distancescomparison slideddown">
 			<div id="sundist" class="pdist"><p>Słońce</p></div>
 			<div id="mercurydist" class="pdist"><p>Merkury</p></div>
@@ -258,24 +260,30 @@
 			<div id="uranusdist" class="pdist"><p>Uran</p></div>
 			<div id="neptunedist" class="pdist"><p>Neptun</p></div>
 		</div>
-
+		<!-- koniec skala odleglosci -->
+		<!-- import bibliotek -->
 		<script src="js/three.js"></script>
-		<script src="datesettings.js"></script> <!--funkcje zmiany czasu-->
-		<!-- <script src="positionscounting.js"></script>obliczanie pozycji planet -->
+		<!-- sterowanie czasem -->
+		<script src="datesettings.js"></script>
+		<!-- obliczanie pozycji X Y Z -->
 		<script src="poscount.js"></script>
-		<script src="eclipticcoordinates.js"></script>
-		<script src="gui.js"></script><!--interakcje z interface-->
+		<!-- interface i interakcje z gui -->
+		<script src="gui.js"></script>
+		<!-- rysowanie orbic -->
 		<script src="trails.js"></script>
+		<!-- projektor -->
 		<script src="js/Projector.js"></script>
+		<!-- płynny ruch obiektów (planet) -->
 		<script src="js/Tween.js" ></script>
+		<!-- sterowanie kamerą -->
 		<script src="js/Orbitcontrols.js" ></script>
+		<!-- wypełnianie listy koniunkcji plus obsługa -->
 		<script src="coniunctions.js"></script>
+		<!-- labelki z nazwami planet -->
 		<script src="//unpkg.com/three-spritetext" ></script>
-		<script src="js/GLTFLoader.js"></script>
+		<!-- koniec import bibliotek -->
 		<script>
-
 			let planet;
-			// let worker = new Worker('work.js');
 			// deaktywuje animacje gdy karta przegladarki nie jest aktywna
 			let doanimate = true;
 			let tabfocus = true;
@@ -564,8 +572,7 @@
 			sun.fullname = 'sun';
 			scene.add( sun );
 			sun.position.set(0,0,0);
-			//poswiata
-			//shader na poswiaty sfer
+			//shader z efektem "glow" na słonce
 			let sunglowmat = new THREE.ShaderMaterial( 
 			{
 				uniforms: 
