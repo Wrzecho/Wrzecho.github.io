@@ -108,6 +108,4 @@ const ustawczas = () => {
 	document.getElementById("infodate").innerHTML = "Data: "+strdate;
 }
 
-
-
 console.log("datesettings.js loaded!");

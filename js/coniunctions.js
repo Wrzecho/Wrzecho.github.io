@@ -308,3 +308,5 @@ const resetplanetscolors = () => {
         btns[i].classList.remove('activelistbtn');
       }
 }
+
+console.log("coniunctions.js loaded!");

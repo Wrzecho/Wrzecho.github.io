@@ -1,4 +1,3 @@
-console.log("Trails Loaded!");
 // rysowanie orbit za planetami (dla 1 planety)
 const trailgeometry = new THREE.SphereGeometry(1, 5, 5);
 const trailmaterial = new THREE.MeshBasicMaterial({ color: 0xcccccc });
@@ -59,7 +58,7 @@ const togglealltrails = element => {
         for(let iterator = 0 ; iterator < pchecks.length; iterator++) {
             pchecks[iterator].checked = true;
         }
-
+        
     } else {
         hidealltrails();
         for(let iterator = 0 ; iterator < pchecks.length; iterator++) {
@@ -80,3 +79,4 @@ const hidetrail = trailarray => {
     trailarray.visible = false;
 };
 
+console.log("Trails Loaded!");

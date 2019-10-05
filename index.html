@@ -104,7 +104,7 @@
 					</div>
 				</div>
 				<div class="row">
-					<p>Koniunkcje z Ziemią:</p>	
+					<p>Opozycje planet z Ziemią:</p>	
 					<div class="buttonscontainer">
 						<button class="listbtn" id="listmars" onclick="showmarslist(this)">Marsa</button>
 						<button class="listbtn" id="listjupiter" onclick="showjupiterlist(this)">Jowisza</button>
@@ -124,9 +124,9 @@
 			<!-- koniec panel ustawien -->
 		</div>
 		<div id="info">
-			Symulator eksploracji układu słonecznego - v19<br>
-			Upływ czasu: <p id="timespeed"></p> dni / sekundę <br>
-			Prędkośc obrotu planet wokół własnej osi spowolnione <p id="slowdown"></p> krotnie.
+			Interaktywny symulator eksploracji układu słonecznego<br>
+			Upływ czasu: <p id="timespeed"></p> dzień / sekundę <br>
+			<!-- Psędkośc obrotu planet wokół własnej osi spowolnione <p id="slowdown"></p> krotnie. -->
 		</div>
 
 		<!-- INFORMACJE O PLANECIE -->
@@ -251,7 +251,7 @@
 		<div class="distancescomparison slideddown">
 			<div id="sundist" class="pdist"><p>Słońce</p></div>
 			<div id="mercurydist" class="pdist"><p>Merkury</p></div>
-			<div id="venusdist" class="pdist"><p>Wenus</p></div>
+			<div id="venusdist" class="pdist"><p>Wenus</p></div>c
 			<div id="earthdist" class="pdist"><p>Ziemia</p></div>
 			<div id="marsdist" class="pdist"><p>Mars</p></div>
 			<div id="asteroiddist" class="pdist"><p>Pas&nbsp;asteroid</p></div>
@@ -264,21 +264,19 @@
 		<!-- import bibliotek -->
 		<script src="js/three.js"></script>
 		<!-- sterowanie czasem -->
-		<script src="datesettings.js"></script>
+		<script src="js/datesettings.js"></script>
 		<!-- obliczanie pozycji X Y Z -->
-		<script src="poscount.js"></script>
+		<script src="js/poscount.js"></script>
 		<!-- interface i interakcje z gui -->
-		<script src="gui.js"></script>
+		<script src="js/gui.js"></script>
 		<!-- rysowanie orbic -->
-		<script src="trails.js"></script>
-		<!-- projektor -->
-		<script src="js/Projector.js"></script>
+		<script src="js/trails.js"></script>
 		<!-- płynny ruch obiektów (planet) -->
 		<script src="js/Tween.js" ></script>
 		<!-- sterowanie kamerą -->
 		<script src="js/Orbitcontrols.js" ></script>
 		<!-- wypełnianie listy koniunkcji plus obsługa -->
-		<script src="coniunctions.js"></script>
+		<script src="js/coniunctions.js"></script>
 		<!-- labelki z nazwami planet -->
 		<script src="//unpkg.com/three-spritetext" ></script>
 		<!-- koniec import bibliotek -->
@@ -379,7 +377,7 @@
 			let camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 1, unisize*2 );
 			let camera2 = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 1, unisize*2 );
 
-			let projector = new THREE.Projector();
+			// let projector = new THREE.Projector();
 			addEventListener( 'mousemove', onMouseMove, false );
 
 			// konfiguracja biblioteki OrbitControls.js
@@ -415,6 +413,7 @@
 					mouse.y =  -( event.clientY / window.innerHeight ) * 2 + 1;
 				}
 
+			// RAYCASTER - kliknięcie myszą
 			let ray = new THREE.Raycaster();
 			document.onmousedown = () => {
 									name = INTERSECTED.fullname;
@@ -468,31 +467,23 @@
 				const cameratween = (position, rotation, controlCenter) => {
 					let initialpos = camera.position;
 					let targetpos = {x: position.x, y: position.y, z: position.z};
-					// console.log("Init: "+initialpos.x+" target: "+targetpos.x);
 					let initialrot = camera.rotation;
 					let targetrot = {x: rotation.x, y: rotation.y, z: rotation.z};
 					controls.center.set(controlCenter.x, controlCenter.y, controlCenter.z);
-					// controls.update();
-					console.log("Camera movement!");
 					let tweenpos = new TWEEN.Tween(initialpos).to(targetpos,1000).easing(TWEEN.Easing.Cubic.InOut);
 					tweenpos.onUpdate(function() {
 						camera.position.x = initialpos.x;
 						camera.position.y = initialpos.y;
 						camera.position.z = initialpos.z;
-						// camera.lookAt(sun.position);
 					});
 					let tweenrot = new TWEEN.Tween(initialrot).to(targetrot,1000).easing(TWEEN.Easing.Cubic.InOut);
 					tweenrot.onUpdate(function() {
 						camera.rotation.x = initialrot.x;
 						camera.rotation.y = initialrot.y;
 						camera.rotation.z = initialrot.z;
-						// camera.lookAt(sun.position);
 					});
-					// camera.rotation.set(rotation.x, rotation.y, rotation.z);
 					tweenpos.start();
 					tweenrot.start();
-					// togglecambtn();
-					console.log("Movement end!");
 				}
 
 			//#endregion
@@ -520,64 +511,70 @@
 			//gwiazdy
 			let stars = new THREE.Object3D();
 			scene.add(stars);
-			let stargeo = new THREE.SphereGeometry( 1, 5, 5);
+			let stargeo = new THREE.SphereGeometry( 1.5 , 5, 5);
 			let starmat =  new THREE.MeshPhongMaterial( { color:0xFFFFFF} );
-			for ( let i = 0; i < 100; i ++ ) {
+			for ( let i = 0; i < 200; i ++ ) {
 					let mesh = new THREE.Mesh( stargeo, starmat );
-					mesh.position.x = ( Math.random() - 0.5 ) * unisize;
-					mesh.position.y = ( Math.random() - 0.5 ) * unisize;
-					mesh.position.z = ( Math.random() - 0.5 ) * unisize;
+					mesh.position.x = ( Math.random() - 0.5 ) * unisize*2;
+					mesh.position.y = ( Math.random() - 0.5 ) * unisize*2;
+					mesh.position.z = ( Math.random() - 0.5 ) * unisize*2;
 					mesh.updateMatrix();
 					mesh.castShadow = false;
 					mesh.receiveShadow = false;
 					mesh.matrixAutoUpdate = false;
 					stars.add( mesh );
 				}
+				
+				// pas asteroid
+				let asteroidbelt = new THREE.Object3D();
+				scene.add(asteroidbelt);
+				let astrogeo = new THREE.SphereGeometry (1, 4, 4);
+				let astromat = new THREE.MeshPhongMaterial ({color: 0xffffff} );
+				for ( let i = 0; i < 800; i ++ ) {
+					let mesh = new THREE.Mesh( astrogeo, astromat );
+					let radius = (Math.random()-0.5)*90+510;
+					let randomY = (Math.random()-0.5)*80;
+					let posx = Math.cos(i)*radius;
+					let randomsize = (Math.random()+0.8);
+					mesh.position.x = (Math.cos(i))*radius;
+					mesh.position.z = (Math.sin(i))*radius;
+					mesh.scale.set(randomsize,randomsize,randomsize);
+					mesh.position.y = randomY;
+					mesh.castShadow = false;
+					mesh.receiveShadow = false;
+					mesh.updateMatrix();
+					mesh.matrixAutoUpdate = false;
+					asteroidbelt.add(mesh);
+				}
+				
+				// namelabels i geometria planet i pierscieni
+				let namelabels = [];
+				let planetgeometry = new THREE.SphereGeometry(1,25,25);
+				let ringsgeometry = new THREE.SphereGeometry(0.35, 4, 4);
+				
+				// ambient light
+				let ambientlight = new THREE.AmbientLight( 0xFFFFFF, 0.6 );
+				scene.add(ambientlight);
 
-			// pas asteroid
-			let asteroidbelt = new THREE.Object3D();
-			scene.add(asteroidbelt);
-			let astrogeo = new THREE.SphereGeometry (1, 4, 4);
-			let astromat = new THREE.MeshPhongMaterial ({color: 0xffffff} );
-			for ( let i = 0; i < 800; i ++ ) {
-				let mesh = new THREE.Mesh( astrogeo, astromat );
-				let radius = (Math.random()-0.5)*90+510;
-                let randomY = (Math.random()-0.5)*80;
-				let posx = Math.cos(i)*radius;
-				mesh.position.x = (Math.cos(i))*radius;
-				mesh.position.z = (Math.sin(i))*radius;
-				mesh.position.y = randomY;
-				mesh.castShadow = false;
-				mesh.receiveShadow = false;
-				mesh.updateMatrix();
-				mesh.matrixAutoUpdate = false;
-				asteroidbelt.add(mesh);
-			}
-
-			// namelabels i geometria planet i pierscieni
-			let namelabels = [];
-			let planetgeometry = new THREE.SphereGeometry(1,25,25);
-			let ringsgeometry = new THREE.SphereGeometry(0.35, 4, 4);
-
-			//slonce + swiatlo
-			let sungeo = new THREE.SphereGeometry( 75, 30, 30 );
-			let sun = new THREE.PointLight( 0xFFFFFF, 1, 0, 2 );
-			let suntexture = new THREE.TextureLoader().load('textures/sunmap.jpg');
-			// let sunmaterial = new THREE.MeshBasicMaterial( { color: 0xFFFFFF} );
-			let sunmaterial = new THREE.MeshBasicMaterial( { color: 0xFFFFFF, map: suntexture} );
-			sun.add( new THREE.Mesh( sungeo, sunmaterial ) );
-			sun.castShadow = false;
-			sun.receiveShadow = false;
-			sun.name = 0;
-			sun.fullname = 'sun';
-			scene.add( sun );
-			sun.position.set(0,0,0);
-			//shader z efektem "glow" na słonce
-			let sunglowmat = new THREE.ShaderMaterial( 
-			{
-				uniforms: 
-				{ 
-					"c":   { type: "f", value: 0.1 },
+				//slonce + swiatlo
+				let sungeo = new THREE.SphereGeometry( 75, 30, 30 );
+				let sun = new THREE.PointLight( 0xFFFFFF, 1, 0, 2 );
+				let suntexture = new THREE.TextureLoader().load('textures/sunmap.jpg');
+				// let sunmaterial = new THREE.MeshBasicMaterial( { color: 0xFFFFFF} );
+				let sunmaterial = new THREE.MeshBasicMaterial( { color: 0xFFFFFF, map: suntexture} );
+				sun.add( new THREE.Mesh( sungeo, sunmaterial ) );
+				sun.castShadow = false;
+				sun.receiveShadow = false;
+				sun.name = 0;
+				sun.fullname = 'sun';
+				scene.add( sun );
+				sun.position.set(0,0,0);
+				//shader z efektem "glow" na słonce
+				let sunglowmat = new THREE.ShaderMaterial( 
+					{
+						uniforms: 
+						{ 
+							"c":   { type: "f", value: 0.1 },
 					"p":   { type: "f", value: 1.5 },
 					glowColor: { type: "c", value: new THREE.Color(0xffcc66) },
 					viewVector: { type: "v3", value: camera.position }
@@ -601,12 +598,11 @@
 			scene.add(sunlabel);
 			sunlabel.fullname = 'sun';
 
-			let ambientlight = new THREE.AmbientLight( 0xFFFFFF, 0.6 );
-			scene.add(ambientlight);
 		
 			// merkury
 			let mercurytexture = new THREE.TextureLoader().load('textures/mercurymap.jpg');
 			let mercurymat = new THREE.MeshPhongMaterial( { color: 0xFFFFFF, map: mercurytexture} );
+			// let mercurymat = new THREE.MeshPhongMaterial( { color: 0xDBCECA } );
 			let mercury = new THREE.Mesh(planetgeometry,mercurymat);
 			let meinitscale = 9;
 			mercury.receiveShadow = false;
@@ -626,6 +622,7 @@
 			//venus
 			let venustexture = new THREE.TextureLoader().load('textures/venusmap.jpg');
 			let venusmat = new THREE.MeshPhongMaterial( { color: 0xFFFFFF, map: venustexture} );
+			// let venusmat = new THREE.MeshPhongMaterial( { color: 0x8B7D82 } );
 			let venus = new THREE.Mesh(planetgeometry,venusmat);
 			let veinitscale = 11;
 			venus.receiveShadow = false;
@@ -645,6 +642,7 @@
 			//ziemia + ksiezyc
 			let earthtexture = new THREE.TextureLoader().load('textures/earthmap1k.jpg');
 			let earthm = new THREE.MeshPhongMaterial( { color: 0xFFFFFF, map: earthtexture } );	
+			// let earthm = new THREE.MeshPhongMaterial( { color: 0x3333EE } );	
 			let earth = new THREE.Mesh(planetgeometry,earthm);
 			let eainitscale = 12;
 			earth.receiveShadow = false;
@@ -681,7 +679,7 @@
 			earthGlow.scale.multiplyScalar(1.1);
 			eaglowpivot.add(earthGlow);
 			earth.add( eaglowpivot );
-			// księżyc
+			// księżyc Ziemii
 			let earthPivot = new THREE.Object3D();
 			earth.add( earthPivot );
 			let moontexture = new THREE.TextureLoader().load('textures/moonmap.jpg');
@@ -695,6 +693,7 @@
 			//mars
 			let marstexture = new THREE.TextureLoader().load('textures/marsmap.jpg');
 			let marsmat = new THREE.MeshPhongMaterial( { color: 0xFFFFFF, map: marstexture } );
+			// let marsmat = new THREE.MeshPhongMaterial( { color: 0xa1251b } );
 			let mars = new THREE.Mesh(planetgeometry,marsmat);
 			let mainitscale = 10;
 			mars.receiveShadow = false;
@@ -710,12 +709,11 @@
 			namelabels.push(marslabel);
 			scene.add(marslabel);
 			marslabel.fullname = 'mars';
+			// ksiezyce marsa
 			let phobosPivot = new THREE.Object3D();
 			mars.add( phobosPivot );
 			let deimosPivot = new THREE.Object3D();
 			mars.add( deimosPivot );
-			// let moontexture = new THREE.TextureLoader().load('textures/moonmap.jpg');
-			// let moonmat = new THREE.MeshPhongMaterial( { color: 0xFFFFFF, map: moontexture } );
 			let phobos = new THREE.Mesh( planetgeometry, moonmat );
 			let deimos = new THREE.Mesh( planetgeometry, moonmat );
 			phobos.position.x = 2;
@@ -725,18 +723,10 @@
 			phobosPivot.add( phobos );
 			deimosPivot.add( deimos );
 
-			// const gltfLoader = new THREE.GLTFLoader();
-			// const url = "/models/deimos.glb";
-			// gltfLoader.load(url, (glb) => {
-			// 	const root = gltf.scene;
-			// 	scene.add(root);
-			// });
-
-
-
 			//jowisz
 			let jupitertexture = new THREE.TextureLoader().load('textures/jupitermap.jpg');
 			let jupitermat = new THREE.MeshPhongMaterial( { color: 0xFFFFFF, map: jupitertexture } );
+			// let jupitermat = new THREE.MeshPhongMaterial( { color: 0xe3dccb } );
 			let jupiter = new THREE.Mesh(planetgeometry,jupitermat);
 			let juinitscale = 25;
 			jupiter.receiveShadow = false;
@@ -756,6 +746,7 @@
 			//saturn
 			let saturntexture = new THREE.TextureLoader().load('textures/saturnmap.jpg');
 			let saturnmat = new THREE.MeshPhongMaterial( { color: 0xFFFFFF, map: saturntexture } );
+			// let saturnmat = new THREE.MeshPhongMaterial( { color: 0xC4BCAA } );
 			let saturn = new THREE.Mesh(planetgeometry,saturnmat);
 			let sainitscale = 22;
 			saturn.receiveShadow = false;
@@ -764,13 +755,12 @@
 			saturn.fullname = 'saturn';
 			scene.add(saturn);
 			saturn.scale.set(sainitscale,sainitscale,sainitscale);
-			// pierscienie
-			// let saturnringgeo = new THREE.RingGeometry( 1.2, 2.2, 30, 30, 0, Math.PI * 2 );
+			// pierscienie Saturna
 			let saturnringtexture = new THREE.TextureLoader().load('textures/saturnringcolor.jpg');
 			let saturnringmat = new THREE.MeshPhongMaterial( { color: 0xFFFFFF, map: saturnringtexture } );
+			// let saturnringmat = new THREE.MeshPhongMaterial( { color: 0xC4BCAA } );
 			let saturnPivot = new THREE.Object3D();
 			saturn.add( saturnPivot );
-			// saturnPivot.rotation.x = 80;
 			for ( let i = 0; i < 200; i ++ ) {
 				let mesh = new THREE.Mesh( ringsgeometry, saturnringmat );
 				mesh.scale.set(0.1 , 0.1, 0.1);
@@ -795,6 +785,7 @@
 
 			//uran
 			let uranustexture = new THREE.TextureLoader().load('textures/uranusmap.jpg');
+			// let uranusmat = new THREE.MeshPhongMaterial( { color: 0xc6d3e3 } );
 			let uranusmat = new THREE.MeshPhongMaterial( { color: 0xFFFFFF, map: uranustexture } );
 			let uranus = new THREE.Mesh(planetgeometry,uranusmat);
 			let urinitscale = 20;
@@ -804,27 +795,6 @@
 			uranus.fullname = 'uranus';
 			scene.add(uranus);
 			uranus.scale.set(urinitscale,urinitscale,urinitscale);
-			// pierscienie
-			// let uranusringgeo = new THREE.RingGeometry( 1.2, 2.2, 30, 30, 0, Math.PI * 2 );
-			let uranusringtexture = new THREE.TextureLoader().load('textures/uranusringcolour.jpg');
-			let uranusringmat = new THREE.MeshPhongMaterial( { color: 0xFFFFFF, map: saturnringtexture } );
-			let uranusPivot = new THREE.Object3D();
-			// uranus.add( uranusPivot );
-			uranusPivot.rotation.x = 80;
-			for ( let i = 0; i < 100; i ++ ) {
-				let mesh = new THREE.Mesh( ringsgeometry, uranusringmat );
-				mesh.scale.set(0.1 , 0.1, 0.1);
-				let radius = (Math.random()-0.5)*0.3+1.8;
-                let randomZ = (Math.random()-0.5)*0.1;
-				mesh.position.x = (Math.cos(i))*radius;
-				mesh.position.y = (Math.sin(i))*radius;
-				mesh.position.z = randomZ;
-				mesh.castShadow = false;
-				mesh.receiveShadow = false;
-				mesh.updateMatrix();
-				mesh.matrixAutoUpdate = false;
-			// uranusPivot.add( mesh );
-			}
 			// label z nazwa
 			let uranuslabel = new SpriteText(PLnames[6]);
 			uranuslabel.fontFace = 'sans-serif';
@@ -835,6 +805,7 @@
 
 			//neptun
 			let neptunetexture = new THREE.TextureLoader().load('textures/neptunemap.jpg');
+			// let neptunemat = new THREE.MeshPhongMaterial( { color: 0x5b5ddf } );
 			let neptunemat = new THREE.MeshPhongMaterial( { color: 0xFFFFFF, map: neptunetexture } );
 			let neptune = new THREE.Mesh(planetgeometry,neptunemat);
 			let neinitscale = 18;
@@ -844,6 +815,7 @@
 			neptune.fullname = 'neptune';
 			scene.add(neptune);
 			neptune.scale.set(neinitscale,neinitscale,neinitscale);
+			
 			//label z nazwa
 			let neptunelabel = new SpriteText(PLnames[7]);
 			neptunelabel.fontFace = 'sans-serif';
@@ -851,7 +823,7 @@
 			namelabels.push(neptunelabel);
 			scene.add(neptunelabel);
 			neptunelabel.fullname = 'neptune';
-			
+
 			// ORBITY
 			let metr = new THREE.Object3D();
 			let vetr = new THREE.Object3D();
@@ -889,40 +861,31 @@
 					togglecambtn();
 					render();
 				}
-			
 			camera2.position.set(50,50,50);
 			camera2.lookAt(sun.position);
-
 			//#endregion
-
 
 			// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 			// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 			// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++	
-			
-const update = function () {
-	sunshader.material.uniforms.viewVector.value = new THREE.Vector3().subVectors( camera.position, sunshader.position );
-	earthGlow.material.uniforms.viewVector.value = new THREE.Vector3().subVectors( camera.position, earthGlow.position );
-}
+
+			// update shaderow
+			const update = function () {
+				sunshader.material.uniforms.viewVector.value = new THREE.Vector3().subVectors( camera.position, sunshader.position );
+				earthGlow.material.uniforms.viewVector.value = new THREE.Vector3().subVectors( camera.position, earthGlow.position );
+			}
 
 			// INIT
 			const init = function () {
 				document.getElementById("timespeed").innerText = 1000/delay;
-				document.getElementById("slowdown").innerText = slowdown;
+				// document.getElementById("slowdown").innerText = slowdown;
 				let sizescale = document.getElementById('psizerange').value;
 				document.getElementById('rangeval').innerText = sizescale;
 				// georb();
 				calcdistances();
 				requestAnimationFrame ( animate);
 				update();
-				// mercury.initpos = mercury.position;
-				// venus.initpos = venus.position;
-				// earth.initpos = earth.position;
-				// mars.initpos = mars.position;
-				// jupiter.initpos = jupiter.position;
-				// saturn.initpos = saturn.position;
-				// uranus.initpos = uranus.position;
-				// neptune.initpos = neptune.position;
+
 				let b2 = date.getFullYear(); //year
 				let b3 = date.getMonth()+1; //month
 				let b4 = date.getDate(); //day
@@ -938,74 +901,74 @@ const update = function () {
 				jupiter.rotation.x = -(jupiterdata.axistilt * Math.PI/180);
 				saturn.rotation.x = -(saturndata.axistilt * Math.PI/180);
 				uranus.rotation.x = -(uranusdata.axistilt * Math.PI/180);
-				neptune.rotation.x = -(neptunedata.axistilt * Math.PI/180);
+                neptune.rotation.x = -(neptunedata.axistilt * Math.PI/180);
+                
 			};
-
+            
 			// ANIMATE
 			let intersects;
 			let name, data;
-			const FPS = 20;
+			const FPS = 30;
 			let i = 0;
 			let h = 0;
-			let mooncycle = 28; //28 dni to cykl ksiezyca
-			let slowdown = 5;
-			let onerotperframe = (Math.PI / 180) * (360/FPS); //360 stopni na sekunde
-			let realearthrotationspeed = onerotperframe * (1000/delay);
+			let mooncycle = 27; //27 dni to cykl ksiezyca
+			// let slowdown = 5; //spowolnienie obracania planet
+			let earthrotperframe = (Math.PI / 180) * (360/FPS); //360 stopni na sekunde
 			
 			var animate = function () {
-			TWEEN.update();
-			updatelabelspositions();
-
-				// czestotliwosc odswiezania symulacji ( 40 FPS )
+                TWEEN.update();
+                updatelabelspositions();
+                
+				// czestotliwosc odswiezania symulacji ( FPS )
 				setTimeout( function() {
-			        requestAnimationFrame( animate );
+                    requestAnimationFrame( animate );
 				}, 1000/FPS);
 				
 				setTimeout (function() {
-					// RAYCASTER
+                    // RAYCASTER - najazd myszą (podswietlanie obiektów)
 					ray.setFromCamera( mouse, camera );
 					intersects = ray.intersectObjects( scene.children );
-						if ( intersects.length > 0 )
-						{
-							// if the closest object intersected is not the currently stored intersection object
-							if ( intersects[ 0 ].object != INTERSECTED ) 
-							{
-								// restore previous intersection object (if it exists) to its original color
-								if ( INTERSECTED ) {
-									INTERSECTED.material.color.setHex( INTERSECTED.currentHex );
-								}
-								//przypisuje interakcje do INTERSECTED
-								INTERSECTED = intersects[ 0 ].object;
-								// zachowuje pierwotny kolor obiektu
-								INTERSECTED.currentHex = INTERSECTED.material.color.getHex();
-								// podswietla planete (planety maja ID > 900 dlatego po tym wiem ze nimi są)
+                    if ( intersects.length > 0 )
+                    {
+                        // if the closest object intersected is not the currently stored intersection object
+                        if ( intersects[ 0 ].object != INTERSECTED ) 
+                        {
+                            // restore previous intersection object (if it exists) to its original color
+                            if ( INTERSECTED ) {
+                                INTERSECTED.material.color.setHex( INTERSECTED.currentHex );
+                            }
+                            //przypisuje interakcje do INTERSECTED
+                            INTERSECTED = intersects[ 0 ].object;
+                            // zachowuje pierwotny kolor obiektu
+                            INTERSECTED.currentHex = INTERSECTED.material.color.getHex();
+                            // podswietla planete (planety maja ID > 900 dlatego po tym wiem ze nimi są)
 								if(INTERSECTED.id > 900)
 								{
-								INTERSECTED.material.color.setHex( 0xDD0000 );
+                                    INTERSECTED.material.color.setHex( 0xDD0000 );
 								}
 							}
 						} 
 						else // nie ma interakcji
 						{
-							// przywraca kolor jesli nie najezdzamy na nic mysza
+                            // przywraca kolor jesli nie najezdzamy na nic mysza
 							if ( INTERSECTED ) 
-								INTERSECTED.material.color.setHex( INTERSECTED.currentHex );
+                            INTERSECTED.material.color.setHex( INTERSECTED.currentHex );
 							// resetuje intersekcje
 							INTERSECTED = null;
 						}
-				}, 2*1000/FPS);
-				
-				//	! CAŁY MOVEMENT (checking of animationstate)
-
-				if(animationstate == true) {
-					//ustawienie planet po przeliczeniu ich pozycji (co 8 klatek)
-					if(++i % (FPS) == 0) {
-						console.log("TIK");
-						//wciągnięcie szczegółów daty
-						let b2 = date.getFullYear(); //year
-						let b3 = date.getMonth()+1; //month
-						let b4 = date.getDate(); //day
-						let b5 = date.getHours(); //hours
+                    }, 2*1000/FPS);
+                    
+                    //	! CAŁY MOVEMENT (checking of animationstate)
+                    
+                    if(animationstate == true) {
+                        //ustawienie planet po przeliczeniu ich pozycji (co 8 klatek)
+                        if(++i % (FPS) == 0) {
+                            console.log("TIK");
+                            //wciągnięcie szczegółów daty
+                            let b2 = date.getFullYear(); //year
+                            let b3 = date.getMonth()+1; //month
+                            let b4 = date.getDate(); //day
+                            let b5 = date.getHours(); //hours
 						let b6 = date.getMinutes(); //minutes
 						updateplanetspositions(b2,b3,b4,b5,b6);	
 						
@@ -1013,12 +976,10 @@ const update = function () {
 						checktrailarraycapacity(metr, parseInt(mercurydata.ows));
 						addtrail(venus.position, vetr);
 						checktrailarraycapacity(vetr, parseInt(venusdata.ows));
-						// epos();
 						addtrail(earth.position, eatr);
 						checktrailarraycapacity(eatr, parseInt(earthdata.ows));
 						addtrail(mars.position, matr);
 						checktrailarraycapacity(matr, parseInt(marsdata.ows));
-						// jupiterpos();
 						addtrail(jupiter.position, jutr);
 						checktrailarraycapacity(jutr, parseInt(jupiterdata.ows));
 						addtrail(saturn.position, satr);
@@ -1027,25 +988,26 @@ const update = function () {
 						checktrailarraycapacity(urtr, parseInt(uranusdata.ows));
 						addtrail(neptune.position, netr);
 						checktrailarraycapacity(netr, parseInt(neptunedata.ows));
-					
+                        
 						i = 0;
 					}	
 					// console.log(i);
 					
-					// obroty wokol osi (animacja ma 40 klatek na sekundę)
-					earth.rotation.y -= realearthrotationspeed / slowdown; //5krotne spowolnienie obrotu ziemii
-					earthrotationspeed = realearthrotationspeed / slowdown; 
-					earthPivot.rotation.y += (realearthrotationspeed / slowdown) - (realearthrotationspeed / slowdown)/mooncycle;
-					mercury.rotation.y -= earthrotationspeed/58.6; // 58.6 dnia
-					venus.rotation.y -= earthrotationspeed/243; // 243 dni
-					mars.rotation.y -= earthrotationspeed*(24/24.6); // 24h 39m
-					phobosPivot.rotation.y += (realearthrotationspeed / slowdown) - (realearthrotationspeed / slowdown)/0.31;
-					deimosPivot.rotation.y += (realearthrotationspeed / slowdown) - (realearthrotationspeed / slowdown)/1.26;
-					jupiter.rotation.y -= earthrotationspeed*(24/9); // 9h
-					saturn.rotation.y -= earthrotationspeed*(24/10.5); // 10h 33m
-					saturnPivot.rotation.y += earthrotationspeed*(24/10.5); // 10h 33m
-					uranus.rotation.y -= earthrotationspeed*(24/17.25); // 17h 14m
-					neptune.rotation.y -= earthrotationspeed*(24/16); // 16h
+					// obroty wokol osi (animacja ma 20 klatek na sekundę)
+					earth.rotation.y -= earthrotperframe; //5krotne spowolnienie obrotu ziemii
+					earthPivot.rotation.y += earthrotperframe - earthrotperframe/mooncycle;
+					mercury.rotation.y -= earthrotperframe/58.6; // 58.6 dnia
+					venus.rotation.y -= earthrotperframe/243; // 243 dni
+					let animatemarsrot = earthrotperframe/1.025;
+					mars.rotation.y -= animatemarsrot;// 24h 39m
+					phobosPivot.rotation.y += animatemarsrot - earthrotperframe/0.31;
+					deimosPivot.rotation.y += animatemarsrot - earthrotperframe/1.26;
+					jupiter.rotation.y -= earthrotperframe/0.375; // 9h
+					let animatesaturnrot = earthrotperframe/0.44;
+					saturn.rotation.y -= animatesaturnrot; // 10h 33m
+					saturnPivot.rotation.y += animatesaturnrot; // 10h 33m
+					uranus.rotation.y -= earthrotperframe/0.71; // 17h 14m
+					neptune.rotation.y -= earthrotperframe/0.67; // 16h
 				} 	
 				// ! end of checking animationstate
 				// END OF MOVEMENT
@@ -1055,6 +1017,7 @@ const update = function () {
 				renderer2.render(scene, camera2);
 				update();
 
+				// reakcja na play/pause oraz zmiany pozycji kamery
 				if (++h % (FPS*1.5) == 0) {
 					if ((parseInt(camera.position.y) < 995) || (parseInt(camera.position.y) > 1005)) {
 						camreset.style.opacity = 1;
@@ -1063,17 +1026,21 @@ const update = function () {
 					if (animationstate == true) {
 							document.getElementById("pp").classList.remove('paused');
 							hideasidebar();
-							// if( eventoccured == true ) {
-							// 	earth.material.color.setHex( 0xFFFFFF );
-							// 	eval(planet).material.color.setHex( 0xFFFFFF);
-							// 	document.querySelector('.eventinfo').innerText = '';
-							// 	eventoccured = false;
-							// }
 						} else {
 							document.getElementById("pp").classList.add('paused');
 					}
 					h = 0;
 				}
+
+
+                // mercury.position.set(0,0,200);
+                //         venus.position.set(0,0,280);
+                //         earth.position.set(0,0,360);
+                //         mars.position.set(0,0,420);
+                //         jupiter.position.set(0,0,620);
+                //         saturn.position.set(0,0,735);
+                //         uranus.position.set(0,0,850);
+                //         neptune.position.set(0,0,930);
 
 			};
 		

@@ -101,66 +101,37 @@ let lighttime = document.getElementById('lighttime');
 let meanvelocity = document.getElementById('meanvelocity');
 
 const toggleinfobar = (planet, planetdata) => {
-  let yoffset, xoffset, zoffset;
-  console.log(planet);
+  let yoffset;
   switch(planet.name) {
     case 0 :
       yoffset = 160;
-      // xoffset = 200;
-      // zoffset = 200;
       break;
     case 1 :
       yoffset = 40;
-      // xoffset = 20;
-      // zoffset = 20;
       break;
     case 2 :
       yoffset = 36;
-      // xoffset = 18;
-      // zoffset = 18;
       break;
     case 3 :
       yoffset = 44;
-      // xoffset = 20;
-      // zoffset = 20;
       break;
     case 4 :
       yoffset = 24;
-      // xoffset = 20;
-      // zoffset = 20;
       break;
     case 5 :
       yoffset = 80;
-      // xoffset = 40;
-      // zoffset = 40;
       break;
     case 6 :
       yoffset = 150;
-      // xoffset = 40;
-      // zoffset = 40;
       break;
     case 7 :
       yoffset = 80;
       break;
     case 8 :
       yoffset = 80;
-      // xoffset = 40;
-      // zoffset = 40;
       break;
   }
   if(planet.position.y < 0) yoffset = -yoffset;
-  // if((planet.position.x > 0) && (planet.position.z > 0)) {
-  //   camera2.position.set(planet.position.x-xoffset,planet.position.y,planet.position.z-zoffset);
-  // }
-  // if((planet.position.x > 0) && (planet.position.z < 0)) {
-  //   camera2.position.set(planet.position.x-xoffset,planet.position.y,planet.position.z+zoffset);
-  // }
-  // if((planet.position.x < 0) && (planet.position.z > 0)) {
-  //   camera2.position.set(planet.position.x+xoffset,planet.position.y,planet.position.z-zoffset);
-  // }
-  // if((planet.position.x < 0) && (planet.position.z < 0)) {
-  //   camera2.position.set(planet.position.x+xoffset,planet.position.y,planet.position.z+zoffset);
-  // }
   if (animationstate == true)  {
     animationstate = false;
     setTimeout(() => {
@@ -327,7 +298,6 @@ const realscaleset = () => {
   sizerange.value = 1;
   pscale = 1;
   rangeval.innerHTML = 'Realna';
-  // sun.scale.set(1.5,1.5,1.5);
 
   mercury.scale.set(30 * iconsizes[1], 30 * iconsizes[1], 30 * iconsizes[1]);
   venus.scale.set(30 * iconsizes[2], 30 * iconsizes[2], 30 * iconsizes[2]);
@@ -338,14 +308,6 @@ const realscaleset = () => {
   uranus.scale.set(30 * iconsizes[7],30 * iconsizes[7],30 * iconsizes[7]);
   neptune.scale.set(30 * iconsizes[8],30 * iconsizes[8],30 * iconsizes[8]);
 
-  // mercury.scale.set(meinitscale * realplanetsscale[0], meinitscale * realplanetsscale[0], meinitscale * realplanetsscale[0]);
-  // venus.scale.set(veinitscale * realplanetsscale[1], veinitscale * realplanetsscale[1], veinitscale * realplanetsscale[1]);
-  // earth.scale.set(eainitscale * realplanetsscale[2], eainitscale * realplanetsscale[2], eainitscale * realplanetsscale[2]);
-  // mars.scale.set(mainitscale * realplanetsscale[3], mainitscale * realplanetsscale[3], mainitscale * realplanetsscale[3]);
-  // jupiter.scale.set(juinitscale * realplanetsscale[4], juinitscale * realplanetsscale[4], juinitscale * realplanetsscale[4]);
-  // saturn.scale.set(sainitscale * realplanetsscale[5],sainitscale * realplanetsscale[5],sainitscale * realplanetsscale[5]);
-  // uranus.scale.set(urinitscale * realplanetsscale[6],urinitscale * realplanetsscale[6],urinitscale * realplanetsscale[6]);
-  // neptune.scale.set(neinitscale * realplanetsscale[7],neinitscale * realplanetsscale[7],neinitscale * realplanetsscale[7]);
 }
 
 // pojawianie się przycisku "resetuj kamere"
@@ -356,19 +318,11 @@ const togglecambtn = () => {
   } else camreset.style.opacity = 0;
 };
 
-// toggle Name Label
-// const namelabeltoggle = planet => {
-//   if (namelabels[planet.name].visible == true) {
-//     namelabels[planet.name].visible = false;
-//   } else namelabels[planet.name].visible = true;
-// };
-
 // sterowanie pauzą / play aplikacji
 let animationstate = false;
 const toggleanimation = () => {
   if (animationstate == true) {
     animationstate = false;
-    // hideasidebar();
   } else if (animationstate == false) {
     animationstate = true;
     resetplanetscolors();

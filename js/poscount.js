@@ -1,4 +1,4 @@
-let f2,b7,b8,g5,g6,g7,g9,g11,g13,g14,g15,f16,c9,c10,b11,cx,cy,cz,JD;
+let f2,f3,b7,b8,g5,g6,g7,g9,g11,g13,g14,g15,f16,c9,c10,b11,cx,cy,cz,df;
 const calcplanetpos = (
     planet,
     b2,
@@ -21,59 +21,32 @@ const calcplanetpos = (
     // f9 - daily motion (predkosc planety)
     // f10 - ekscentrycznosc orbity
     // f11 - mean longitude - srednia odleglosc od slonca
+    // df    - fragment dnia
+    // b7 - dni od 1.1.2000
 
-    f2 = 2450680.5; //cej
-    b7 = 367 * b2 - Math.round((7 * (b2 + Math.round( (b3 + 9) / 12) )) / 4) + Math.round(275 * b3 / 9) + b4 - 730530 ;
-    //   b7 = 367 * b2 -  (7 * (b2 + (b3 + 9) / 12) / 4 ) + 275 * b3 / 9 + b4 - 730531.5 + b5 / 24;
-     
-     // +
-        // (b5 + b6 / 60); //j2000.0
-     b8 = b7 - (f2 - 2451545); 
-    // console.log(b7);
-    //el_dnia!!!!!!!! ( JulianDay = b7 minus stała mean ecliptic (2451545))
-    //  b8 = b7 - 2451545;
-    // console.log(b7);
+    f2 = 2450680.5; //staly el daty julianskiej dla 20.08.1997
+    f3 = 2451544.5 // stały el daty julianskiej dla 01.01.2000
+    b7 = 367 * b2 - Math.round((7 * (b2 + Math.round( (b3 + 9) / 12) )) / 4) + Math.round(275 * b3 / 9) + b4  + (b5 +b6/60)/24 - 730531.5 ;
+    b8 = b7 - (f2 - f3); 
 
-    // zmiana orbity na radiany
-     g5 = f5 * (Math.PI / 180); //inkrad
-     g6 = f6 * (Math.PI / 180); //anrad
-     g7 = f7 * (Math.PI / 180); //phrad
-     g9 = f9 * (Math.PI / 180); //dmrad
-     g11 = f11 * (Math.PI / 180); //mlrad
-
-    //główne obliczenia OLD
-     g13 = (f9 * b8 + f11 - f7) % (360); //mean_anomally
+    //główne obliczenia
+    //mean_anomally
+    g13 = (f9 * b8 + f11 - f7) % (360); 
      //true anomally
      g14 = g13 + 180/Math.PI * ( (2 * f10 - Math.pow(f10,0.75) ) * Math.sin( (Math.PI/180) * g13) 
      + 5/4 * Math.pow(f10,2) * Math.sin((Math.PI/180) * (2 * g13)) + 13/12 * Math.pow(f10,3) * Math.sin((Math.PI/180) 
      * (3 * g13)));
-
      //radius vector
      r = f8 * (1 - Math.pow(f10,2)) / ( 1 + f10 * Math.cos((Math.PI/180) * g14));
 
      //heliocentryczne koordynaty planety
-     let hx = r * ( Math.cos((Math.PI/180) * f6) * Math.cos((Math.PI/180) * ( g14 + f7 - f6 )) - 
+     let hz = r * ( Math.cos((Math.PI/180) * f6) * Math.cos((Math.PI/180) * ( g14 + f7 - f6 )) - 
      Math.sin((Math.PI/180) * f6) * Math.sin((Math.PI/180) * ( g14 + f7 - f6 )) * Math.cos((Math.PI/180) * f5) );
-     
-     let hz = r * ( Math.sin((Math.PI/180) * f6) * Math.cos((Math.PI/180) * ( g14 + f7 - f6 )) + 
+     let hx = r * ( Math.sin((Math.PI/180) * f6) * Math.cos((Math.PI/180) * ( g14 + f7 - f6 )) + 
      Math.cos((Math.PI/180) * f6) * Math.sin((Math.PI/180) * ( g14 + f7 - f6 )) * Math.cos((Math.PI/180) * f5) );
-
      let hy = r * ( Math.sin((Math.PI/180) * ( g14 + f7 - f6 )) * Math.sin((Math.PI/180) * f5) );
-
-    //  g15 = (g14 + g7) % (2 * Math.PI); //longitude
-    //  f16 = (f8 * (1 - Math.pow(f10, 2))) / (1 + f10 * Math.cos(g14)); //el_odl
-    //  c9 =
-    //     Math.atan2(Math.cos(g15 - g6), Math.sin(g15 - g6) * Math.cos(g5)) + g6; //helio_long
-    //  c10 = Math.asin(Math.sin(g15 - g6) * Math.sin(g5)); //helio_lat
-
-
-    // wspolrzedne ekliptyczne
-    //  b11 = f16 * Math.cos(c10);
-    //  cx = b11 * Math.cos(c9) * Math.cos(c10);
-    //  cz = b11 * Math.sin(c9) * Math.cos(c10);
-    //  cy = b11 * Math.sin(c10);
-
-    return [hx, hz, hy];
+     
+     return [hx, hz, hy];
 };
 
 // aktualizacja pozycji planet, dodanie im sladow itd
