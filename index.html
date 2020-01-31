@@ -560,7 +560,6 @@
 				let sungeo = new THREE.SphereGeometry( 75, 30, 30 );
 				let sun = new THREE.PointLight( 0xFFFFFF, 1, 0, 2 );
 				let suntexture = new THREE.TextureLoader().load('textures/sunmap.jpg');
-				// let sunmaterial = new THREE.MeshBasicMaterial( { color: 0xFFFFFF} );
 				let sunmaterial = new THREE.MeshBasicMaterial( { color: 0xFFFFFF, map: suntexture} );
 				sun.add( new THREE.Mesh( sungeo, sunmaterial ) );
 				sun.castShadow = false;
@@ -592,7 +591,6 @@
 			let sunlabel = new SpriteText('Słońce');
 			sunlabel.fontFace = 'sans-serif';
 			sunlabel.textHeight = planetlabelsize * 1.618;
-			// sunlabel.scale.set(35,12,1);
 			sunlabel.position.set(0,100,0);
 			namelabels.push(sunlabel);
 			scene.add(sunlabel);
@@ -602,7 +600,6 @@
 			// merkury
 			let mercurytexture = new THREE.TextureLoader().load('textures/mercurymap.jpg');
 			let mercurymat = new THREE.MeshPhongMaterial( { color: 0xFFFFFF, map: mercurytexture} );
-			// let mercurymat = new THREE.MeshPhongMaterial( { color: 0xDBCECA } );
 			let mercury = new THREE.Mesh(planetgeometry,mercurymat);
 			let meinitscale = 9;
 			mercury.receiveShadow = false;
@@ -622,7 +619,6 @@
 			//venus
 			let venustexture = new THREE.TextureLoader().load('textures/venusmap.jpg');
 			let venusmat = new THREE.MeshPhongMaterial( { color: 0xFFFFFF, map: venustexture} );
-			// let venusmat = new THREE.MeshPhongMaterial( { color: 0x8B7D82 } );
 			let venus = new THREE.Mesh(planetgeometry,venusmat);
 			let veinitscale = 11;
 			venus.receiveShadow = false;
@@ -642,7 +638,6 @@
 			//ziemia + ksiezyc
 			let earthtexture = new THREE.TextureLoader().load('textures/earthmap1k.jpg');
 			let earthm = new THREE.MeshPhongMaterial( { color: 0xFFFFFF, map: earthtexture } );	
-			// let earthm = new THREE.MeshPhongMaterial( { color: 0x3333EE } );	
 			let earth = new THREE.Mesh(planetgeometry,earthm);
 			let eainitscale = 12;
 			earth.receiveShadow = false;
@@ -693,7 +688,6 @@
 			//mars
 			let marstexture = new THREE.TextureLoader().load('textures/marsmap.jpg');
 			let marsmat = new THREE.MeshPhongMaterial( { color: 0xFFFFFF, map: marstexture } );
-			// let marsmat = new THREE.MeshPhongMaterial( { color: 0xa1251b } );
 			let mars = new THREE.Mesh(planetgeometry,marsmat);
 			let mainitscale = 10;
 			mars.receiveShadow = false;
@@ -726,7 +720,6 @@
 			//jowisz
 			let jupitertexture = new THREE.TextureLoader().load('textures/jupitermap.jpg');
 			let jupitermat = new THREE.MeshPhongMaterial( { color: 0xFFFFFF, map: jupitertexture } );
-			// let jupitermat = new THREE.MeshPhongMaterial( { color: 0xe3dccb } );
 			let jupiter = new THREE.Mesh(planetgeometry,jupitermat);
 			let juinitscale = 25;
 			jupiter.receiveShadow = false;
@@ -746,7 +739,6 @@
 			//saturn
 			let saturntexture = new THREE.TextureLoader().load('textures/saturnmap.jpg');
 			let saturnmat = new THREE.MeshPhongMaterial( { color: 0xFFFFFF, map: saturntexture } );
-			// let saturnmat = new THREE.MeshPhongMaterial( { color: 0xC4BCAA } );
 			let saturn = new THREE.Mesh(planetgeometry,saturnmat);
 			let sainitscale = 22;
 			saturn.receiveShadow = false;
@@ -758,7 +750,6 @@
 			// pierscienie Saturna
 			let saturnringtexture = new THREE.TextureLoader().load('textures/saturnringcolor.jpg');
 			let saturnringmat = new THREE.MeshPhongMaterial( { color: 0xFFFFFF, map: saturnringtexture } );
-			// let saturnringmat = new THREE.MeshPhongMaterial( { color: 0xC4BCAA } );
 			let saturnPivot = new THREE.Object3D();
 			saturn.add( saturnPivot );
 			for ( let i = 0; i < 200; i ++ ) {
@@ -912,7 +903,6 @@
 			let i = 0;
 			let h = 0;
 			let mooncycle = 27; //27 dni to cykl ksiezyca
-			// let slowdown = 5; //spowolnienie obracania planet
 			let earthrotperframe = (Math.PI / 180) * (360/FPS); //360 stopni na sekunde
 			
 			var animate = function () {
@@ -963,7 +953,6 @@
                     if(animationstate == true) {
                         //ustawienie planet po przeliczeniu ich pozycji (co 8 klatek)
                         if(++i % (FPS) == 0) {
-                            console.log("TIK");
                             //wciągnięcie szczegółów daty
                             let b2 = date.getFullYear(); //year
                             let b3 = date.getMonth()+1; //month
@@ -991,7 +980,6 @@
                         
 						i = 0;
 					}	
-					// console.log(i);
 					
 					// obroty wokol osi (animacja ma 20 klatek na sekundę)
 					earth.rotation.y -= earthrotperframe; //5krotne spowolnienie obrotu ziemii
@@ -1031,17 +1019,6 @@
 					}
 					h = 0;
 				}
-
-
-                // mercury.position.set(0,0,200);
-                //         venus.position.set(0,0,280);
-                //         earth.position.set(0,0,360);
-                //         mars.position.set(0,0,420);
-                //         jupiter.position.set(0,0,620);
-                //         saturn.position.set(0,0,735);
-                //         uranus.position.set(0,0,850);
-                //         neptune.position.set(0,0,930);
-
 			};
 		
 			init();
